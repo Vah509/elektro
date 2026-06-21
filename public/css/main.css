@@ -30,6 +30,7 @@
   --shadow-card:     0 4px 20px rgba(15,92,48,0.10);
   --shadow-form:     0 10px 30px rgba(15,92,48,0.08);
   --transition:      0.3s ease;
+  --header-h:        64px; /* висота .em-site-header — для scroll-margin-top якірних посилань */
 }
 
 /* БАЗА */
@@ -196,7 +197,47 @@ h3 { font-size: 15px; }
   text-transform: uppercase;
   margin-top: 1px;
 }
-.em-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.em-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+/* Телефон у шапці — за замовчуванням (мобільний/планшет) компактна іконка для дзвінка */
+.em-header-phone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--c-accent);
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+.em-header-phone:hover { background: var(--c-accent-hover); }
+.em-header-phone .em-phone-icon { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+.em-header-phone-number { display: none; }
+
+/* CTA «Залишити заявку» у шапці — компактна кнопка за замовчуванням */
+.em-header-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-accent);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.1;
+  padding: 0 10px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+.em-header-cta:hover { background: var(--c-accent-hover); }
 
 /* ===== Десктопне меню з підменю (dropdown) ===== */
 .em-site-nav { display: flex; gap: 28px; list-style: none; }
@@ -296,6 +337,10 @@ h3 { font-size: 15px; }
   border-bottom: 1px solid var(--c-divider);
 }
 .em-mobile-nav a.active { color: var(--c-accent); }
+.em-mobile-nav .em-mobile-sub {
+  display: flex;
+  flex-direction: column;
+}
 .em-mobile-nav .em-mobile-sub a {
   padding-left: 40px;
   font-size: 14px;
@@ -386,12 +431,14 @@ h3 { font-size: 15px; }
   max-width: 1200px;
   margin: 0 auto;
   padding: 64px 24px;
+  scroll-margin-top: calc(var(--header-h) + 16px);
 }
 .em-section-alt {
   background: var(--c-bg2);
   border-top: 2px solid var(--c-accent-border);
   border-bottom: 2px solid var(--c-accent-border);
   padding: 64px 24px;
+  scroll-margin-top: calc(var(--header-h) + 16px);
 }
 .em-section-alt-inner {
   max-width: 1200px;
@@ -400,6 +447,7 @@ h3 { font-size: 15px; }
 .em-section-deep {
   background: var(--c-panel);
   padding: 64px 24px;
+  scroll-margin-top: calc(var(--header-h) + 16px);
 }
 .em-section-deep-inner {
   max-width: 1200px;
@@ -709,19 +757,31 @@ h3 { font-size: 15px; }
    АДАПТИВ — строго парами min/max-width
 ════════════════════════════════════════ */
 
-/* ПЛАНШЕТ: 601px – 1024px */
+/* ПЛАНШЕТ: 601px – 900px */
 @media (min-width: 601px) and (max-width: 900px) {
   .em-products-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .em-why-grid      { grid-template-columns: repeat(2, 1fr) !important; }
   .em-steps-row     { grid-template-columns: repeat(3, 1fr) !important; }
   .em-step-arrow    { display: none !important; }
   .em-portfolio-grid{ grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Шапка на планшеті — повне меню з підменю сюди не влазить разом
+     з телефоном і кнопкою заявки, тому на планшеті теж використовуємо
+     гамбургер (як на мобільному) — див. спільний блок нижче */
+  .em-header-inner { padding: 0 14px !important; gap: 10px !important; }
+  .em-header-right { gap: 6px !important; }
 }
 
-/* МОБІЛЬНИЙ: ≤ 600px */
+/* МОБІЛЬНИЙ і ПЛАНШЕТ: ≤ 900px — гамбургер замість повного меню
+   (повне меню з підменю не влазить разом з телефоном і кнопкою заявки,
+   а на планшетах це ще й вирішує проблему touch-дропдауну на :hover) */
+@media (max-width: 900px) {
+  .em-site-nav { display: none !important; }
+  .em-burger   { display: flex !important; }
+}
+
+/* МОБІЛЬНИЙ: ≤ 600px (вузькі екрани — додаткові правки макету) */
 @media (max-width: 600px) {
-  .em-site-nav      { display: none !important; }
-  .em-burger        { display: flex !important; }
   .em-header-inner  { padding: 0 12px !important; gap: 8px !important; }
   .em-header-phone-btn {
     font-size: 0 !important;
@@ -747,8 +807,46 @@ h3 { font-size: 15px; }
   .em-footer-inner  { flex-direction: column !important; text-align: center; }
 }
 
-/* ПЛАНШЕТ і ДЕСКТОП: ховаємо гамбургер і мобільне меню */
-@media (min-width: 601px) {
+/* ДЕСКТОП: ховаємо гамбургер і мобільне меню тільки з 901px — до цього
+   моменту повне меню з підменю реально не влазить разом з телефоном/CTA */
+@media (min-width: 901px) {
   .em-burger      { display: none !important; }
   .em-mobile-nav  { display: none !important; }
+}
+
+/* ДЕСКТОП: ≥ 901px — телефон як копіюваний текст + кнопка «Залишити заявку» під ним */
+@media (min-width: 901px) {
+  :root { --header-h: 88px; }
+  .em-header-inner {
+    height: auto;
+    min-height: 88px;
+    padding: 14px 24px;
+  }
+  .em-header-right {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+  }
+  .em-header-phone {
+    width: auto;
+    height: auto;
+    background: none;
+    padding: 0;
+    gap: 7px;
+  }
+  .em-header-phone .em-phone-icon { fill: var(--c-accent); width: 16px; height: 16px; }
+  .em-header-phone-number {
+    display: inline;
+    font-family: var(--ff-body);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--c-head);
+    user-select: all;
+  }
+  .em-header-cta {
+    height: auto;
+    padding: 8px 18px;
+    font-size: 13px;
+  }
 }

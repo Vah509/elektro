@@ -143,7 +143,6 @@
   border: 1.5px solid var(--c-accent-border);
   border-radius: var(--radius-sm);
   overflow: hidden;
-  cursor: pointer;
   position: relative;
   transition: border-color var(--transition), box-shadow var(--transition);
   aspect-ratio: 4/3;
@@ -153,13 +152,15 @@
   border-color: var(--c-accent);
   box-shadow: var(--shadow-card);
 }
+/* Клікабельність і зум-ефект — лише коли є реальне фото (data-full заповнений) */
+.em-gallery-item[data-full]:not([data-full=""]) { cursor: pointer; }
 .em-gallery-item img {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
   transition: transform var(--transition);
 }
-.em-gallery-item:hover img { transform: scale(1.04); }
+.em-gallery-item[data-full]:not([data-full=""]):hover img { transform: scale(1.04); }
 .em-gallery-placeholder {
   width: 100%; height: 100%;
   min-height: 130px;
@@ -348,13 +349,9 @@
 
 /* ════════════════════════════════════════
    КОНТАКТНИЙ БЛОК (замінює форму ТЗ)
+   Прим.: контейнер секції — це .em-section-alt (main.css),
+   там же тепер і scroll-margin-top для якірного посилання.
 ════════════════════════════════════════ */
-.em-contact-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 64px 24px;
-  scroll-margin-top: 80px;
-}
 .em-contact-inner { max-width: 100%; }
 
 /* Копіюваний текст — телефон, email, адреса */
@@ -440,7 +437,6 @@
   .em-contact-grid      { grid-template-columns: repeat(3, 1fr) !important; }
 }
 @media (max-width: 600px) {
-  .em-contact-section  { padding: 40px 16px !important; }
   .em-contact-text-grid { grid-template-columns: 1fr !important; }
   .em-contact-grid      { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
   .em-contact-card      { padding: 12px 6px !important; }

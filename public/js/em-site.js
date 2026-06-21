@@ -1,17 +1,19 @@
-// em-site.js — спільні скрипти сайту (гамбургер-меню, FAQ-акордеон)
+// em-site.js — спільні скрипти сайту (гамбургер-меню, FAQ-акордеон, лайтбокс галереї)
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Гамбургер-меню
+
+  /* ===== Гамбургер-меню ===== */
   const burger = document.querySelector('.em-burger');
   const mobileNav = document.querySelector('.em-mobile-nav');
   if (burger && mobileNav) {
     burger.addEventListener('click', () => {
-      burger.classList.toggle('open');
+      const isOpen = burger.classList.toggle('open');
       mobileNav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(isOpen));
     });
   }
 
-  // FAQ-акордеон
+  /* ===== FAQ-акордеон ===== */
   document.querySelectorAll('.em-faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.em-faq-item');
@@ -26,4 +28,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  /* ===== Лайтбокс галереї фото =====
+     Активується тільки для .em-gallery-item, у яких заповнений
+     атрибут data-full (посилання на повнорозмірне фото).
+     Поки фото-заглушки — data-full порожній, клік нічого не робить.
+     Коли додасте реальні фото: просто пропишіть data-full="/шлях/до/фото.jpg"
+     на потрібному .em-gallery-item — більше нічого міняти не треба. */
+  const lightbox = document.querySelector('.em-lightbox');
+  const lightboxImg = document.querySelector('.em-lightbox-img');
+  const lightboxCaption = document.querySelector('.em-lightbox-caption');
+  const lightboxClose = document.querySelector('.em-lightbox-close');
+
+  function emOpenLightbox(src, caption) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightboxImg.alt = caption || '';
+    if (lightboxCaption) lightboxCaption.textContent = caption || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function emCloseLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.em-gallery-item').forEach(item => {
+    const full = item.getAttribute('data-full');
+    if (!full) return; // фото ще не додано — пропускаємо, клік не активний
+    item.addEventListener('click', () => {
+      emOpenLightbox(full, item.getAttribute('data-caption') || '');
+    });
+  });
+
+  if (lightboxClose) lightboxClose.addEventListener('click', emCloseLightbox);
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) emCloseLightbox();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') emCloseLightbox();
+  });
+
 });

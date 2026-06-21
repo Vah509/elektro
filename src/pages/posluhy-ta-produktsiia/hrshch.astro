@@ -86,11 +86,12 @@ const otherProducts = [
     </nav>
 
     <div class="em-header-right">
-      <a href="tel:+380675097094" class="em-btn-primary em-btn-sm em-header-phone-btn">
+      <a href="tel:+380675097094" class="em-header-phone" aria-label="Зателефонувати +38 (067) 509-70-94">
         <svg class="em-phone-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
-        <span>+38 (067) 509-70-94</span>
+        <span class="em-header-phone-number">+38 (067) 509-70-94</span>
       </a>
-      <button class="em-burger" aria-label="Відкрити меню" aria-expanded="false">
+      <a href="#kontakty-blok" class="em-header-cta">Залишити заявку</a>
+      <button type="button" class="em-burger" aria-label="Відкрити меню" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -148,24 +149,29 @@ const otherProducts = [
   </div>
 </div>
 
-<!-- ===== ГАЛЕРЕЯ + КНОПКА (білий фон — em-section, бо hero вже зелений) ===== -->
+<!-- ===== ГАЛЕРЕЯ + КНОПКА (білий фон — em-section, бо hero вже зелений) =====
+     Лайтбокс уже підключений (em-site.js + .em-lightbox в кінці сторінки).
+     Коли з'являться реальні фото: на потрібному .em-gallery-item пропишіть
+     data-full="/шлях/до/повного-фото.jpg" і замініть .em-gallery-placeholder
+     на <img src="/шлях/до/міні.jpg" alt="..."> — більше нічого міняти не треба,
+     клік і зум-ефект увімкнуться автоматично. -->
 <section class="em-section">
   <span class="em-section-label">Наші роботи</span>
   <h2>Виготовлення ГРЩ та ВРЩ — фото з нашого виробництва</h2>
   <div class="em-product-gallery">
-    <div class="em-gallery-item em-gallery-item-large" data-caption="ГРЩ 400А, 3 введення — загальний вигляд">
+    <div class="em-gallery-item em-gallery-item-large" data-caption="ГРЩ 400А, 3 введення — загальний вигляд" data-full="">
       <div class="em-gallery-placeholder"><span>Загальний вигляд</span></div>
     </div>
-    <div class="em-gallery-item" data-caption="Внутрішній монтаж — маркування, шини, затискачі">
+    <div class="em-gallery-item" data-caption="Внутрішній монтаж — маркування, шини, затискачі" data-full="">
       <div class="em-gallery-placeholder"><span>Внутрішній монтаж</span></div>
     </div>
-    <div class="em-gallery-item" data-caption="Автоматичні вимикачі — фасад щита">
+    <div class="em-gallery-item" data-caption="Автоматичні вимикачі — фасад щита" data-full="">
       <div class="em-gallery-placeholder"><span>Вимикачі та автомати</span></div>
     </div>
-    <div class="em-gallery-item" data-caption="Шини PE/N — введення кабелів">
+    <div class="em-gallery-item" data-caption="Шини PE/N — введення кабелів" data-full="">
       <div class="em-gallery-placeholder"><span>Введення / шини</span></div>
     </div>
-    <div class="em-gallery-item" data-caption="Однолінійна схема всередині дверцят">
+    <div class="em-gallery-item" data-caption="Однолінійна схема всередині дверцят" data-full="">
       <div class="em-gallery-placeholder"><span>Маркування та схема</span></div>
     </div>
   </div>
@@ -273,11 +279,11 @@ const otherProducts = [
   <div class="em-faq-list">
     {faqItems.map((item, i) => (
       <div class="em-faq-item">
-        <button class="em-faq-question" aria-expanded="false" data-faq-index={i}>
+        <button type="button" class="em-faq-question" aria-expanded="false" aria-controls={`faq-answer-${i}`} id={`faq-question-${i}`}>
           {item.q}
           <svg class="em-faq-icon" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div class="em-faq-answer"><p>{item.a}</p></div>
+        <div class="em-faq-answer" id={`faq-answer-${i}`} role="region" aria-labelledby={`faq-question-${i}`}><p>{item.a}</p></div>
       </div>
     ))}
   </div>
@@ -360,6 +366,13 @@ const otherProducts = [
     </div>
   </div>
 </footer>
+
+<!-- ===== ЛАЙТБОКС ФОТО (відкриває повний розмір для .em-gallery-item з data-full) ===== -->
+<div class="em-lightbox" role="dialog" aria-modal="true" aria-label="Перегляд фото">
+  <button type="button" class="em-lightbox-close" aria-label="Закрити">×</button>
+  <img class="em-lightbox-img" src="" alt="" />
+  <p class="em-lightbox-caption"></p>
+</div>
 
 <script is:inline src="/js/em-site.js"></script>
 </body>
