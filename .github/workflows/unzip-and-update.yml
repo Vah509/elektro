@@ -1,4 +1,4 @@
-name: Auto Unzip and Clean AI Updates
+name: Ultimate AI Update Manager (Astro + TG)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - 'ai-updates/**.zip'
 
 jobs:
-  unzip-and-deploy:
+  unzip-and-validate:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -17,54 +17,80 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
       - name: Setup Git user
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Unzip, Clean and Overwrite files
+      - name: Unzip, Clean and Overwrite
         run: |
           ZIP_FILE=$(ls ai-updates/*.zip | head -n 1)
-          
           if [ -f "$ZIP_FILE" ]; then
-            echo "📦 Найдено обновление: $ZIP_FILE. Распаковываем во временную папку..."
             mkdir ./temp_unzip
             unzip -o "$ZIP_FILE" -d ./temp_unzip
             
-            # Проверяем, попросил ли ИИ что-то удалить
             if [ -f "./temp_unzip/delete.txt" ]; then
-              echo "🗑️ Обнаружен файл delete.txt. Начинаем удаление устаревших файлов..."
               while IFS= read -r file_to_delete || [ -n "$file_to_delete" ]; do
-                # Убираем возможные символы возврата каретки \r из Windows-окружения
                 clean_path=$(echo "$file_to_delete" | tr -d '\r' | xargs)
                 if [ -n "$clean_path" ] && [ -f "$clean_path" ]; then
-                  echo "Удаляем: $clean_path"
                   rm "$clean_path"
                 fi
               done < ./temp_unzip/delete.txt
-              
-              # Удаляем сам служебный файл delete.txt из временной папки, чтобы он не попал в проект
               rm ./temp_unzip/delete.txt
             fi
-            
-            echo "🚚 Переносим новые файлы в корень проекта..."
             cp -r ./temp_unzip/* ./
-            
-            echo "🧹 Очистка временных файлов..."
             rm -rf ./temp_unzip
             rm "$ZIP_FILE"
           else
-            echo "❌ Архив не найден."
+            echo "Архив не найден."
             exit 1
           fi
 
+      # --- БЛОК 1: АВТОМАТИЧЕСКАЯ ПРОВЕРКА СБОРКИ ---
+      - name: Install dependencies & Test Astro Build
+        id: astro_build
+        run: |
+          npm ci
+          npm run build # Тестируем сборку сайтов. Если ИИ ошибся в путях — тут процесс остановится.
+
+      # --- БЛОК 2: СОХРАНЕНИЕ ИЗМЕНЕНИЙ (Если сборка прошла успешно) ---
       - name: Commit and Push changes
+        if: success()
         run: |
           git add .
-          
           if git diff --staged --quiet; then
-            echo "Никаких изменений в коде не обнаружено."
+            echo "Изменений нет."
           else
-            git commit -m "🤖 Авто-обновление и очистка кода от ИИ (из архива)"
+            git commit -m "🤖 Авто-обновление сайта (Проверка успешна)"
             git push origin ${{ github.ref_name }}
           fi
+
+      # --- БЛОК 3: УВЕДОМЛЕНИЯ В ТЕЛЕГРАМ ---
+      - name: Send Success Telegram Message
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            🟢 Проект *elektro* успешно обновлен!
+            🛸 Робот проверил сборку Astro — критических ошибок в путях кода нет.
+            Сайт отправлен на пересборку хостинга.
+
+      - name: Send Failure Telegram Message
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            🔴 Ошибка обновления проекта *elektro*!
+            ИИ допустил ошибку в коде или путях файлов. Сборка Astro провалилась.
+            ❌ Изменения НЕ были применены. Живой сайт в безопасности.
+            Проверьте логи ошибок в панели GitHub Actions.
