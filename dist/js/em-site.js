@@ -29,6 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ===== Розкривачі розділів мобільного меню (Продукція / Послуги) =====
+     На відміну від FAQ, можуть бути відкриті обидва одночасно. */
+  document.querySelectorAll('.em-mobile-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+      const sub = document.getElementById(btn.getAttribute('aria-controls'));
+      if (sub) sub.classList.toggle('open', isOpen);
+    });
+  });
+
   /* ===== Лайтбокс галереї фото =====
      Активується тільки для .em-gallery-item, у яких заповнений
      атрибут data-full (посилання на повнорозмірне фото).

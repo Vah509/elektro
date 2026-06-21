@@ -98,8 +98,11 @@ const otherProducts = [
   </div>
 
   <nav class="em-mobile-nav" aria-label="Мобільна навігація">
-    <a href="/posluhy-ta-produktsiia/" class="active">Продукція та послуги</a>
-    <div class="em-mobile-sub">
+    <button type="button" class="em-mobile-toggle active" aria-expanded="false" aria-controls="mobile-sub-produktsiia">
+      Продукція
+      <svg class="em-mobile-toggle-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="em-mobile-sub" id="mobile-sub-produktsiia">
       <a href="/posluhy-ta-produktsiia/hrshch">— ГРЩ / ВРЩ</a>
       <a href="/posluhy-ta-produktsiia/dymovydalennia">— Димовидалення</a>
       <a href="/posluhy-ta-produktsiia/dvyhuny">— Керування двигунами</a>
@@ -107,6 +110,12 @@ const otherProducts = [
       <a href="/posluhy-ta-produktsiia/krm">— КРМ</a>
       <a href="/posluhy-ta-produktsiia/zenitni-lihtari">— Зенітні ліхтарі</a>
       <a href="/posluhy-ta-produktsiia/ahro">— Для агрогосподарств</a>
+    </div>
+    <button type="button" class="em-mobile-toggle" aria-expanded="false" aria-controls="mobile-sub-posluhy">
+      Послуги
+      <svg class="em-mobile-toggle-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="em-mobile-sub" id="mobile-sub-posluhy">
       <a href="/posluhy-ta-produktsiia/plk">— Програмування ПЛК</a>
       <a href="/posluhy-ta-produktsiia/elektromontazh">— Електромонтажні роботи</a>
     </div>

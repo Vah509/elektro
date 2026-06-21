@@ -337,9 +337,40 @@ h3 { font-size: 15px; }
   border-bottom: 1px solid var(--c-divider);
 }
 .em-mobile-nav a.active { color: var(--c-accent); }
-.em-mobile-nav .em-mobile-sub {
+
+/* Кнопка-розкривач розділу (Продукція / Послуги) — той самий вигляд, що й у звичайних пунктів меню */
+.em-mobile-toggle {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--c-divider);
+  padding: 14px 24px;
+  font-family: var(--ff-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--c-text);
+  text-align: left;
+  cursor: pointer;
+}
+.em-mobile-toggle.active { color: var(--c-accent); }
+.em-mobile-toggle-caret {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+.em-mobile-toggle.open .em-mobile-toggle-caret { transform: rotate(180deg); }
+
+/* Підрозділ — згорнутий за замовчуванням, розкривається по кліку на кнопку вище */
+.em-mobile-nav .em-mobile-sub {
+  display: none;
   flex-direction: column;
+}
+.em-mobile-nav .em-mobile-sub.open {
+  display: flex;
 }
 .em-mobile-nav .em-mobile-sub a {
   padding-left: 40px;
