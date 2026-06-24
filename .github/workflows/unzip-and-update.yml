@@ -77,9 +77,9 @@ jobs:
                 # Файл в порядке
                 echo "• \`$SHORT_PATH\` — ok" >> $REPORT_FILE
               elif [ "$WIDTH" -gt 1200 ]; then
-                # ИИ ошибся, сжимаем на лету
+                # ИИ ошибся, сжимаем бережно: макс 1200px, quality=85, без интерлейса
                 TMP_FILE=$(mktemp)
-                convert "$FILE" -resize "1200>" -quality 82 -interlace Plane "$TMP_FILE"
+                convert "$FILE" -resize "1200>" -quality 85 "$TMP_FILE"
                 mv "$TMP_FILE" "$FILE"
                 
                 NEW_SIZE_BYTES=$(stat -c%s "$FILE")
@@ -126,6 +126,50 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
+            ${{ env.IMAGE_REPORT }}
+
+      # --- БЛОК 1: АВТОМАТИЧЕСКАЯ ПРОВЕРКА СБОРКИ ---
+      - name: Install dependencies & Test Astro Build
+        id: astro_build
+        run: |
+          npm install
+          npm run build
+
+      # --- БЛОК 2: СОХРАНЕНИЕ ИЗМЕНЕНИЙ (Если сборка успешна) ---
+      - name: Commit and Push changes
+        if: success()
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "Изменений нет."
+          else
+            git commit -m "🤖 Авто-обновление сайта (Проверка успешна)"
+            git push origin ${{ github.ref_name }}
+          fi
+
+      # --- СООБЩЕНИЕ 2 (ВАРИАНТ А): УСПЕШНОЕ ОБНОВЛЕНИЕ ---
+      - name: Send Success Telegram Message
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            ⏱️ *$(export TZ="Europe/Bratislava" && date +"%H:%M:%S")*
+            🟢 Проект успешно обновлен
+
+      # --- СООБЩЕНИЕ 2 (ВАРИАНТ Б): ОШИБКА СБОРКИ ---
+      - name: Send Failure Telegram Message
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            ⏱️ *$(export TZ="Europe/Bratislava" && date +"%H:%M:%S")*
+            🔴 Ошибка обновления
             ${{ env.IMAGE_REPORT }}
 
       # --- БЛОК 1: АВТОМАТИЧЕСКАЯ ПРОВЕРКА СБОРКИ ---
