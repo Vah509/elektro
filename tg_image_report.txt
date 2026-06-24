@@ -1,13 +1,3 @@
-⏱️ *21:45:49*
+⏱️ *21:46:27*
 📸 *Инспекция фото:*
-• `public/images/dymovydalennia/dymovydalennia-shkpp-vnutrishniy-montazh-kyiv-2026-06-06.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shmu-fasad-odyn-ventylator-kyiv-2026-06-03.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-vnutrishniy-montazh-avtomaty-kyiv-2026-06-c3.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shchmu-3-zony-fasad-kyiv-2026-06-c1.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shchmu-4-zony-fasad-kyiv-2026-06-c2.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-kontaktory-eti-km1-km4-kyiv-2026-06-02.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-vnutrishniy-kontaktor-eti-rele-kv-kyiv-2026-06-05.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shkpp-pidpir-fasad-kyiv-2026-06-c4.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shkpp-vidkrytyy-montazh-dvertsya-kyiv-2026-06-07.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shchmu-3-zony-zahalnyi-vyhlyad-kyiv-2026-06-01.jpg` — ok
-• `public/images/dymovydalennia/dymovydalennia-shkpp-vnutrishniy-rele-k1-k4-kyiv-2026-06-08.jpg` — ok
+Новых изображений в архиве нет.
