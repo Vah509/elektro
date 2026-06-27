@@ -64,7 +64,17 @@
 a.em-kontakty-info-value:hover { color: var(--c-accent); }
 
 /* ════════════════════════════════════════
-   КНОПКИ ЗВ'ЯЗКУ — повторюємо ContactBlock
+   ПІДКАЗКА ПЕРЕД КНОПКАМИ
+════════════════════════════════════════ */
+.em-kontakty-hint {
+  font-size: 13px;
+  color: var(--c-muted);
+  font-family: var(--ff-body);
+  margin-bottom: 12px;
+}
+
+/* ════════════════════════════════════════
+   КНОПКИ ЗВ'ЯЗКУ
 ════════════════════════════════════════ */
 .em-contact-grid {
   display: grid;
@@ -122,7 +132,6 @@ a.em-kontakty-info-value:hover { color: var(--c-accent); }
 .em-kontakty-schedule-grid {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 .em-schedule-row {
   display: flex;
@@ -134,20 +143,10 @@ a.em-kontakty-info-value:hover { color: var(--c-accent); }
   font-size: 14px;
 }
 .em-schedule-row:last-child { border-bottom: none; }
-.em-schedule-day {
-  color: var(--c-text);
-  font-weight: 500;
-}
-.em-schedule-row--work .em-schedule-day { color: var(--c-head); }
+.em-schedule-row--work .em-schedule-day { color: var(--c-head); font-weight: 500; }
 .em-schedule-row--off .em-schedule-day { color: var(--c-muted); }
-.em-schedule-time {
-  font-weight: 600;
-  color: var(--c-accent);
-}
-.em-schedule-off {
-  font-weight: 400;
-  color: var(--c-muted);
-}
+.em-schedule-time { font-weight: 600; color: var(--c-accent); }
+.em-schedule-off { font-weight: 400; color: var(--c-muted); }
 
 /* ════════════════════════════════════════
    КАРТА
