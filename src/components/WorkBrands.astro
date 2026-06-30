@@ -1,0 +1,44 @@
+---
+// Блок брендів — простий, без груп основні/економ
+interface Props {
+  brands: string[];
+}
+const { brands } = Astro.props;
+---
+
+{brands.length > 0 && (
+  <div class="em-section">
+    <span class="em-section-label">Компоненти</span>
+    <h2>Виробники обладнання</h2>
+    <div class="em-work-brands-row">
+      {brands.map(b => (
+        <span class="em-work-brand-pill">{b}</span>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+.em-work-brands-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.em-work-brand-pill {
+  background: #fff;
+  border: 1.5px solid var(--c-accent-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 20px;
+  font-family: var(--ff);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-muted);
+  transition: border-color var(--transition), color var(--transition);
+  cursor: default;
+}
+.em-work-brand-pill:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+</style>

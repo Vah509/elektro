@@ -1,0 +1,207 @@
+---
+// Схожі роботи — алгоритм Б: тип=2 очки, тег=1 очко, топ-3 по даті
+import { getCollection } from 'astro:content';
+
+interface Props {
+  currentSlug: string;
+  types: string[];
+  tags: string[];
+}
+const { currentSlug, types, tags } = Astro.props;
+
+const TYPE_LABELS: Record<string, string> = {
+  hrshch:           'ГРЩ / ВРЩ',
+  dymovydalennia:   'Димовидалення',
+  dvyhuny:          'Двигуни',
+  shuz:             'ШУЗ',
+  krm:              'КРМ',
+  'zenitni-lihtari':'Зенітні ліхтарі',
+  ahro:             'Агро',
+  plk:              'ПЛК',
+  elektromontazh:   'Електромонтаж',
+};
+
+const TAG_LABELS: Record<string, string> = {
+  avr:          'АВР',
+  fire:         'Пожежна автоматика',
+  'pryamyi-pusk': 'Прямий пуск',
+  'zirka-trykutnyk': 'Зірка-трикутник',
+  'chastotnyy-peretvoryuvach': 'Частотний перетворювач',
+  'myakyi-pusk': 'М\'який пуск',
+  plk:          'ПЛК',
+  agro:         'Агро',
+  promyslovist: 'Промисловість',
+  remont:       'Реконструкція',
+};
+
+const allWorks = await getCollection('vykonani-roboty');
+
+const scored = allWorks
+  .filter(w => w.slug !== currentSlug)
+  .map(w => {
+    let score = 0;
+    types.forEach(t => { if (w.data.types.includes(t)) score += 2; });
+    tags.forEach(t  => { if (w.data.tags.includes(t))  score += 1; });
+    return { work: w, score };
+  })
+  .filter(x => x.score > 0)
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return new Date(b.work.data.date).getTime() - new Date(a.work.data.date).getTime();
+  })
+  .slice(0, 3)
+  .map(x => x.work);
+
+const showGrid = scored.length >= 1;
+// Назва першого типу для заголовку
+const firstTypeLabel = TYPE_LABELS[types[0]] ?? types[0];
+---
+
+<div class="em-section-alt">
+  <div class="em-section-alt-inner">
+    <span class="em-section-label">Схожі проєкти</span>
+    <h2>Інші роботи — {firstTypeLabel}</h2>
+
+    {showGrid ? (
+      <div class="em-similar-grid">
+        {scored.map(work => (
+          <a href={`/vykonani-roboty/${work.slug}/`} class="em-work-card">
+            <div class="em-work-card-photo">
+              <img
+                src={work.data.photos[0].src}
+                alt={work.data.photos[0].caption}
+                loading="lazy"
+              />
+            </div>
+            <div class="em-work-card-body">
+              <div class="em-work-card-tags">
+                {work.data.types.map((t: string) => (
+                  <span class="em-work-tag em-work-tag--type">
+                    {TYPE_LABELS[t] ?? t}
+                  </span>
+                ))}
+                {work.data.tags.map((t: string) => (
+                  <span class="em-work-tag em-work-tag--tag">
+                    {TAG_LABELS[t] ?? t}
+                  </span>
+                ))}
+              </div>
+              <div class="em-work-card-title">{work.data.title}</div>
+              <div class="em-work-card-brands">
+                {work.data.brands.join(' · ')}
+              </div>
+              <span class="em-work-card-btn">Детальніше →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="em-similar-empty">
+        <p>Переглянути всі наші роботи в каталозі</p>
+        <a href="/vykonani-roboty/" class="em-btn-primary">
+          Всі виконані роботи →
+        </a>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+.em-similar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 900px) {
+  .em-similar-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .em-similar-grid { grid-template-columns: 1fr; }
+}
+
+/* Картка роботи (використовується і тут і в каталозі) */
+.em-work-card {
+  background: #fff;
+  border: 1.5px solid var(--c-accent-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.em-work-card:hover {
+  border-color: var(--c-accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+.em-work-card-photo {
+  aspect-ratio: 4 / 3;
+  background: var(--c-bg2);
+  overflow: hidden;
+}
+.em-work-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition);
+}
+.em-work-card:hover .em-work-card-photo img { transform: scale(1.04); }
+.em-work-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.em-work-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.em-work-card-title {
+  font-family: var(--ff);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-head);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.em-work-card-brands {
+  font-size: 11px;
+  color: var(--c-muted);
+  font-weight: 600;
+  margin-top: auto;
+}
+.em-work-card-btn {
+  display: block;
+  background: var(--c-accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--ff-body);
+  text-align: center;
+  margin-top: 8px;
+  transition: background var(--transition);
+}
+.em-work-card:hover .em-work-card-btn { background: var(--c-accent-hover); }
+
+/* Кнопка якщо нема схожих */
+.em-similar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.em-similar-empty p {
+  font-family: var(--ff-body);
+  font-size: 15px;
+  color: var(--c-muted);
+}
+</style>

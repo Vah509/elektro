@@ -1,0 +1,232 @@
+---
+import { getCollection } from 'astro:content';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+import AlsoMake from '../../components/AlsoMake.astro';
+
+const allWorks = await getCollection('vykonani-roboty');
+
+// Сортування: нові першими
+const works = allWorks.sort((a, b) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const TYPE_LABELS: Record<string, string> = {
+  hrshch:           'ГРЩ / ВРЩ',
+  dymovydalennia:   'Димовидалення',
+  dvyhuny:          'Двигуни',
+  shuz:             'ШУЗ',
+  krm:              'КРМ',
+  'zenitni-lihtari':'Зенітні ліхтарі',
+  ahro:             'Агро',
+  plk:              'ПЛК',
+  elektromontazh:   'Електромонтаж',
+};
+
+const TAG_LABELS: Record<string, string> = {
+  avr:          'АВР',
+  fire:         'Пожежна автоматика',
+  'pryamyi-pusk': 'Прямий пуск',
+  'zirka-trykutnyk': 'Зірка-трикутник',
+  'chastotnyy-peretvoryuvach': 'Частотний перетворювач',
+  'myakyi-pusk': 'М\'який пуск',
+  plk:          'ПЛК',
+  agro:         'Агро',
+  promyslovist: 'Промисловість',
+  remont:       'Реконструкція',
+};
+
+// Типи які є в роботах (для фільтру)
+const usedTypes = Object.keys(TYPE_LABELS).filter(t =>
+  works.some(w => w.data.types.includes(t))
+);
+
+// Передаємо дані для JS фільтру
+const worksData = works.map(w => ({
+  slug: w.slug,
+  title: w.data.title,
+  types: w.data.types,
+  tags: w.data.tags,
+  brands: w.data.brands,
+  photo: w.data.photos[0].src,
+  photoAlt: w.data.photos[0].caption,
+}));
+---
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Виконані роботи — електрощити на замовлення | elektromontazh.kiev.ua</title>
+  <meta name="description" content="Фото виконаних робіт: ГРЩ, ВРЩ, щити димовидалення, керування двигунами, ШУЗ, КРМ. Виготовлення електрощитів у Києві з 1999 року." />
+  <link rel="canonical" href="https://elektromontazh.kiev.ua/vykonani-roboty/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/em-hrshch.css" />
+  <link rel="stylesheet" href="/css/em-work.css" />
+</head>
+<body>
+
+<Header activePage="vykonani-roboty" />
+
+<Breadcrumbs current="Виконані роботи" simple={true} />
+
+<!-- Фільтр -->
+<div class="em-works-filter-wrap">
+  <div class="em-works-filter" id="em-filter">
+    <button
+      type="button"
+      class="em-filter-btn active"
+      data-type="all"
+    >
+      Всі роботи
+      <span class="em-filter-count">({works.length})</span>
+    </button>
+    {usedTypes.map(t => {
+      const count = works.filter(w => w.data.types.includes(t)).length;
+      return (
+        <button
+          type="button"
+          class="em-filter-btn"
+          data-type={t}
+        >
+          {TYPE_LABELS[t]}
+          <span class="em-filter-count">({count})</span>
+        </button>
+      );
+    })}
+  </div>
+</div>
+
+<!-- Сітка робіт -->
+<div class="em-works-section">
+  <div class="em-works-grid" id="em-works-grid">
+    {works.map(w => (
+      <a
+        href={`/vykonani-roboty/${w.slug}/`}
+        class="em-work-card"
+        data-types={w.data.types.join(',')}
+      >
+        <div class="em-work-card-photo">
+          <img
+            src={w.data.photos[0].src}
+            alt={w.data.photos[0].caption}
+            loading="lazy"
+          />
+        </div>
+        <div class="em-work-card-body">
+          <div class="em-work-card-tags">
+            {w.data.types.map(t => (
+              <span class="em-work-tag em-work-tag--type">
+                {TYPE_LABELS[t] ?? t}
+              </span>
+            ))}
+            {w.data.tags.map(t => (
+              <span class="em-work-tag em-work-tag--tag">
+                {TAG_LABELS[t] ?? t}
+              </span>
+            ))}
+          </div>
+          <div class="em-work-card-title">{w.data.title}</div>
+          <div class="em-work-card-brands">{w.data.brands.join(' · ')}</div>
+          <span class="em-work-card-btn">Детальніше →</span>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- Пагінація -->
+  <div class="em-works-pagination" id="em-pagination"></div>
+</div>
+
+<ContactBlock title="Готові виготовити такий щит для вашого об'єкта" />
+<AlsoMake currentSlug="" />
+<Footer />
+
+<script is:inline src="/js/em-site.js"></script>
+
+<!-- JS фільтр + пагінація -->
+<script define:vars={{ worksData, TYPE_LABELS, TAG_LABELS }}>
+(function() {
+  const PER_PAGE = 15;
+  let activeType = 'all';
+  let currentPage = 1;
+
+  // Читаємо URL параметр ?type=hrshch
+  const urlParams = new URLSearchParams(window.location.search);
+  const typeParam = urlParams.get('type');
+  if (typeParam && typeParam !== 'all') {
+    activeType = typeParam;
+  }
+
+  const grid = document.getElementById('em-works-grid');
+  const paginationWrap = document.getElementById('em-pagination');
+  const filterBtns = document.querySelectorAll('.em-filter-btn');
+  const allCards = Array.from(grid.querySelectorAll('.em-work-card'));
+
+  // Встановлюємо активну кнопку фільтру
+  function setActiveFilter(type) {
+    filterBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.type === type);
+    });
+  }
+
+  // Рендер сітки з фільтром і пагінацією
+  function render() {
+    // Фільтрація
+    const filtered = activeType === 'all'
+      ? allCards
+      : allCards.filter(card => {
+          const types = card.dataset.types.split(',');
+          return types.includes(activeType);
+        });
+
+    const totalPages = Math.ceil(filtered.length / PER_PAGE);
+    if (currentPage > totalPages) currentPage = 1;
+
+    const start = (currentPage - 1) * PER_PAGE;
+    const visible = filtered.slice(start, start + PER_PAGE);
+
+    // Показуємо/ховаємо картки
+    allCards.forEach(card => { card.style.display = 'none'; });
+    visible.forEach(card => { card.style.display = 'flex'; });
+
+    // Пагінація
+    if (totalPages > 1) {
+      paginationWrap.innerHTML = Array.from({ length: totalPages }, (_, i) => i + 1)
+        .map(p => `<button type="button" class="em-pg-btn${p === currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`)
+        .join('');
+      paginationWrap.querySelectorAll('.em-pg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentPage = parseInt(btn.dataset.page);
+          render();
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    } else {
+      paginationWrap.innerHTML = '';
+    }
+
+    setActiveFilter(activeType);
+  }
+
+  // Обробники фільтрів
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeType = btn.dataset.type;
+      currentPage = 1;
+      render();
+    });
+  });
+
+  // Перший рендер
+  render();
+})();
+</script>
+
+</body>
+</html>

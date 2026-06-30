@@ -1,0 +1,30 @@
+---
+// Блок технічних характеристик
+interface Spec {
+  label: string;
+  value: string;
+}
+interface Props {
+  specs: Spec[];
+}
+const { specs } = Astro.props;
+---
+
+{specs.length > 0 && (
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Характеристики</span>
+      <h2>Технічні параметри</h2>
+      <table class="em-specs-table">
+        <tbody>
+          {specs.map(s => (
+            <tr>
+              <td class="em-specs-label">{s.label}</td>
+              <td class="em-specs-value">{s.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}

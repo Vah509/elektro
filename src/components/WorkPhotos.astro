@@ -1,0 +1,171 @@
+---
+// Блок фотографій: головне фото на всю ширину + мініатюри + лайтбокс
+export interface Photo {
+  src: string;
+  caption: string;
+}
+interface Props {
+  photos: Photo[];
+  title: string; // для aria-label лайтбоксу
+}
+const { photos, title } = Astro.props;
+---
+
+<div class="em-work-photos">
+  <!-- Головне фото -->
+  <div class="em-work-main-photo"
+       id="em-work-main"
+       data-index="0"
+       role="button"
+       tabindex="0"
+       aria-label="Відкрити фото на повний екран">
+    <img
+      id="em-work-main-img"
+      src={photos[0].src}
+      alt={photos[0].caption}
+      loading="eager"
+      class="em-work-main-img"
+    />
+    <span class="em-work-photo-zoom" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/>
+      </svg>
+    </span>
+  </div>
+
+  <!-- Мініатюри -->
+  {photos.length > 1 && (
+    <div class="em-work-thumbs" role="list" aria-label="Мініатюри фото">
+      {photos.map((photo, i) => (
+        <button
+          type="button"
+          class={`em-work-thumb${i === 0 ? ' active' : ''}`}
+          data-index={i}
+          data-src={photo.src}
+          data-caption={photo.caption}
+          aria-label={photo.caption}
+          role="listitem"
+        >
+          <img src={photo.src} alt={photo.caption} loading="lazy" />
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<!-- Дані для JS -->
+<script define:vars={{ photos, title }}>
+  const mainWrap = document.getElementById('em-work-main');
+  const mainImg  = document.getElementById('em-work-main-img');
+  const thumbs   = document.querySelectorAll('.em-work-thumb');
+  let currentIdx = 0;
+
+  // Перемикання мініатюр
+  thumbs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.index);
+      currentIdx = idx;
+      mainImg.src     = btn.dataset.src;
+      mainImg.alt     = btn.dataset.caption;
+      mainWrap.dataset.index = idx;
+      thumbs.forEach(t => t.classList.toggle('active', t === btn));
+    });
+  });
+
+  // Відкрити лайтбокс по кліку на головне фото
+  mainWrap.addEventListener('click', () => {
+    window.emOpenWorkLightbox && window.emOpenWorkLightbox(photos, currentIdx);
+  });
+  mainWrap.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      window.emOpenWorkLightbox && window.emOpenWorkLightbox(photos, currentIdx);
+    }
+  });
+</script>
+
+<style>
+/* Головне фото — на всю ширину */
+.em-work-photos {
+  background: #111;
+}
+.em-work-main-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  cursor: zoom-in;
+  display: block;
+}
+@media (min-width: 901px) {
+  .em-work-main-photo { aspect-ratio: 16 / 9; max-height: 640px; }
+}
+.em-work-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.em-work-main-photo:hover .em-work-main-img { transform: scale(1.02); }
+
+/* Іконка zoom */
+.em-work-photo-zoom {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  background: rgba(0,0,0,0.45);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.em-work-main-photo:hover .em-work-photo-zoom { opacity: 1; }
+.em-work-photo-zoom svg { width: 18px; height: 18px; }
+
+/* Мініатюри */
+.em-work-thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1.5px solid var(--c-accent-border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-accent-border) transparent;
+}
+.em-work-thumbs::-webkit-scrollbar { height: 3px; }
+.em-work-thumbs::-webkit-scrollbar-thumb { background: var(--c-accent-border); border-radius: 2px; }
+
+.em-work-thumb {
+  width: 72px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid var(--c-accent-border);
+  cursor: pointer;
+  background: var(--c-bg2);
+  padding: 0;
+  transition: border-color 0.2s;
+}
+.em-work-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.em-work-thumb.active { border-color: var(--c-accent); }
+.em-work-thumb:hover  { border-color: var(--c-accent); }
+
+@media (max-width: 600px) {
+  .em-work-thumb { width: 60px; height: 45px; }
+}
+</style>
