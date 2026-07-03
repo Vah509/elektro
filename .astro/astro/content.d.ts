@@ -176,6 +176,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"shksdv-klapan-dyspetcheryzatsiya.md": {
+	id: "shksdv-klapan-dyspetcheryzatsiya.md";
+  slug: "shksdv-klapan-dyspetcheryzatsiya";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "vrshch-200a-magazyn-kavyarnia.md": {
 	id: "vrshch-200a-magazyn-kavyarnia.md";
   slug: "vrshch-200a-magazyn-kavyarnia";
