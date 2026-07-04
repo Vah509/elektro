@@ -7,22 +7,24 @@
 // ─── РОЗДІЛИ (types) ────────────────────────────────────────
 // Відповідають розділам продукції на сайті.
 export const TYPE_LABELS: Record<string, string> = {
-  hrshch:            'ГРЩ / ВРЩ',
-  dymovydalennia:    'Димовидалення',
-  dvyhuny:           'Керування двигунами',
-  shuz:              'ШУЗ',
-  krm:               'КРМ',
-  'zenitni-lihtari': 'Зенітні ліхтарі',
-  ahro:              'Агро',
-  plk:               'ПЛК',
-  elektromontazh:    'Електромонтаж',
+  hrshch:              'ГРЩ / ВРЩ',
+  dymovydalennia:      'Димовидалення',
+  dvyhuny:             'Керування двигунами',
+  shuz:                'ШУЗ',
+  krm:                 'КРМ',
+  'zenitni-lihtari':   'Зенітні ліхтарі',
+  ahro:                'Агро',
+  plk:                 'ПЛК',
+  elektromontazh:      'Електромонтаж',
+  'shafi-keruvannia':  'Шафи керування',
 };
 
 // ─── ТЕГИ (tags) ────────────────────────────────────────────
 // Беруть участь у фільтрації на сторінці каталогу.
 export const TAG_LABELS: Record<string, string> = {
-  avr:            'Шафа з АВР',
-  'sylova-shafa': 'Силова шафа',
+  avr:                         'Шафа з АВР',
+  'sylova-shafa':              'Силова шафа',
+  'upravlinnia-osvitlenniiam': 'Управління освітленням',
 };
 
 // ─── ВЛАСТИВОСТІ (properties) ───────────────────────────────
