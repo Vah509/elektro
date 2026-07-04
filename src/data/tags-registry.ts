@@ -21,7 +21,7 @@ export const TYPE_LABELS: Record<string, string> = {
 // ─── ТЕГИ (tags) ────────────────────────────────────────────
 // Беруть участь у фільтрації на сторінці каталогу.
 export const TAG_LABELS: Record<string, string> = {
-  avr:           'Шафа з АВР',
+  avr:            'Шафа з АВР',
   'sylova-shafa': 'Силова шафа',
 };
 
@@ -34,4 +34,5 @@ export const PROPERTY_LABELS: Record<string, string> = {
   'zirka-trykutnyk':           'Зірка-трикутник',
   'chastotnyy-peretvoryuvach': 'Частотний перетворювач',
   'kontrol-faz':               'Контроль фаз',
+  'plavnyi-pusk':              'Плавний пуск',
 };
