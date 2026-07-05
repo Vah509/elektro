@@ -1,14 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import { TYPE_LABELS, TAG_LABELS, PROPERTY_LABELS } from '../data/tags-registry';
+import { SITE_PREVIEW, GITHUB_CONTENT_BASE } from '../config';
 
 const allWorks = await getCollection('vykonani-roboty');
 
 const works = allWorks
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
-const GITHUB_BASE = 'https://github.com/Vah509/elektro/edit/main/src/content/vykonani-roboty';
-const SITE_BASE = 'https://elektromontazh.kiev.ua/vykonani-roboty';
+const GITHUB_BASE = GITHUB_CONTENT_BASE;
+const SITE_BASE = `${SITE_PREVIEW}/vykonani-roboty`;
 ---
 <!DOCTYPE html>
 <html lang="uk">
@@ -46,10 +47,44 @@ const SITE_BASE = 'https://elektromontazh.kiev.ua/vykonani-roboty';
     .adm-stat-val { font-family: var(--ff); font-size: 20px; font-weight: 700; color: var(--accent); }
     .adm-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
 
+    /* ── FILTER BAR ── */
+    .adm-filter-bar {
+      background: #fff; border-bottom: 1.5px solid var(--accent-b);
+      padding: 10px 20px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .adm-filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .adm-filter-group-label {
+      font-size: 10px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em;
+      white-space: nowrap; min-width: 64px;
+    }
+    .adm-filter-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .adm-fpill {
+      display: inline-flex; align-items: center; gap: 5px;
+      border: none; border-radius: 20px; padding: 3px 10px;
+      font-family: var(--ffb); font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: opacity .15s, box-shadow .15s;
+    }
+    .adm-fpill:hover { opacity: .8; }
+    .adm-fpill.active { box-shadow: 0 0 0 2px var(--accent); }
+
+    .adm-fpill-type  { background: var(--accent-f); border: 1px solid var(--accent-b); color: var(--accent); }
+    .adm-fpill-tag   { background: #fff; border: 1px solid var(--accent-b); color: var(--accent); }
+    .adm-fpill-prop  { background: transparent; border: 1px solid var(--div); color: var(--muted); }
+
+    .adm-fpill-count {
+      background: rgba(0,0,0,0.08); border-radius: 10px;
+      padding: 0 5px; font-size: 10px; font-weight: 700;
+    }
+
     /* ── SEARCH ── */
     .adm-search-wrap {
       padding: 12px 20px; background: #fff;
       border-bottom: 1px solid var(--div);
+    }
+    .adm-search-row {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
     }
     .adm-search {
       width: 100%; max-width: 360px; padding: 8px 12px;
@@ -57,6 +92,14 @@ const SITE_BASE = 'https://elektromontazh.kiev.ua/vykonani-roboty';
       font-family: var(--ffb); font-size: 14px; color: var(--text); outline: none;
     }
     .adm-search:focus { border-color: var(--accent); }
+
+    .adm-invert-label {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      cursor: pointer; user-select: none; white-space: nowrap;
+    }
+    .adm-invert-label input { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+    .adm-invert-label:has(input:checked) { color: var(--accent); }
 
     /* ── PILLS ── */
     .pills { display: flex; flex-wrap: wrap; gap: 4px; }
@@ -157,30 +200,73 @@ const SITE_BASE = 'https://elektromontazh.kiev.ua/vykonani-roboty';
   <span>/admin_509/</span>
 </div>
 
-<!-- СТАТИСТИКА -->
+<!-- СТАТИСТИКА + ФІЛЬТР-ПЛАШКИ -->
 <div class="adm-stats">
   <div class="adm-stat">
     <span class="adm-stat-val">{works.length}</span>
     <span class="adm-stat-label">Карточок</span>
   </div>
-  {Object.keys(TYPE_LABELS).filter(t => works.some(w => w.data.types.includes(t))).map(t => (
-    <div class="adm-stat">
-      <span class="adm-stat-val">{works.filter(w => w.data.types.includes(t)).length}</span>
-      <span class="adm-stat-label">{TYPE_LABELS[t]}</span>
+</div>
+
+<div class="adm-filter-bar">
+  <!-- Розділи -->
+  <div class="adm-filter-group">
+    <span class="adm-filter-group-label">Розділи</span>
+    <div class="adm-filter-pills">
+      {Object.keys(TYPE_LABELS).filter(t => works.some(w => w.data.types.includes(t))).map(t => (
+        <button type="button" class="adm-fpill adm-fpill-type" data-filter={t}>
+          {TYPE_LABELS[t]}
+          <span class="adm-fpill-count">{works.filter(w => w.data.types.includes(t)).length}</span>
+        </button>
+      ))}
     </div>
-  ))}
+  </div>
+  <!-- Теги -->
+  {Object.keys(TAG_LABELS).filter(t => works.some(w => w.data.tags.includes(t))).length > 0 && (
+    <div class="adm-filter-group">
+      <span class="adm-filter-group-label">Теги</span>
+      <div class="adm-filter-pills">
+        {Object.keys(TAG_LABELS).filter(t => works.some(w => w.data.tags.includes(t))).map(t => (
+          <button type="button" class="adm-fpill adm-fpill-tag" data-filter={t}>
+            {TAG_LABELS[t]}
+            <span class="adm-fpill-count">{works.filter(w => w.data.tags.includes(t)).length}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+  <!-- Властивості -->
+  {Object.keys(PROPERTY_LABELS).filter(p => works.some(w => w.data.properties?.includes(p))).length > 0 && (
+    <div class="adm-filter-group">
+      <span class="adm-filter-group-label">Властивості</span>
+      <div class="adm-filter-pills">
+        {Object.keys(PROPERTY_LABELS).filter(p => works.some(w => w.data.properties?.includes(p))).map(p => (
+          <button type="button" class="adm-fpill adm-fpill-prop" data-filter={p}>
+            {PROPERTY_LABELS[p]}
+            <span class="adm-fpill-count">{works.filter(w => w.data.properties?.includes(p)).length}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
 </div>
 
 <!-- ПОШУК -->
 <div class="adm-search-wrap">
-  <input type="search" class="adm-search" id="adm-search"
-    placeholder="Пошук за назвою або slug..." autocomplete="off" />
+  <div class="adm-search-row">
+    <input type="search" class="adm-search" id="adm-search"
+      placeholder="Пошук або натисніть плашку вище..." autocomplete="off" />
+    <label class="adm-invert-label">
+      <input type="checkbox" id="adm-invert" />
+      <span>Інвертувати</span>
+    </label>
+  </div>
 </div>
 
 <!-- МОБІЛЬНИЙ: картки -->
 <div class="adm-cards" id="adm-cards">
   {works.map(w => (
-    <div class="adm-card" data-search={`${w.data.title} ${w.slug}`.toLowerCase()}>
+    <div class="adm-card" data-search={`${w.data.title} ${w.slug} ${w.data.types.join(' ')} ${w.data.tags.join(' ')} ${(w.data.properties ?? []).join(' ')}`.toLowerCase()}>
       <div class="adm-card-top">
         <span class="adm-card-id">{w.data.id}</span>
         <div class="adm-card-actions">
@@ -223,7 +309,7 @@ const SITE_BASE = 'https://elektromontazh.kiev.ua/vykonani-roboty';
     </thead>
     <tbody>
       {works.map(w => (
-        <tr>
+        <tr data-search={`${w.data.title} ${w.slug} ${w.data.types.join(' ')} ${w.data.tags.join(' ')} ${(w.data.properties ?? []).join(' ')}`.toLowerCase()}>
           <td class="cell-id">{w.data.id}</td>
           <td class="cell-title">{w.data.title}</td>
           <td class="cell-slug">{w.slug}</td>
@@ -252,34 +338,61 @@ const SITE_BASE = 'https://elektromontazh.kiev.ua/vykonani-roboty';
 </div>
 
 <script is:inline>
-  const search = document.getElementById('adm-search');
-
-  // Мобільні картки
-  const cards = document.querySelectorAll('.adm-card');
-  const emptyMob = document.getElementById('adm-empty-mob');
-
-  // Десктоп рядки
-  const rows = document.querySelectorAll('#adm-table tbody tr');
+  const search   = document.getElementById('adm-search');
+  const invert   = document.getElementById('adm-invert');
+  const cards    = document.querySelectorAll('.adm-card');
+  const rows     = document.querySelectorAll('#adm-table tbody tr');
+  const emptyMob  = document.getElementById('adm-empty-mob');
   const emptyDesk = document.getElementById('adm-empty-desk');
 
-  search.addEventListener('input', () => {
+  // Головна функція фільтрації
+  function applyFilter() {
     const q = search.value.toLowerCase().trim();
+    const inv = invert.checked;
     let visCards = 0, visRows = 0;
 
     cards.forEach(card => {
-      const show = !q || card.dataset.search.includes(q);
+      const match = !q || card.dataset.search.includes(q);
+      const show  = inv ? !match : match;
       card.style.display = show ? '' : 'none';
       if (show) visCards++;
     });
     emptyMob.style.display = visCards === 0 && q ? 'block' : 'none';
 
     rows.forEach(row => {
-      const show = !q || row.textContent.toLowerCase().includes(q);
+      const match = !q || row.dataset.search.includes(q);
+      const show  = inv ? !match : match;
       row.style.display = show ? '' : 'none';
       if (show) visRows++;
     });
     emptyDesk.style.display = visRows === 0 && q ? 'block' : 'none';
+  }
+
+  // Клік по плашці — вставляє slug у поле пошуку
+  document.querySelectorAll('.adm-fpill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const val = pill.dataset.filter;
+
+      // Якщо ця плашка вже активна — скидаємо фільтр
+      if (pill.classList.contains('active')) {
+        search.value = '';
+        document.querySelectorAll('.adm-fpill').forEach(p => p.classList.remove('active'));
+      } else {
+        search.value = val;
+        document.querySelectorAll('.adm-fpill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      }
+      applyFilter();
+    });
   });
+
+  // Скидаємо підсвітку плашки якщо текст змінили вручну
+  search.addEventListener('input', () => {
+    document.querySelectorAll('.adm-fpill').forEach(p => p.classList.remove('active'));
+    applyFilter();
+  });
+
+  invert.addEventListener('change', applyFilter);
 </script>
 
 </body>
