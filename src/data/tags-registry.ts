@@ -7,16 +7,16 @@
 // ─── РОЗДІЛИ (types) ────────────────────────────────────────
 // Відповідають розділам продукції на сайті.
 export const TYPE_LABELS: Record<string, string> = {
-  hrshch:              'ГРЩ / ВРЩ',
-  dymovydalennia:      'Димовидалення',
-  dvyhuny:             'Керування двигунами',
-  shuz:                'ШУЗ',
-  krm:                 'КРМ',
-  'zenitni-lihtari':   'Зенітні ліхтарі',
-  ahro:                'Агро',
-  plk:                 'ПЛК',
-  elektromontazh:      'Електромонтаж',
-  'shafi-keruvannia':  'Шафи керування',
+  hrshch:             'ГРЩ / ВРЩ',
+  dymovydalennia:     'Димовидалення',
+  dvyhuny:            'Керування двигунами',
+  shuz:               'ШУЗ',
+  krm:                'КРМ',
+  'zenitni-lihtari':  'Зенітні ліхтарі',
+  ahro:               'Агро',
+  plk:                'ПЛК',
+  elektromontazh:     'Електромонтаж',
+  'shafi-keruvannia': 'Шафи керування',
 };
 
 // ─── ТЕГИ (tags) ────────────────────────────────────────────
