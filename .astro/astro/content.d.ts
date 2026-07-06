@@ -183,6 +183,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"hrshch-avr-250a-3-vvody.md": {
+	id: "hrshch-avr-250a-3-vvody.md";
+  slug: "hrshch-avr-250a-3-vvody";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "hrshch-avr-250a-kontaktory.md": {
 	id: "hrshch-avr-250a-kontaktory.md";
   slug: "hrshch-avr-250a-kontaktory";
