@@ -274,6 +274,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"shafi-keruvannia-indykatsii-nasosni.md": {
+	id: "shafi-keruvannia-indykatsii-nasosni.md";
+  slug: "shafi-keruvannia-indykatsii-nasosni";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "shcho-skladskyi-kompleks-3-zony.md": {
 	id: "shcho-skladskyi-kompleks-3-zony.md";
   slug: "shcho-skladskyi-kompleks-3-zony";
