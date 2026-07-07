@@ -260,6 +260,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"shafa-keruvannia-ahro-ventyliatory-hodivlia.md": {
+	id: "shafa-keruvannia-ahro-ventyliatory-hodivlia.md";
+  slug: "shafa-keruvannia-ahro-ventyliatory-hodivlia";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "shafa-keruvannia-zenitni-lihtari-ovr-pr100.md": {
 	id: "shafa-keruvannia-zenitni-lihtari-ovr-pr100.md";
   slug: "shafa-keruvannia-zenitni-lihtari-ovr-pr100";
