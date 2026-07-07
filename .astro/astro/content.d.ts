@@ -267,6 +267,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"shchyt-obohriv-lyvnevok.md": {
+	id: "shchyt-obohriv-lyvnevok.md";
+  slug: "shchyt-obohriv-lyvnevok";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "shkaf-indykatsii-apg-mnemo.md": {
 	id: "shkaf-indykatsii-apg-mnemo.md";
   slug: "shkaf-indykatsii-apg-mnemo";
