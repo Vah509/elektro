@@ -3,7 +3,12 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  // Записали домен напрямую для карты сайта
   site: 'https://elektroschit.com.ua', 
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Этот фильтр исключает динамические страницы выполняемых работ из карты сайта, 
+      // чтобы сборка на GitHub Actions не падала из-за пустых путей
+      filter: (page) => !page.includes('/vykonani-roboty/')
+    })
+  ],
 });
