@@ -15,8 +15,8 @@ jobs:
 
       - name: Пошук старих даних
         run: |
-          OUTPUT=".github/workflows/audit-contacts.txt"
-          echo "АУДИТ КОНТАКТІВ ТА КАНОНІKALУ" > $OUTPUT
+          OUTPUT="audit-contacts.txt"
+          echo "АУДИТ КОНТАКТІВ ТА КАНОНІКАЛУ" > $OUTPUT
           echo "Дата: $(date '+%Y-%m-%d %H:%M')" >> $OUTPUT
           echo "" >> $OUTPUT
 
@@ -38,6 +38,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/workflows/audit-contacts.txt
+          git add audit-contacts.txt
           git commit -m "audit: перевірка старих контактів та канонікалу" || echo "Немає змін"
           git push
