@@ -1,5 +1,5 @@
 ---
-import { PHONE, PHONE_DISPLAY } from '../config';
+import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../config';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
@@ -7,7 +7,6 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 const title = "Контакти — виготовлення електрощитів | elektroschit.com.ua";
 const description = "Зв'яжіться з виробником електрощитів у Києві. Телефон, email, Viber, Telegram, WhatsApp. Відповідаємо протягом 1–2 робочих днів. Адреса: вул. Печенізька, 35/43.";
 ---
-import { PHONE, PHONE_DISPLAY } from '../config';
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -15,7 +14,7 @@ import { PHONE, PHONE_DISPLAY } from '../config';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href="https://elektroschit.com.ua/kontakty" />
+  <link rel="canonical" href={`${SITE_CANONICAL}/kontakty`} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />

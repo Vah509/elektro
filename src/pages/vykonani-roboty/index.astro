@@ -1,6 +1,6 @@
 ---
-import { PHONE, PHONE_DISPLAY } from '../../config';
 import { getCollection } from 'astro:content';
+import { SITE_CANONICAL } from '../../config';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -26,7 +26,6 @@ const usedTags = Object.keys(TAG_LABELS).filter(t =>
 // Об'єднані лейбли для JS (передаємо в скрипт)
 const ALL_LABELS = { ...TYPE_LABELS, ...TAG_LABELS };
 ---
-import { PHONE, PHONE_DISPLAY } from '../../config';
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -34,7 +33,7 @@ import { PHONE, PHONE_DISPLAY } from '../../config';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Виконані роботи — електрощити на замовлення | elektroschit.com.ua</title>
   <meta name="description" content="Фото виконаних робіт: ГРЩ, ВРЩ, щити димовидалення, керування двигунами, ШУЗ, КРМ. Виготовлення електрощитів у Києві з 1999 року." />
-  <link rel="canonical" href="https://elektroschit.com.ua/vykonani-roboty/" />
+  <link rel="canonical" href={`${SITE_CANONICAL}/vykonani-roboty/`} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />

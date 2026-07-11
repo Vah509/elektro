@@ -1,5 +1,5 @@
 ---
-import { PHONE, PHONE_DISPLAY } from '../../config';
+import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -37,7 +37,6 @@ const faqItems = [
   },
 ];
 ---
-import { PHONE, PHONE_DISPLAY } from '../../config';
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -45,7 +44,7 @@ import { PHONE, PHONE_DISPLAY } from '../../config';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href="https://elektroschit.com.ua/posluhy-ta-produktsiia/elektromontazh" />
+  <link rel="canonical" href={`${SITE_CANONICAL}/posluhy-ta-produktsiia/elektromontazh`} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -73,7 +72,7 @@ import { PHONE, PHONE_DISPLAY } from '../../config';
       <a href="#kontakty-blok" class="em-btn-primary">Обговорити завдання</a>
     </div>
     <p style="font-size:13px; color:var(--c-muted); margin-top:8px; font-family:var(--ff-body);">
-      Або зателефонуйте: <a href={`tel:${PHONE}`} style="color:var(--c-text); font-weight:600; text-decoration:none;">{PHONE_DISPLAY}</a>
+      Або зателефонуйте: <a href={} style="color:var(--c-text); font-weight:600; text-decoration:none;">{PHONE_DISPLAY}</a>
     </p>
   </div>
 </section>

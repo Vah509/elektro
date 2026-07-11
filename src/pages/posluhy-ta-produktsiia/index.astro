@@ -1,5 +1,5 @@
 ---
-import { PHONE, PHONE_DISPLAY } from '../../config';
+import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -8,7 +8,6 @@ import ContactBlock from '../../components/ContactBlock.astro';
 const title = "Послуги та продукція — виготовлення електрощитів | elektroschit.com.ua";
 const description = "Виготовлення силових щитів, щитів керування, КРМ, димовидалення. Програмування ПЛК, електромонтажні роботи. Гарантія 12 місяців. Київ та вся Україна.";
 ---
-import { PHONE, PHONE_DISPLAY } from '../../config';
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -16,7 +15,7 @@ import { PHONE, PHONE_DISPLAY } from '../../config';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <link rel="canonical" href="https://elektroschit.com.ua/posluhy-ta-produktsiia/" />
+  <link rel="canonical" href={`${SITE_CANONICAL}/posluhy-ta-produktsiia/`} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
