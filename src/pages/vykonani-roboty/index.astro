@@ -40,11 +40,29 @@ const ALL_LABELS = { ...TYPE_LABELS, ...TAG_LABELS };
   <link rel="stylesheet" href="/css/main.css" />
   <link rel="stylesheet" href="/css/em-hrshch.css" />
   <link rel="stylesheet" href="/css/em-work.css" />
+  <style>
+    .em-works-h1-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 24px 0;
+    }
+    .em-works-h1 {
+      font-family: var(--ff, 'Geologica', sans-serif);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+      color: var(--c-head, #0f172a);
+      line-height: 1.2;
+    }
+  </style>
 </head>
 <body>
 
 <Header activePage="vykonani-roboty" />
 <Breadcrumbs current="Виконані роботи" simple={true} />
+
+<div class="em-works-h1-wrap">
+  <h1 class="em-works-h1">Виконані роботи — електрощити на замовлення</h1>
+</div>
 
 <!-- Об'єднаний фільтр: типи + теги -->
 <div class="em-works-filter-wrap">
