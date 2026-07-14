@@ -28,7 +28,7 @@ export const EMAIL        = 'elektroschit.info@gmail.com';
 export const ADDRESS      = 'Київ, вул. Печенізька, 35/43, оф. 168';
 export const MAPS_URL     = 'https://www.google.com/maps/search/?api=1&query=Київ,+вул.+Печенізька,+35/43';
 
-export const VIBER        = 'viber://chat?number=%2B380981527555';
+export const VIBER        = 'viber://chat?number=%2B380673644766';
 export const TELEGRAM     = 'https://t.me/+380981527555';
 export const WHATSAPP     = 'https://wa.me/380981527555';
 
