@@ -1,15 +1,22 @@
 ---
 import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
 
-const title = "Виготовлення ГРЩ та ВРЩ на замовлення — до 630А | elektroschit.com.ua";
-const description = "Виготовлення та збірка головних та вводно-розподільчих щитів до 630А на замовлення. Гарантія 12 місяців. Київ, Київська область та вся Україна. Hager, ETI, Schneider, Eaton.";
+const page = {
+  section:     'produktsiia',
+  title:       'Виготовлення ГРЩ та ВРЩ на замовлення — до 630А | elektroschit.com.ua',
+  description: 'Виготовлення та збірка головних та вводно-розподільчих щитів до 630А на замовлення. Гарантія 12 місяців. Київ, Київська область та вся Україна. Hager, ETI, Schneider, Eaton.',
+  canonical:   `${SITE_CANONICAL}/posluhy-ta-produktsiia/hrshch/`,
+  crumbs: [
+    { label: 'Головна',   href: '/' },
+    { label: 'Продукція', href: '/posluhy-ta-produktsiia/' },
+    { label: 'ГРЩ та ВРЩ' },
+  ],
+};
 
 const faqItems = [
   { q: "Чим відрізняється ГРЩ від ВРЩ?", a: "ГРЩ (головний розподільчий щит) — встановлюється після трансформатора або точки введення в будівлю. ВРЩ (вводно-розподільчий щит) — аналогічна функція, термін частіше використовується для промислових об'єктів. Конструктивно обидва типи схожі — різниця переважно в назві в проєктній документації." },
@@ -20,235 +27,210 @@ const faqItems = [
   { q: "Яку документацію ви передаєте разом зі щитом?", a: "Паспорт виробу та принципову схему. Документи вкладаються безпосередньо у щит." },
   { q: "Який термін виготовлення?", a: "Від 2 тижнів. Точний термін узгоджується при постановці у виготовлення — залежить від комплектації та завантаження виробництва." },
   { q: "Як дізнатися вартість?", a: "Надішліть технічне завдання або схему — розрахуємо вартість протягом 1–2 робочих днів. Вартість залежить від складності схеми та обраних компонентів." },
-  { q: "Чи можна прискорити виготовлення?", a: "Залежить від завантаження виробництва та наявності компонентів. Уточнюйте при замовленні — постараємося знайти рішення." }
+  { q: "Чи можна прискорити виготовлення?", a: "Залежить від завантаження виробництва та наявності компонентів. Уточнюйте при замовленні — постараємося знайти рішення." },
 ];
 ---
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={`${SITE_CANONICAL}/posluhy-ta-produktsiia/hrshch/`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/em-hrshch.css" />
-</head>
-<body>
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
 
-<!-- G1 — ШАПКА -->
-<Header activePage="produktsiia" />
-
-<!-- ХЛІБНІ КРИХТИ -->
-<Breadcrumbs current="ГРЩ та ВРЩ" />
-
-<!-- HERO -->
-<div class="em-hero-product">
-  <div class="em-hero-product-inner">
-    <div class="em-hero-product-text">
-      <h1>Виготовлення ГРЩ та ВРЩ на замовлення</h1>
-      <p class="em-hero-product-lead">Виготовляємо силові щити до 630А на замовлення для промислових підприємств, об'єктів реконструкції та комерційних будівель. Гарантія 12 місяців. Київ, Київська область та вся Україна.</p>
-      <div class="em-hero-badges">
-        <div class="em-badge"><strong>до 630А</strong> — струм</div>
-        <div class="em-badge"><strong>від 2 тижнів</strong> — виготовлення</div>
-        <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
-        <div class="em-badge"><strong>25 років</strong> — досвід</div>
-      </div>
-      <div class="em-hero-product-actions">
-        <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
-      </div>
-      <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
-    </div>
-    <div class="em-hero-collage">
-      <div class="em-hero-collage-item">
-        <img src="/images/hrshch/hrshch-vrshch-odynochnyy-shkaf-vvid-kyiv-2026-06-c1.jpg"
-             alt="ГРЩ відкритий — вводний автомат та лічильник NIK" loading="eager" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/hrshch/vrshch-bahato-sektsiynyi-rozpodil-kyiv-2026-06-c2.jpg"
-             alt="ВРЩ багатосекційний — розподіл навантаження, маркування" loading="eager" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/hrshch/vrshch-povnyi-vyhlyad-sektsii-kyiv-2026-06-c3.jpg"
-             alt="ВРЩ повний вигляд — секційний розподіл, ETI" loading="lazy" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/hrshch/hrshch-avr-chint-avtomaty-detal-kyiv-2026-06-c4.jpg"
-             alt="ГРЩ з АВР CHINT — автомати, акуратна кабельна розводка" loading="lazy" />
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ГАЛЕРЕЯ 8 фото -->
-<section class="em-section">
-  <span class="em-section-label">Наші роботи</span>
-  <h2>Виготовлення ГРЩ та ВРЩ — фото з нашого виробництва</h2>
-  <div class="em-product-gallery">
-    <div class="em-gallery-item em-gallery-item-large"
-         data-caption="ГРЩ з АВР 250А — зовнішній вигляд, двосекційний корпус"
-         data-full="/images/hrshch/hrshch-avr-250a-zovnishnii-vyhlyad-kyiv-2026-06-01.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-zovnishnii-vyhlyad-kyiv-2026-06-01.jpg"
-           alt="ГРЩ з АВР 250А — зовнішній вигляд" width="1044" height="1800" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Обидві секції відкриті — ліва силова, права АВР"
-         data-full="/images/hrshch/hrshch-avr-250a-obydvi-sektsii-vidkryti-kyiv-2026-06-02.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-obydvi-sektsii-vidkryti-kyiv-2026-06-02.jpg"
-           alt="ГРЩ з АВР — обидві секції відкриті" width="1350" height="1800" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Блок керування АВР — контактори, автомати, секції АВР"
-         data-full="/images/hrshch/hrshch-avr-250a-blok-keruvannia-avr-kyiv-2026-06-03.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-blok-keruvannia-avr-kyiv-2026-06-03.jpg"
-           alt="Блок керування АВР — внутрішній монтаж" width="1350" height="1800" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Ліва секція — вводний автомат ETI, лічильник NIK 2300"
-         data-full="/images/hrshch/hrshch-avr-250a-vvid-lichylnyk-nik-kyiv-2026-06-04.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-vvid-lichylnyk-nik-kyiv-2026-06-04.jpg"
-           alt="Вводний автомат ETI та лічильник NIK у ГРЩ" width="1350" height="1800" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Автомати ETI 250А та 125А — шинний міст, розподіл навантаження"
-         data-full="/images/hrshch/hrshch-avr-250a-avtomaty-eti-shynnyi-mist-kyiv-2026-06-05.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-avtomaty-eti-shynnyi-mist-kyiv-2026-06-05.jpg"
-           alt="Автомати ETI 250А та 125А з шинним мостом у ГРЩ" width="1350" height="1800" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Мідна нейтральна шина N — підключення кабелів"
-         data-full="/images/hrshch/hrshch-avr-250a-midna-shyna-n-kyiv-2026-06-06.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-midna-shyna-n-kyiv-2026-06-06.jpg"
-           alt="Мідна шина N у головному розподільному щиті" width="1800" height="1350" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Кабельні наконечники ПВ3нГ-LS — акуратна розводка по клемам"
-         data-full="/images/hrshch/hrshch-avr-250a-kabelni-nakonehniky-kyiv-2026-06-07.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-kabelni-nakonehniky-kyiv-2026-06-07.jpg"
-           alt="Кабельні наконечники та клеми в електрощиті ГРЩ" width="1800" height="1350" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Однолінійна схема всередині дверцят — маркування секцій АВР"
-         data-full="/images/hrshch/hrshch-avr-250a-skhema-markuvannia-kyiv-2026-06-08.jpg">
-      <img src="/images/hrshch/hrshch-avr-250a-skhema-markuvannia-kyiv-2026-06-08.jpg"
-           alt="Однолінійна схема та маркування в щиті ГРЩ з АВР" width="1044" height="1800" loading="lazy" />
-    </div>
-  </div>
-  <div class="em-gallery-cta">
-    <a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a>
-  </div>
-</section>
-
-<!-- ДЕ ЗАСТОСОВУЄТЬСЯ -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Застосування</span>
-    <h2>ГРЩ та ВРЩ — для яких об'єктів</h2>
-    <p class="em-lead">Щити цього класу встановлюють там, де потрібен надійний розподіл електроенергії на рівні вводу об'єкта.</p>
-    <div class="em-objects-grid">
-      <div class="em-object-card"><div class="em-object-num">01</div><h3>Промислові підприємства</h3><p>Заводи, виробничі цехи, склади — як основний або резервний ввід живлення від трансформаторної підстанції.</p></div>
-      <div class="em-object-card"><div class="em-object-num">02</div><h3>Об'єкти реконструкції</h3><p>Заміна застарілих щитів серій 1970–90-х. Оновлення електрогосподарства під нові навантаження та норми.</p></div>
-      <div class="em-object-card"><div class="em-object-num">03</div><h3>Торгово-офісні центри</h3><p>Великі об'єкти з розгалуженою мережею живлення — щит як вузол розподілу між поверхами або секціями.</p></div>
-      <div class="em-object-card"><div class="em-object-num">04</div><h3>Підрядні організації</h3><p>Електромонтажні компанії, які ведуть будівництво або реконструкцію і потребують щит за схемою замовника.</p></div>
-      <div class="em-object-card"><div class="em-object-num">05</div><h3>Агропромислові об'єкти</h3><p>Зернотоки, елеватори, насосні станції — де потрібна надійна комутація з можливістю швидкого обслуговування.</p></div>
-      <div class="em-object-card"><div class="em-object-num">06</div><h3>Головні енергетики</h3><p>Замовники зі штатним енергетиком, які передають схему та ТЗ і хочуть отримати готовий щит під ключ.</p></div>
-    </div>
-  </div>
-</div>
-
-<!-- ХАРАКТЕРИСТИКИ -->
-<section class="em-section">
-  <span class="em-section-label">Характеристики</span>
-  <h2>Технічні характеристики ГРЩ та ВРЩ</h2>
-  <table class="em-specs-table">
-    <tbody>
-      <tr><td class="em-specs-label">Номінальний струм</td><td class="em-specs-value">до 630А</td></tr>
-      <tr><td class="em-specs-label">Кількість вводів</td><td class="em-specs-value">1, 2 або 3 введення (у т.ч. з АВР)</td></tr>
-      <tr><td class="em-specs-label">Апарати захисту</td><td class="em-specs-value">Узгоджується з замовником</td></tr>
-      <tr><td class="em-specs-label">Збірні шини</td><td class="em-specs-value">Мідь, алюміній — залежно від ТЗ</td></tr>
-      <tr><td class="em-specs-label">Однолінійна схема</td><td class="em-specs-value">Виконується та додається у щит</td></tr>
-      <tr><td class="em-specs-label">Термін виготовлення</td><td class="em-specs-value">Від 2 тижнів, узгоджується при постановці у виготовлення</td></tr>
-      <tr><td class="em-specs-label">Гарантія</td><td class="em-specs-value">12 місяців</td></tr>
-      <tr><td class="em-specs-label">Доставка</td><td class="em-specs-value">Київ, Київська область, вся Україна</td></tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- КОМПОНЕНТИ -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Компоненти</span>
-    <h2>Компоненти та виробники</h2>
-    <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
-    <div class="em-brands">
-      <div class="em-brands-group">
-        <div class="em-brands-group-label">Основні бренди</div>
-        <div class="em-brands-row">
-          <div class="em-brand-pill">ETI</div>
-          <div class="em-brand-pill">Hager</div>
-          <div class="em-brand-pill">Schneider Electric</div>
-          <div class="em-brand-pill">Eaton</div>
+  <!-- HERO -->
+  <div class="em-hero-product">
+    <div class="em-hero-product-inner">
+      <div class="em-hero-product-text">
+        <h1>Виготовлення ГРЩ та ВРЩ на замовлення</h1>
+        <p class="em-hero-product-lead">Виготовляємо силові щити до 630А на замовлення для промислових підприємств, об'єктів реконструкції та комерційних будівель. Гарантія 12 місяців. Київ, Київська область та вся Україна.</p>
+        <div class="em-hero-badges">
+          <div class="em-badge"><strong>до 630А</strong> — струм</div>
+          <div class="em-badge"><strong>від 2 тижнів</strong> — виготовлення</div>
+          <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
+          <div class="em-badge"><strong>25 років</strong> — досвід</div>
         </div>
+        <div class="em-hero-product-actions">
+          <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
+        </div>
+        <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
       </div>
-      <div class="em-brands-group">
-        <div class="em-brands-group-label">Економ-комплектація</div>
-        <div class="em-brands-row">
-          <div class="em-brand-pill secondary">E-Next</div>
-          <div class="em-brand-pill secondary">Asko</div>
-          <div class="em-brand-pill secondary">Chint</div>
+      <div class="em-hero-collage">
+        <div class="em-hero-collage-item">
+          <img src="/images/hrshch/hrshch-vrshch-odynochnyy-shkaf-vvid-kyiv-2026-06-c1.jpg"
+               alt="ГРЩ відкритий — вводний автомат та лічильник NIK" loading="eager" />
+        </div>
+        <div class="em-hero-collage-item">
+          <img src="/images/hrshch/vrshch-bahato-sektsiynyi-rozpodil-kyiv-2026-06-c2.jpg"
+               alt="ВРЩ багатосекційний — розподіл навантаження, маркування" loading="eager" />
+        </div>
+        <div class="em-hero-collage-item">
+          <img src="/images/hrshch/vrshch-povnyi-vyhlyad-sektsii-kyiv-2026-06-c3.jpg"
+               alt="ВРЩ повний вигляд — секційний розподіл, ETI" loading="lazy" />
+        </div>
+        <div class="em-hero-collage-item">
+          <img src="/images/hrshch/hrshch-avr-chint-avtomaty-detal-kyiv-2026-06-c4.jpg"
+               alt="ГРЩ з АВР CHINT — автомати, акуратна кабельна розводка" loading="lazy" />
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ЯК МИ ПРАЦЮЄМО -->
-<section class="em-section">
-  <span class="em-section-label">Як ми працюємо</span>
-  <h2>5 кроків від ТЗ до готового щита</h2>
-  <div class="em-steps-row">
-    <div class="em-step"><div class="em-step-num">01</div><h3>Технічне завдання</h3><p>Надсилаєте ТЗ, схему або описуєте задачу. Приймаємо PDF, DWG, фото, усний опис.</p></div>
-    <div class="em-step"><div class="em-step-num">02</div><h3>Розрахунок та схема</h3><p>Розробляємо або перевіряємо схему, узгоджуємо вартість та строки. Відповідаємо за 1–2 дні.</p></div>
-    <div class="em-step"><div class="em-step-num">03</div><h3>Оплата</h3><p>Після оплати виріб ставиться у виробництво.</p></div>
-    <div class="em-step"><div class="em-step-num">04</div><h3>Збірка та перевірка</h3><p>Збираємо у Києві. Маркуємо, перевіряємо кожен щит перед відправкою.</p></div>
-    <div class="em-step"><div class="em-step-num">05</div><h3>Передача з документацією</h3><p>Доставка по Києву та Київській обл. або Нова Пошта. Паспорт виробу та схема — у щиті.</p></div>
-  </div>
-</section>
+  <!-- ГАЛЕРЕЯ -->
+  <section class="em-section">
+    <span class="em-section-label">Наші роботи</span>
+    <h2>Виготовлення ГРЩ та ВРЩ — фото з нашого виробництва</h2>
+    <div class="em-product-gallery">
+      <div class="em-gallery-item em-gallery-item-large"
+           data-caption="ГРЩ з АВР 250А — зовнішній вигляд, двосекційний корпус"
+           data-full="/images/hrshch/hrshch-avr-250a-zovnishnii-vyhlyad-kyiv-2026-06-01.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-zovnishnii-vyhlyad-kyiv-2026-06-01.jpg"
+             alt="ГРЩ з АВР 250А — зовнішній вигляд" width="1044" height="1800" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Обидві секції відкриті — ліва силова, права АВР"
+           data-full="/images/hrshch/hrshch-avr-250a-obydvi-sektsii-vidkryti-kyiv-2026-06-02.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-obydvi-sektsii-vidkryti-kyiv-2026-06-02.jpg"
+             alt="ГРЩ з АВР — обидві секції відкриті" width="1350" height="1800" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Блок керування АВР — контактори, автомати, секції АВР"
+           data-full="/images/hrshch/hrshch-avr-250a-blok-keruvannia-avr-kyiv-2026-06-03.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-blok-keruvannia-avr-kyiv-2026-06-03.jpg"
+             alt="Блок керування АВР — внутрішній монтаж" width="1350" height="1800" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Ліва секція — вводний автомат ETI, лічильник NIK 2300"
+           data-full="/images/hrshch/hrshch-avr-250a-vvid-lichylnyk-nik-kyiv-2026-06-04.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-vvid-lichylnyk-nik-kyiv-2026-06-04.jpg"
+             alt="Вводний автомат ETI та лічильник NIK у ГРЩ" width="1350" height="1800" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Автомати ETI 250А та 125А — шинний міст, розподіл навантаження"
+           data-full="/images/hrshch/hrshch-avr-250a-avtomaty-eti-shynnyi-mist-kyiv-2026-06-05.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-avtomaty-eti-shynnyi-mist-kyiv-2026-06-05.jpg"
+             alt="Автомати ETI 250А та 125А з шинним мостом у ГРЩ" width="1350" height="1800" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Мідна нейтральна шина N — підключення кабелів"
+           data-full="/images/hrshch/hrshch-avr-250a-midna-shyna-n-kyiv-2026-06-06.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-midna-shyna-n-kyiv-2026-06-06.jpg"
+             alt="Мідна шина N у головному розподільному щиті" width="1800" height="1350" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Кабельні наконечники ПВ3нГ-LS — акуратна розводка по клемам"
+           data-full="/images/hrshch/hrshch-avr-250a-kabelni-nakonehniky-kyiv-2026-06-07.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-kabelni-nakonehniky-kyiv-2026-06-07.jpg"
+             alt="Кабельні наконечники та клеми в електрощиті ГРЩ" width="1800" height="1350" loading="lazy" />
+      </div>
+      <div class="em-gallery-item"
+           data-caption="Однолінійна схема всередині дверцят — маркування секцій АВР"
+           data-full="/images/hrshch/hrshch-avr-250a-skhema-markuvannia-kyiv-2026-06-08.jpg">
+        <img src="/images/hrshch/hrshch-avr-250a-skhema-markuvannia-kyiv-2026-06-08.jpg"
+             alt="Однолінійна схема та маркування в щиті ГРЩ з АВР" width="1044" height="1800" loading="lazy" />
+      </div>
+    </div>
+    <div class="em-gallery-cta">
+      <a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a>
+    </div>
+  </section>
 
-<!-- ПЕРЕВАГИ -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Переваги</span>
-    <h2>Чому замовляють у нас</h2>
-    <div class="em-why-grid">
-      <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
-      <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
-      <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть нам технічне завдання або опис того, що ви хочете. Ми самі розробимо схему та узгодимо з вами.</p></div>
-      <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
-      <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
-      <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
+  <!-- ДЕ ЗАСТОСОВУЄТЬСЯ -->
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Застосування</span>
+      <h2>ГРЩ та ВРЩ — для яких об'єктів</h2>
+      <p class="em-lead">Щити цього класу встановлюють там, де потрібен надійний розподіл електроенергії на рівні вводу об'єкта.</p>
+      <div class="em-objects-grid">
+        <div class="em-object-card"><div class="em-object-num">01</div><h3>Промислові підприємства</h3><p>Заводи, виробничі цехи, склади — як основний або резервний ввід живлення від трансформаторної підстанції.</p></div>
+        <div class="em-object-card"><div class="em-object-num">02</div><h3>Об'єкти реконструкції</h3><p>Заміна застарілих щитів серій 1970–90-х. Оновлення електрогосподарства під нові навантаження та норми.</p></div>
+        <div class="em-object-card"><div class="em-object-num">03</div><h3>Торгово-офісні центри</h3><p>Великі об'єкти з розгалуженою мережею живлення — щит як вузол розподілу між поверхами або секціями.</p></div>
+        <div class="em-object-card"><div class="em-object-num">04</div><h3>Підрядні організації</h3><p>Електромонтажні компанії, які ведуть будівництво або реконструкцію і потребують щит за схемою замовника.</p></div>
+        <div class="em-object-card"><div class="em-object-num">05</div><h3>Агропромислові об'єкти</h3><p>Зернотоки, елеватори, насосні станції — де потрібна надійна комутація з можливістю швидкого обслуговування.</p></div>
+        <div class="em-object-card"><div class="em-object-num">06</div><h3>Головні енергетики</h3><p>Замовники зі штатним енергетиком, які передають схему та ТЗ і хочуть отримати готовий щит під ключ.</p></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- FAQ -->
-<FaqAccordion items={faqItems} sectionTitle="Питання про виготовлення ГРЩ та ВРЩ" />
+  <!-- ХАРАКТЕРИСТИКИ -->
+  <section class="em-section">
+    <span class="em-section-label">Характеристики</span>
+    <h2>Технічні характеристики ГРЩ та ВРЩ</h2>
+    <table class="em-specs-table">
+      <tbody>
+        <tr><td class="em-specs-label">Номінальний струм</td><td class="em-specs-value">до 630А</td></tr>
+        <tr><td class="em-specs-label">Кількість вводів</td><td class="em-specs-value">1, 2 або 3 введення (у т.ч. з АВР)</td></tr>
+        <tr><td class="em-specs-label">Апарати захисту</td><td class="em-specs-value">Узгоджується з замовником</td></tr>
+        <tr><td class="em-specs-label">Збірні шини</td><td class="em-specs-value">Мідь, алюміній — залежно від ТЗ</td></tr>
+        <tr><td class="em-specs-label">Однолінійна схема</td><td class="em-specs-value">Виконується та додається у щит</td></tr>
+        <tr><td class="em-specs-label">Термін виготовлення</td><td class="em-specs-value">Від 2 тижнів, узгоджується при постановці у виготовлення</td></tr>
+        <tr><td class="em-specs-label">Гарантія</td><td class="em-specs-value">12 місяців</td></tr>
+        <tr><td class="em-specs-label">Доставка</td><td class="em-specs-value">Київ, Київська область, вся Україна</td></tr>
+      </tbody>
+    </table>
+  </section>
 
-<!-- КОНТАКТНИЙ БЛОК -->
-<ContactBlock title="Готові обговорити ваше замовлення — ГРЩ або ВРЩ" />
+  <!-- КОМПОНЕНТИ -->
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Компоненти</span>
+      <h2>Компоненти та виробники</h2>
+      <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
+      <div class="em-brands">
+        <div class="em-brands-group">
+          <div class="em-brands-group-label">Основні бренди</div>
+          <div class="em-brands-row">
+            <div class="em-brand-pill">ETI</div>
+            <div class="em-brand-pill">Hager</div>
+            <div class="em-brand-pill">Schneider Electric</div>
+            <div class="em-brand-pill">Eaton</div>
+          </div>
+        </div>
+        <div class="em-brands-group">
+          <div class="em-brands-group-label">Економ-комплектація</div>
+          <div class="em-brands-row">
+            <div class="em-brand-pill secondary">E-Next</div>
+            <div class="em-brand-pill secondary">Asko</div>
+            <div class="em-brand-pill secondary">Chint</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- ТАКОЖ ВИГОТОВЛЯЄМО -->
-<AlsoMake currentSlug="hrshch" />
+  <!-- ЯК МИ ПРАЦЮЄМО -->
+  <section class="em-section">
+    <span class="em-section-label">Як ми працюємо</span>
+    <h2>5 кроків від ТЗ до готового щита</h2>
+    <div class="em-steps-row">
+      <div class="em-step"><div class="em-step-num">01</div><h3>Технічне завдання</h3><p>Надсилаєте ТЗ, схему або описуєте задачу. Приймаємо PDF, DWG, фото, усний опис.</p></div>
+      <div class="em-step"><div class="em-step-num">02</div><h3>Розрахунок та схема</h3><p>Розробляємо або перевіряємо схему, узгоджуємо вартість та строки. Відповідаємо за 1–2 дні.</p></div>
+      <div class="em-step"><div class="em-step-num">03</div><h3>Оплата</h3><p>Після оплати виріб ставиться у виробництво.</p></div>
+      <div class="em-step"><div class="em-step-num">04</div><h3>Збірка та перевірка</h3><p>Збираємо у Києві. Маркуємо, перевіряємо кожен щит перед відправкою.</p></div>
+      <div class="em-step"><div class="em-step-num">05</div><h3>Передача з документацією</h3><p>Доставка по Києву та Київській обл. або Нова Пошта. Паспорт виробу та схема — у щиті.</p></div>
+    </div>
+  </section>
 
-<!-- G2 — ФУТЕР -->
-<Footer />
+  <!-- ПЕРЕВАГИ -->
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Переваги</span>
+      <h2>Чому замовляють у нас</h2>
+      <div class="em-why-grid">
+        <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
+        <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
+        <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть нам технічне завдання або опис того, що ви хочете. Ми самі розробимо схему та узгодимо з вами.</p></div>
+        <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
+        <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
+        <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
+      </div>
+    </div>
+  </div>
 
-<!-- ЛАЙТБОКС -->
-<Lightbox />
+  <!-- FAQ -->
+  <FaqAccordion items={faqItems} sectionTitle="Питання про виготовлення ГРЩ та ВРЩ" />
 
-<script is:inline src="/js/em-site.js"></script>
-</body>
-</html>
+  <!-- КОНТАКТНИЙ БЛОК -->
+  <ContactBlock title="Готові обговорити ваше замовлення — ГРЩ або ВРЩ" />
+
+  <!-- ТАКОЖ ВИГОТОВЛЯЄМО -->
+  <AlsoMake currentSlug="hrshch" />
+
+  <Lightbox />
+  <script is:inline src="/js/em-site.js"></script>
+</BaseLayout>

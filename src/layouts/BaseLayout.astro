@@ -1,45 +1,208 @@
 ---
-import { PHONE, PHONE_DISPLAY } from '../config';
-const { title = 'Виробництво електрощитів | Київ' } = Astro.props;
+// ============================================================
+// BaseLayout.astro — elektroschit.com.ua
+// Єдиний layout для всіх сторінок сайту.
+//
+// Пропс page (обов'язковий):
+//   section     — activePage для Header ('produktsiia' | 'posluhy' |
+//                 'vykonani-roboty' | 'pro-nas' | 'kontakty' | '')
+//   title       — <title> сторінки
+//   description — <meta name="description">
+//   canonical   — повний URL без завершального слеша не обов'язковий,
+//                 але бажаний (https://elektroschit.com.ua/posluhy-ta-produktsiia/hrshch/)
+//   crumbs      — [{label: string, href?: string}]
+//                 перший елемент = Головна (href='/'),
+//                 останній = поточна сторінка (без href).
+//                 Порожній масив [] = крихти не рендеряться.
+//   ogType?     — 'website' (default) | 'article'
+//   verifyMeta? — [{name: string, content: string}]
+//                 meta-теги верифікації (Search Console, Ahrefs і т.п.)
+// ============================================================
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import {
+  SITE_CANONICAL,
+  PHONE, PHONE_DISPLAY, EMAIL,
+  ADDRESS, ADDRESS_STREET, ADDRESS_CITY,
+  MAPS_URL, WORK_HOURS,
+  GTM_ID, CLARITY_ID,
+} from '../config';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface VerifyMeta {
+  name: string;
+  content: string;
+}
+
+interface PageProps {
+  section:      string;
+  title:        string;
+  description:  string;
+  canonical:    string;
+  crumbs:       Crumb[];
+  ogType?:      'website' | 'article';
+  verifyMeta?:  VerifyMeta[];
+}
+
+interface Props {
+  page: PageProps;
+}
+
+const { page } = Astro.props;
+const ogType      = page.ogType ?? 'website';
+const verifyMeta  = page.verifyMeta ?? [];
+const hasCrumbs   = page.crumbs.length > 0;
+
+// JSON-LD BreadcrumbList — будується з того ж масиву crumbs
+const breadcrumbJsonLd = hasCrumbs ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: page.crumbs.map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.label,
+    ...(crumb.href ? { item: `${SITE_CANONICAL}${crumb.href}` } : {}),
+  })),
+} : null;
+
+// JSON-LD LocalBusiness
+const localBusinessJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Elektroschit',
+  description: 'Виготовлення силових електрощитів та щитів керування на замовлення. Київ та вся Україна.',
+  url: SITE_CANONICAL,
+  telephone: PHONE,
+  email: EMAIL,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: ADDRESS_STREET,
+    addressLocality: ADDRESS_CITY,
+    addressCountry: 'UA',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 50.4501,
+    longitude: 30.5234,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  ],
+  hasMap: MAPS_URL,
+  priceRange: '$$',
+  areaServed: {
+    '@type': 'Country',
+    name: 'Ukraine',
+  },
+};
 ---
 <!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
+
+  <!-- SEO -->
+  <title>{page.title}</title>
+  <meta name="description" content={page.description} />
+  <link rel="canonical" href={page.canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content={ogType} />
+  <meta property="og:title"       content={page.title} />
+  <meta property="og:description" content={page.description} />
+  <meta property="og:url"         content={page.canonical} />
+  <meta property="og:locale"      content="uk_UA" />
+  <meta property="og:site_name"   content="Elektroschit" />
+
+  <!-- Верифікація (Search Console, Ahrefs і т.п.) -->
+  {verifyMeta.map(m => (
+    <meta name={m.name} content={m.content} />
+  ))}
+
+  <!-- Google Tag Manager -->
+  {GTM_ID && (
+    <script is:inline define:vars={{ GTM_ID }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer', GTM_ID);
+    </script>
+  )}
+
+  <!-- Microsoft Clarity -->
+  {CLARITY_ID && (
+    <script is:inline define:vars={{ CLARITY_ID }}>
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", CLARITY_ID);
+    </script>
+  )}
+
+  <!-- Шрифти -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- CSS — базові стилі завжди, сторінкові через <slot name="head"> -->
   <link rel="stylesheet" href="/css/main.css" />
+  <slot name="head" />
 </head>
 <body>
-  <header class="em-site-header">
-    <div class="em-header-inner">
-      <a href="/" class="em-logo">
-        <span class="em-logo-name">Електромонтаж</span>
-        <span class="em-logo-sub">виробництво електрощитів</span>
-      </a>
-      <nav class="em-site-nav">
-        <a href="/produktsiia/">Продукція</a>
-        <a href="/posluhy/">Послуги</a>
-        <a href="/vykonani-roboty/">Виконані роботи</a>
-        <a href="/pro-nas/">Про нас</a>
-        <a href="/kontakty/">Контакти</a>
-      </nav>
-      <a href={`tel:${PHONE}`} class="em-btn-primary">{PHONE_DISPLAY}</a>
-    </div>
-  </header>
 
-  <main>
-    <slot />
-  </main>
+  <!-- GTM noscript -->
+  {GTM_ID && (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        height="0" width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
+    </noscript>
+  )}
 
-  <footer class="em-site-footer">
-    <div class="em-footer-inner">
-      <p>© 2026 Електромонтаж. Виробництво електрощитів, Київ та область.</p>
-      <a href={`tel:${PHONE}`} class="em-footer-phone">{PHONE_DISPLAY}</a>
-    </div>
-  </footer>
+  <Header activePage={page.section} />
+
+  <!-- Хлібні крихти -->
+  {hasCrumbs && (
+    <nav aria-label="Хлібні крихти" class="em-breadcrumbs-wrap">
+      <ol class="em-breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+        {page.crumbs.map((crumb, i) => (
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            {crumb.href
+              ? <a href={crumb.href} itemprop="item"><span itemprop="name">{crumb.label}</span></a>
+              : <span itemprop="name" aria-current="page">{crumb.label}</span>
+            }
+            <meta itemprop="position" content={String(i + 1)} />
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )}
+
+  <!-- Основний контент сторінки -->
+  <slot />
+
+  <Footer />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessJsonLd)} />
+  {breadcrumbJsonLd && (
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+  )}
+
 </body>
 </html>
