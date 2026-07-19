@@ -1,266 +1,140 @@
 ---
 import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
 
-const title = "Електрощити для тваринницьких ферм та агрогосподарств — Київ та Україна | elektroschit.com.ua";
-const description = "Виготовлення щитів керування вентиляцією, аерацією та кормовими системами для агрогосподарств. Гарантія 12 міс. Київ та вся Україна.";
+const page = {
+  section:     'produktsiia',
+  title:       'Електрощити для агрогосподарств на замовлення | elektroschit.com.ua',
+  description: 'Виготовлення електрощитів для агрогосподарств: вентиляція, аерація, кормові системи, насоси. Захист від вологи та агресивного середовища. Гарантія 12 міс. Київ та вся Україна.',
+  canonical:   `${SITE_CANONICAL}/posluhy-ta-produktsiia/ahro/`,
+  crumbs: [
+    { label: 'Головна',   href: '/' },
+    { label: 'Продукція', href: '/posluhy-ta-produktsiia/' },
+    { label: 'Електрощити для агрогосподарств' },
+  ],
+};
 
 const faqItems = [
-  { q: "Що робити, якщо готової схеми немає?", a: "Надішліть опис задачі — яке обладнання, скільки, які режими роботи потрібні. Розробимо принципову схему самостійно та узгодимо з вами перед початком виготовлення. Для розробки схеми потрібен контакт з людиною, яка знає технологічний процес зсередини." },
-  { q: "Чи можна реалізувати автоматичний режим за датчиком?", a: "Так. Реалізуємо керування за датчиком температури, вологості, рівня або тиску — залежно від задачі. Алгоритм роботи узгоджується при прийомі замовлення." },
-  { q: "Чи підходять ваші щити для роботи в умовах підвищеної вологості?", a: "Так. Питання ступеня захисту корпусу (IP) обговорюється при замовленні. Для агрооб'єктів з підвищеною вологістю підбираємо відповідний корпус — зазначте цю вимогу в технічному завданні." },
-  { q: "Чи потрібен ПЛК, чи достатньо релейної схеми?", a: "Залежить від задачі. Якщо сигналів і вузлів небагато — реалізуємо на релейній схемі: надійно і дешевше. Якщо логіка складна або обладнання багато — інтегруємо ПЛК. Завжди вибираємо рішення виходячи з доцільності." },
+  { q: "Що робити, якщо готової схеми немає?", a: "Надішліть опис задачі — які споживачі, яке навантаження, які режими роботи потрібні. Розробимо принципову схему самостійно та узгодимо з вами перед початком виготовлення." },
+  { q: "Чи підходять щити для роботи в умовах підвищеної вологості та пилу?", a: "Так. Для агрооб'єктів підбираємо корпуси з підвищеним ступенем захисту IP54–IP65, стійкі до вологи, пилу та агресивного середовища." },
+  { q: "Чи можна керувати кількома групами споживачів з одного щита?", a: "Так. Реалізуємо незалежне керування кількома групами — наприклад, вентилятори + обігрівачі + кормові шнеки — в одному щиті зі спільним вводом живлення." },
+  { q: "Чи є можливість автоматичного керування за датчиками?", a: "Так. Реалізуємо керування від датчиків температури, вологості, рівня зерна або тиску — через реле або ПЛК залежно від складності задачі." },
   { q: "Чи можна надати свої компоненти для збірки?", a: "Ні. Ми самостійно закуповуємо все обладнання відповідно до узгодженої специфікації і передаємо замовнику готовий виріб з гарантією." },
-  { q: "Чи виїжджаєте на об'єкти за межі Київської області?", a: "Так. Основна географія — Київ та Київська область, але виготовляємо щити для замовників з усієї України і відправляємо Новою Поштою." },
   { q: "Яку документацію ви передаєте разом зі щитом?", a: "Паспорт виробу та принципову схему. Документи вкладаються безпосередньо у щит." },
+  { q: "Який термін виготовлення?", a: "Від 2 тижнів. Точний термін узгоджується після отримання технічного завдання або схеми." },
 ];
 ---
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={`${SITE_CANONICAL}/posluhy-ta-produktsiia/ahro/`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/em-hrshch.css" />
-</head>
-<body>
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
 
-<Header activePage="produktsiia" />
-
-<Breadcrumbs current="Електрощити для агрогосподарств" />
-
-<!-- HERO — зелений -->
-<div class="em-hero-product">
-  <div class="em-hero-product-inner">
-    <div class="em-hero-product-text">
-      <h1>Виготовлення електрощитів для тваринницьких ферм та агрогосподарств на замовлення</h1>
-      <p class="em-hero-product-lead">Виготовляємо щити керування для автоматизації малих і середніх агрогосподарств: вентиляція, аерація, кормові системи. Робота за схемами замовника або розробка схеми з нуля. Київ, Київська область та вся Україна.</p>
-      <div class="em-hero-badges">
-        <div class="em-badge"><strong>від 1 тижня</strong> — виготовлення</div>
-        <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
-        <div class="em-badge"><strong>25 років</strong> — досвід</div>
-        <div class="em-badge"><strong>по всій</strong> Україні</div>
+  <div class="em-hero-product">
+    <div class="em-hero-product-inner">
+      <div class="em-hero-product-text">
+        <h1>Виготовлення електрощитів для агрогосподарств на замовлення</h1>
+        <p class="em-hero-product-lead">Виготовляємо електрощити для агропромислових об'єктів: керування вентиляцією, аерацією, кормовими системами, насосами та іншими споживачами. Захист від вологи та агресивного середовища. Київ, Київська область та вся Україна.</p>
+        <div class="em-hero-badges">
+          <div class="em-badge"><strong>IP54–IP65</strong> — захист корпусу</div>
+          <div class="em-badge"><strong>від 2 тижнів</strong> — виготовлення</div>
+          <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
+          <div class="em-badge"><strong>25 років</strong> — досвід</div>
+        </div>
+        <div class="em-hero-product-actions">
+          <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
+        </div>
+        <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
       </div>
-      <div class="em-hero-product-actions">
-        <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
-      </div>
-      <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
-    </div>
-    <div class="em-hero-collage">
-      <div class="em-hero-collage-item">
-        <img src="/images/ahro/ahro-ventyliatsiia-hodivlia-panel-kyiv-2026-06-c1.jpg"
-             alt="Щит керування вентиляторами та годівлею для тваринницької ферми" loading="eager" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/ahro/ahro-shchyt-perelyahy-vnutrishniy-montazh-kyiv-2026-06-c2.jpg"
-             alt="Щит для агрогосподарства — ПЛК, контактори ETI, багаторядний монтаж" loading="eager" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/ahro/ahro-shchyt-schneider-zelio-delta-kyiv-2026-06-c3.jpg"
-             alt="Компактний щит керування Schneider Zelio та частотний перетворювач Delta" loading="lazy" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/ahro/ahro-panel-keruvannia-nasosy-aeratsiia-kyiv-2026-06-c4.jpg"
-             alt="Панель керування насосами аераційної системи" loading="lazy" />
+      <div class="em-hero-collage">
+        <div class="em-hero-collage-item"><img src="/images/ahro/ahro-shchyt-ventilyatsiya-fasad-kyiv-2026-06-c1.jpg" alt="Електрощит агро — керування вентиляцією, фасад" loading="eager" /></div>
+        <div class="em-hero-collage-item"><img src="/images/ahro/ahro-shchyt-vnutrishnii-montazh-kyiv-2026-06-c2.jpg" alt="Внутрішній монтаж агрощита — контактори, автомати, клеми" loading="eager" /></div>
+        <div class="em-hero-collage-item"><img src="/images/ahro/ahro-shchyt-aeratsiya-kyiv-2026-06-c3.jpg" alt="Щит керування аераторами — зерносховище" loading="lazy" /></div>
+        <div class="em-hero-collage-item"><img src="/images/ahro/ahro-shchyt-ip65-korpus-kyiv-2026-06-c4.jpg" alt="Щит у корпусі IP65 — для вологого середовища агропідприємства" loading="lazy" /></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ГАЛЕРЕЯ — білий -->
-<section class="em-section">
-  <span class="em-section-label">Наші роботи</span>
-  <h2>Електрощити для агрогосподарств — фото з нашого виробництва</h2>
-  <div class="em-product-gallery">
-    <div class="em-gallery-item em-gallery-item-large"
-         data-caption="Загальний вигляд великого щита керування — корпус відкритий, внутрішній монтаж"
-         data-full="/images/ahro/ahro-shchyt-zahalnyi-vyhlyad-vidkrytyy-kyiv-2026-06-01.jpg">
-      <img src="/images/ahro/ahro-shchyt-zahalnyi-vyhlyad-vidkrytyy-kyiv-2026-06-01.jpg"
-           alt="Загальний вигляд щита керування для агрогосподарства" width="897" height="1200" loading="lazy" />
+  <section class="em-section">
+    <span class="em-section-label">Наші роботи</span>
+    <h2>Електрощити для агрогосподарств — фото з нашого виробництва</h2>
+    <div class="em-product-gallery">
+      <div class="em-gallery-item em-gallery-item-large" data-caption="Щит керування вентиляцією агрокомплексу — загальний вигляд відкритого щита" data-full="/images/ahro/ahro-shchyt-ventilyatsiya-zahalnyi-kyiv-2026-06-01.jpg"><img src="/images/ahro/ahro-shchyt-ventilyatsiya-zahalnyi-kyiv-2026-06-01.jpg" alt="Щит керування вентиляцією агрокомплексу" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Внутрішній монтаж агрощита — контактори ETI, автомати QF, клемні колодки" data-full="/images/ahro/ahro-vnutrishnii-montazh-kontaktory-kyiv-2026-06-02.jpg"><img src="/images/ahro/ahro-vnutrishnii-montazh-kontaktory-kyiv-2026-06-02.jpg" alt="Внутрішній монтаж агрощита — контактори ETI та автомати" width="1200" height="900" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Щит керування аераторами — зерносховище, 4 аератори, авт/ручний режим" data-full="/images/ahro/ahro-aeratsiya-4-aeratory-kyiv-2026-06-03.jpg"><img src="/images/ahro/ahro-aeratsiya-4-aeratory-kyiv-2026-06-03.jpg" alt="Щит керування аераторами зерносховища — 4 аератори" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Захищений корпус IP65 для встановлення у вологих та пилових приміщеннях" data-full="/images/ahro/ahro-korpus-ip65-vologyi-kyiv-2026-06-04.jpg"><img src="/images/ahro/ahro-korpus-ip65-vologyi-kyiv-2026-06-04.jpg" alt="Агрощит у захищеному корпусі IP65" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Частотний перетворювач WEG у щиті агрокомплексу — м'який пуск аератора" data-full="/images/ahro/ahro-chastotnyy-weg-aerator-kyiv-2026-06-05.jpg"><img src="/images/ahro/ahro-chastotnyy-weg-aerator-kyiv-2026-06-05.jpg" alt="Частотний перетворювач WEG у щиті керування аераторами" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Кормова система — щит керування шнеками та транспортерами агрокомплексу" data-full="/images/ahro/ahro-kormova-systema-shneka-kyiv-2026-06-06.jpg"><img src="/images/ahro/ahro-kormova-systema-shneka-kyiv-2026-06-06.jpg" alt="Щит керування кормовою системою — шнеки агрокомплексу" width="1200" height="900" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Клемні колодки з маркуванням — підключення споживачів агрощита" data-full="/images/ahro/ahro-klemy-markuvannia-kyiv-2026-06-07.jpg"><img src="/images/ahro/ahro-klemy-markuvannia-kyiv-2026-06-07.jpg" alt="Клемні колодки з маркуванням у агрощиті" width="1200" height="900" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Готовий агрощит — закритий, підготовлений до відправки на об'єкт" data-full="/images/ahro/ahro-gotovyi-shchyt-vidpravka-kyiv-2026-06-08.jpg"><img src="/images/ahro/ahro-gotovyi-shchyt-vidpravka-kyiv-2026-06-08.jpg" alt="Готовий електрощит для агрогосподарства" width="900" height="1200" loading="lazy" /></div>
     </div>
-    <div class="em-gallery-item"
-         data-caption="Внутрішній монтаж — контактори ETI, багаторядний монтаж, маркування"
-         data-full="/images/ahro/ahro-vnutrishniy-montazh-eti-kontaktory-kyiv-2026-06-02.jpg">
-      <img src="/images/ahro/ahro-vnutrishniy-montazh-eti-kontaktory-kyiv-2026-06-02.jpg"
-           alt="Внутрішній монтаж щита — контактори ETI та клемний ряд" width="1200" height="897" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Внутрішній монтаж — рубильник 100А ETI, контактори, шини живлення"
-         data-full="/images/ahro/ahro-vnutrishniy-montazh-rubylnyk-100a-kyiv-2026-06-03.jpg">
-      <img src="/images/ahro/ahro-vnutrishniy-montazh-rubylnyk-100a-kyiv-2026-06-03.jpg"
-           alt="Внутрішній монтаж щита з рубильником ETI 100А" width="1200" height="675" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Фасад щита керування — аварійна кнопка Stop, кнопки пуск/стоп з підписами"
-         data-full="/images/ahro/ahro-fasad-shafa-keruvannia-avariyni-kyiv-2026-06-04.jpg">
-      <img src="/images/ahro/ahro-fasad-shafa-keruvannia-avariyni-kyiv-2026-06-04.jpg"
-           alt="Фасад шафи керування — кнопка аварійного стопу та кнопки пуск/стоп" width="940" height="1058" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Компактний щит на верстаку — Schneider, ПЛК, частотний перетворювач"
-         data-full="/images/ahro/ahro-kompaktnyy-shchyt-verstak-schneider-kyiv-2026-06-05.jpg">
-      <img src="/images/ahro/ahro-kompaktnyy-shchyt-verstak-schneider-kyiv-2026-06-05.jpg"
-           alt="Компактний щит керування Schneider із ПЛК та ЧП на верстаку" width="1200" height="686" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Крупний план — ПЛК Schneider Zelio, теплообмінник, Schneider TeSys"
-         data-full="/images/ahro/ahro-plk-zelio-schneider-krupnyy-plan-kyiv-2026-06-06.jpg">
-      <img src="/images/ahro/ahro-plk-zelio-schneider-krupnyy-plan-kyiv-2026-06-06.jpg"
-           alt="ПЛК Schneider Zelio та контактори TeSys у щиті керування" width="771" height="1200" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Крупний план — ПЛК АДУТ МС-6, контактори ETI, чітке маркування жил"
-         data-full="/images/ahro/ahro-plk-adut-eti-kontaktory-markuvannia-kyiv-2026-06-07.jpg">
-      <img src="/images/ahro/ahro-plk-adut-eti-kontaktory-markuvannia-kyiv-2026-06-07.jpg"
-           alt="ПЛК АДУТ та контактори ETI з маркуванням жил" width="675" height="1200" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Внутрішня дверця — кнопки та перемикачі панелі керування з нумерацією"
-         data-full="/images/ahro/ahro-dvirtsia-peremikachy-panel-keruvannia-kyiv-2026-06-08.jpg">
-      <img src="/images/ahro/ahro-dvirtsia-peremikachy-panel-keruvannia-kyiv-2026-06-08.jpg"
-           alt="Панель дверці щита — перемикачі та кнопки з нумерацією" width="897" height="1200" loading="lazy" />
+    <div class="em-gallery-cta"><a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a></div>
+  </section>
+
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Застосування</span>
+      <h2>Для яких агрооб'єктів виготовляємо щити</h2>
+      <p class="em-lead">Агропромислові об'єкти мають специфічні вимоги до електрообладнання — підвищена вологість, пил, агресивне середовище, сезонна зміна навантажень.</p>
+      <div class="em-objects-grid">
+        <div class="em-object-card"><div class="em-object-num">01</div><h3>Зернові комплекси та елеватори</h3><p>Керування аераторами, транспортерами, нориями та сушарками зерна.</p></div>
+        <div class="em-object-card"><div class="em-object-num">02</div><h3>Тваринницькі комплекси</h3><p>Вентиляція та опалення свинарників, корівників, птахофабрик. Кормові системи та водопостачання.</p></div>
+        <div class="em-object-card"><div class="em-object-num">03</div><h3>Насосні станції</h3><p>Зрошення, водопостачання агропідприємств — керування насосами з автоматичним або ручним режимом.</p></div>
+        <div class="em-object-card"><div class="em-object-num">04</div><h3>Тепличні господарства</h3><p>Керування освітленням, вентиляцією, опаленням та поливними системами теплиць.</p></div>
+        <div class="em-object-card"><div class="em-object-num">05</div><h3>Сушарки та сортувальні лінії</h3><p>Технологічні лінії з кількома споживачами та блокуваннями — реалізуємо на реле або ПЛК.</p></div>
+        <div class="em-object-card"><div class="em-object-num">06</div><h3>Підрядні організації</h3><p>Електромонтажні компанії, які ведуть роботи на агрооб'єктах і потребують щит за схемою замовника.</p></div>
+      </div>
     </div>
   </div>
-  <div class="em-gallery-cta">
-    <a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a>
-  </div>
-</section>
 
-<!-- ДЕ ЗАСТОСОВУЄТЬСЯ — зелений -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Застосування</span>
-    <h2>Де застосовується</h2>
-    <p class="em-lead">Щити для агрогосподарств встановлюють там, де потрібна автоматизація технологічних процесів тваринництва та рослинництва.</p>
-    <div class="em-objects-grid">
-      <div class="em-object-card"><div class="em-object-num">01</div><h3>Корівники та молочні ферми</h3><p>Автоматизація вентиляції, обігріву та підтримки мікроклімату в приміщеннях для худоби.</p></div>
-      <div class="em-object-card"><div class="em-object-num">02</div><h3>Свинарники та птахофабрики</h3><p>Керування системами вентиляції та кліматичного контролю за датчиками температури і вологості.</p></div>
-      <div class="em-object-card"><div class="em-object-num">03</div><h3>Гноєсховища та аераційні системи</h3><p>Керування компресорами та насосами при переробці відходів тваринництва в органічні добрива.</p></div>
-      <div class="em-object-card"><div class="em-object-num">04</div><h3>Зерносховища та склади</h3><p>Автоматичне керування вентиляцією для збереження якості зерна та сипких матеріалів.</p></div>
-      <div class="em-object-card"><div class="em-object-num">05</div><h3>Кормові комплекси</h3><p>Автоматизація міксерів, шнеків та транспортерів подачі корму.</p></div>
-      <div class="em-object-card"><div class="em-object-num">06</div><h3>Підрядні організації</h3><p>Електромонтажні компанії, які ведуть монтаж на агропромислових об'єктах і потребують щит за схемою замовника.</p></div>
-    </div>
-  </div>
-</div>
-
-<!-- ЯКІ ЩИТИ ВИГОТОВЛЯЄМО — білий -->
-<section class="em-section">
-  <span class="em-section-label">Продукція</span>
-  <h2>Які щити виготовляємо</h2>
-  <div class="em-objects-grid">
-    <div class="em-object-card">
-      <h3>Щити керування вентиляцією</h3>
-      <p>Для корівників, свинарників, складських приміщень. Автоматична підтримка мікроклімату — за датчиком температури, вологості або за розкладом.</p>
-    </div>
-    <div class="em-object-card">
-      <h3>Щити керування аерацією</h3>
-      <p>Для гноєсховищ і лагун. Керування роботою компресорів та насосів при аерації — як частина технології переробки відходів у добрива.</p>
-    </div>
-    <div class="em-object-card">
-      <h3>Щити керування кормовими системами</h3>
-      <p>Автоматизація роботи міксерів, шнеків і транспортерів. Задається режим роботи — щит виконує за заданим алгоритмом без участі оператора.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ХАРАКТЕРИСТИКИ — зелений -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
+  <section class="em-section">
     <span class="em-section-label">Характеристики</span>
-    <h2>Технічні характеристики</h2>
+    <h2>Технічні характеристики електрощитів для агро</h2>
     <table class="em-specs-table">
       <tbody>
-        <tr><td class="em-specs-label">Типи керованого обладнання</td><td class="em-specs-value">Вентилятори, насоси, компресори, шнеки, міксери, транспортери</td></tr>
-        <tr><td class="em-specs-label">Режими керування</td><td class="em-specs-value">Ручний / Автоматичний / За датчиком / За розкладом</td></tr>
+        <tr><td class="em-specs-label">Ступінь захисту корпусу</td><td class="em-specs-value">IP54–IP65 — залежно від умов середовища</td></tr>
+        <tr><td class="em-specs-label">Напруга живлення</td><td class="em-specs-value">220В / 380В</td></tr>
+        <tr><td class="em-specs-label">Типи споживачів</td><td class="em-specs-value">Вентилятори, насоси, шнеки, аератори, обігрівачі</td></tr>
+        <tr><td class="em-specs-label">Режими керування</td><td class="em-specs-value">Ручний / Автоматичний / Від датчиків</td></tr>
+        <tr><td class="em-specs-label">Автоматизація</td><td class="em-specs-value">Від датчиків температури, вологості, рівня — за ТЗ</td></tr>
         <tr><td class="em-specs-label">Виготовлення за схемами замовника</td><td class="em-specs-value">Так</td></tr>
         <tr><td class="em-specs-label">Розробка схем під ТЗ</td><td class="em-specs-value">Так</td></tr>
-        <tr><td class="em-specs-label">Ступінь захисту корпусу (IP)</td><td class="em-specs-value">Підбирається відповідно до умов — для вологих приміщень IP54/IP65</td></tr>
         <tr><td class="em-specs-label">Гарантія</td><td class="em-specs-value">12 місяців</td></tr>
-        <tr><td class="em-specs-label">Термін виготовлення</td><td class="em-specs-value">Від 1 тижня, узгоджується при постановці у виготовлення</td></tr>
+        <tr><td class="em-specs-label">Терміни виготовлення</td><td class="em-specs-value">від 2 тижнів</td></tr>
         <tr><td class="em-specs-label">Доставка</td><td class="em-specs-value">Київ, Київська область, вся Україна</td></tr>
       </tbody>
     </table>
-  </div>
-</div>
+  </section>
 
-<!-- КОМПОНЕНТИ — білий -->
-<section class="em-section">
-  <span class="em-section-label">Компоненти</span>
-  <h2>Компоненти та виробники</h2>
-  <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
-  <div class="em-brands">
-    <div class="em-brands-group">
-      <div class="em-brands-group-label">Основні бренди</div>
-      <div class="em-brands-row">
-        <div class="em-brand-pill">ETI</div>
-        <div class="em-brand-pill">Hager</div>
-        <div class="em-brand-pill">Schneider Electric</div>
-        <div class="em-brand-pill">Eaton</div>
-      </div>
-    </div>
-    <div class="em-brands-group">
-      <div class="em-brands-group-label">Економ-комплектація</div>
-      <div class="em-brands-row">
-        <div class="em-brand-pill secondary">E-Next</div>
-        <div class="em-brand-pill secondary">Asko</div>
-        <div class="em-brand-pill secondary">Chint</div>
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Компоненти</span>
+      <h2>Компоненти та виробники</h2>
+      <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
+      <div class="em-brands">
+        <div class="em-brands-group"><div class="em-brands-group-label">Основні бренди</div><div class="em-brands-row"><div class="em-brand-pill">ETI</div><div class="em-brand-pill">Hager</div><div class="em-brand-pill">Schneider Electric</div><div class="em-brand-pill">Eaton</div></div></div>
+        <div class="em-brands-group"><div class="em-brands-group-label">Економ-комплектація</div><div class="em-brands-row"><div class="em-brand-pill secondary">E-Next</div><div class="em-brand-pill secondary">Asko</div><div class="em-brand-pill secondary">Chint</div></div></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ЯК МИ ПРАЦЮЄМО — зелений -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Як ми працюємо</span>
-    <h2>5 кроків від ТЗ до готового щита</h2>
-    <div class="em-steps-row">
-      <div class="em-step"><div class="em-step-num">01</div><h3>Технічне завдання</h3><p>Надсилаєте ТЗ, схему або описуєте задачу. Приймаємо PDF, DWG, фото, усний опис.</p></div>
-      <div class="em-step"><div class="em-step-num">02</div><h3>Розрахунок та схема</h3><p>Розробляємо або перевіряємо схему, узгоджуємо вартість та строки. Відповідаємо за 1–2 дні.</p></div>
-      <div class="em-step"><div class="em-step-num">03</div><h3>Оплата</h3><p>Часткова або повна — після цього запускаємо щит у виробництво.</p></div>
-      <div class="em-step"><div class="em-step-num">04</div><h3>Збірка та перевірка</h3><p>Збираємо у Києві. Маркуємо, перевіряємо кожен щит перед відправкою.</p></div>
-      <div class="em-step"><div class="em-step-num">05</div><h3>Передача з документацією</h3><p>Доставка по Києву та Київській обл. або Нова Пошта. Паспорт виробу та схема — у щиті.</p></div>
+  <section class="em-section">
+    <span class="em-section-label">Переваги</span>
+    <h2>Чому замовляють у нас</h2>
+    <div class="em-why-grid">
+      <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та агропромислових об'єктів.</p></div>
+      <div class="em-why-card"><h3>Корпуси для агресивного середовища</h3><p>Підбираємо корпуси з підвищеним ступенем захисту IP для роботи у вологих, запилених та хімічно агресивних середовищах.</p></div>
+      <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть опис задачі. Розробимо схему та узгодимо з вами.</p></div>
+      <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
+      <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
+      <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- ПЕРЕВАГИ — білий -->
-<section class="em-section">
-  <span class="em-section-label">Переваги</span>
-  <h2>Чому замовляють у нас</h2>
-  <div class="em-why-grid">
-    <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
-    <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
-    <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо проєкту ще немає — розробимо схему керування за описом задачі.</p></div>
-    <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
-    <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
-    <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
-  </div>
-</section>
-
-<!-- FAQ — зелений (відомий баг: два зелених підряд з ContactBlock) -->
-<FaqAccordion items={faqItems} sectionTitle="Питання про щити для агрогосподарств" />
-
-<!-- КОНТАКТНИЙ БЛОК — зелений -->
-<ContactBlock title="Готові обговорити ваше замовлення — електрощити для агрогосподарств" />
-
-<!-- ТАКОЖ ВИГОТОВЛЯЄМО — білий -->
-<AlsoMake currentSlug="ahro" />
-
-<Footer />
-<Lightbox />
-<script is:inline src="/js/em-site.js"></script>
-</body>
-</html>
+  <FaqAccordion items={faqItems} sectionTitle="Питання про електрощити для агрогосподарств" />
+  <ContactBlock title="Готові обговорити ваше замовлення — електрощит для агро" />
+  <AlsoMake currentSlug="ahro" />
+  <Lightbox />
+  <script is:inline src="/js/em-site.js"></script>
+</BaseLayout>

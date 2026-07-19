@@ -1,430 +1,139 @@
 ---
 import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
+import Lightbox from '../../components/Lightbox.astro';
 
-const title = "Виготовлення щитів керування зенітними ліхтарями — Київ та область | elektroschit.com.ua";
-const description = "Виготовлення щитів керування зенітними ліхтарями, фрамугами та люками. Протипожежна автоматика, зонування, провітрювання. Гарантія 12 міс. Київ та вся Україна.";
+const page = {
+  section:     'produktsiia',
+  title:       'Щити керування зенітними ліхтарями на замовлення | elektroschit.com.ua',
+  description: 'Виготовлення щитів керування зенітними ліхтарями, фрамугами та люками. Автоматичне відкриття від пожежної сигналізації. Гарантія 12 місяців. Київ та вся Україна.',
+  canonical:   `${SITE_CANONICAL}/posluhy-ta-produktsiia/zenitni-lihtari/`,
+  crumbs: [
+    { label: 'Головна',   href: '/' },
+    { label: 'Продукція', href: '/posluhy-ta-produktsiia/' },
+    { label: 'Щити керування зенітними ліхтарями' },
+  ],
+};
 
 const faqItems = [
-  {
-    q: "Що робити, якщо готової схеми немає?",
-    a: "Надішліть опис задачі — які приводи, скільки зон, які режими роботи. Розробимо принципову схему самостійно та узгодимо з вами перед початком виготовлення."
-  },
-  {
-    q: "Чи можна надати свої компоненти для збірки?",
-    a: "Ні. Ми самостійно закуповуємо все обладнання відповідно до узгодженої специфікації і передаємо замовнику готовий виріб з гарантією. Це дозволяє нам відповідати за якість щита від початку до кінця."
-  },
-  {
-    q: "Яку документацію ви передаєте разом зі щитом?",
-    a: "Паспорт виробу та принципову схему. Документи вкладаються безпосередньо у щит."
-  },
-  {
-    q: "Чи потрібен ПЛК, чи достатньо релейної схеми?",
-    a: "Залежить від задачі. Якщо зон небагато і логіка проста — реалізуємо на релейно-контакторній схемі: це надійно і дешевше. Якщо логіка складна або зон багато — інтегруємо ПЛК і розробляємо програму під задачу. Завжди вибираємо рішення виходячи з доцільності."
-  },
-  {
-    q: "Чи підходить щит для будь-яких приводів фрамуг?",
-    a: "Так. Виготовляємо щити під приводи будь-якого виробника. Для розробки або адаптації схеми нам потрібні паспортні дані приводів — назва, модель або технічна документація. За цими даними ми підбираємо або розробляємо схему керування та узгоджуємо її з замовником."
-  },
-  {
-    q: "Чи можна керувати кількома зонами незалежно?",
-    a: "Так. Реалізуємо зональне керування будь-якою кількістю груп приводів. Кожна зона відкривається і закривається незалежно — автоматично або вручну. Головне, щоб зонування було передбачено в проектній документації або зазначено в технічному завданні."
-  },
-  {
-    q: "Чи інтегрується щит з пожежною сигналізацією будь-якого виробника?",
-    a: "Так. Працюємо від сигналу будь-якої АУПС — як правило це нормально-відкритий або нормально-закритий контакт. Якщо проект передбачає інший тип сигналу — адаптуємо рішення до вимог проекту."
-  },
-  {
-    q: "Який термін виготовлення?",
-    a: "Від 2 тижнів. Точний термін узгоджується при постановці у виготовлення — залежить від складності схеми та завантаження виробництва."
-  }
+  { q: "Що робити, якщо готової схеми немає?", a: "Надішліть опис задачі — скільки зенітних ліхтарів або фрамуг, які приводи, які режими роботи потрібні. Розробимо принципову схему самостійно та узгодимо з вами перед початком виготовлення." },
+  { q: "Чи можна надати свої компоненти для збірки?", a: "Ні. Ми самостійно закуповуємо все обладнання відповідно до узгодженої специфікації і передаємо замовнику готовий виріб з гарантією." },
+  { q: "Чи інтегрується щит з пожежною сигналізацією будь-якого виробника?", a: "Так. Працюємо від сигналу будь-якої АУПС — як правило це нормально-відкритий або нормально-закритий контакт." },
+  { q: "Чи можна керувати кількома зонами незалежно?", a: "Так. Реалізуємо незалежне зональне керування — кожна група ліхтарів або фрамуг спрацьовує окремо. Кількість зон визначається проєктом або технічним завданням." },
+  { q: "Чи можна організувати провітрювання за розкладом?", a: "Так, якщо в схемі передбачений таймер або ПЛК. Реалізуємо автоматичне відкриття/закриття за часовою програмою — наприклад, для провітрювання на початку і в кінці робочого дня." },
+  { q: "Яку документацію ви передаєте разом зі щитом?", a: "Паспорт виробу та принципову схему. Документи вкладаються безпосередньо у щит." },
+  { q: "Який термін виготовлення?", a: "Від 2 тижнів. Точний термін узгоджується після отримання технічного завдання або схеми." },
 ];
 ---
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={`${SITE_CANONICAL}/posluhy-ta-produktsiia/zenitni-lihtari/`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/em-hrshch.css" />
-</head>
-<body>
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
 
-<Header activePage="produktsiia" />
-
-<Breadcrumbs current="Щити керування зенітними ліхтарями" />
-
-<!-- HERO — центрований, без фото -->
-<div class="em-hero-product em-hero-product--centered">
-  <div class="em-hero-product-inner-centered">
-    <span class="em-section-label">Продукція</span>
-    <h1>Виготовлення щитів керування зенітними ліхтарями на замовлення</h1>
-    <p class="em-hero-product-lead">Виготовляємо щити керування приводами фрамуг, люків та зенітних ліхтарів будь-якої складності. Протипожежне відкриття від АУПС, зональне керування, провітрювання за розкладом або сигналом — під ваше технічне завдання. Київ, Київська область та вся Україна.</p>
-    <div class="em-hero-badges">
-      <div class="em-badge"><strong>від 1 зони</strong> і більше</div>
-      <div class="em-badge"><strong>від 2 тижнів</strong> — виготовлення</div>
-      <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
-      <div class="em-badge"><strong>25 років</strong> — досвід</div>
-    </div>
-    <div class="em-hero-product-actions">
-      <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
-    </div>
-    <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
-  </div>
-</div>
-
-<!-- ФУНКЦІЇ ЩИТА — білий фон -->
-<section class="em-section">
-  <span class="em-section-label">Можливості</span>
-  <h2>Функції щита керування зенітними ліхтарями</h2>
-  <p class="em-lead">Конкретний склад функцій визначається технічним завданням і проектною документацією.</p>
-  <div class="em-functions-grid">
-    <div class="em-function-card">
-      <div class="em-function-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-        </svg>
+  <div class="em-hero-product">
+    <div class="em-hero-product-inner">
+      <div class="em-hero-product-text">
+        <h1>Виготовлення щитів керування зенітними ліхтарями на замовлення</h1>
+        <p class="em-hero-product-lead">Виготовляємо щити керування зенітними ліхтарями, фрамугами та люками для промислових і комерційних будівель. Автоматичне відкриття від пожежної сигналізації, ручне і дистанційне керування — під ваше технічне завдання. Київ, Київська область та вся Україна.</p>
+        <div class="em-hero-badges">
+          <div class="em-badge"><strong>від 1 зони</strong> і більше</div>
+          <div class="em-badge"><strong>від 2 тижнів</strong> — виготовлення</div>
+          <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
+          <div class="em-badge"><strong>25 років</strong> — досвід</div>
+        </div>
+        <div class="em-hero-product-actions">
+          <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
+        </div>
+        <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
       </div>
-      <h3>Протипожежна автоматика</h3>
-      <p>Автоматичне відкриття фрамуг і люків за сигналом АУПС. Працюємо від сигналу будь-якої пожежної сигналізації — нормально-відкритий або нормально-закритий контакт.</p>
-    </div>
-    <div class="em-function-card">
-      <div class="em-function-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-        </svg>
-      </div>
-      <h3>Зональне керування</h3>
-      <p>Незалежне керування окремими групами приводів. Кожна зона відкривається і закривається автоматично або вручну. Кількість зон — за проектом або ТЗ.</p>
-    </div>
-    <div class="em-function-card">
-      <div class="em-function-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
-      </div>
-      <h3>Провітрювання</h3>
-      <p>Відкриття за розкладом, температурним датчиком або дистанційною командою оператора. Режим провітрювання налаштовується незалежно від протипожежного.</p>
-    </div>
-    <div class="em-function-card">
-      <div class="em-function-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
-        </svg>
-      </div>
-      <h3>Сигналізація положення</h3>
-      <p>Індикація стану кожної зони: відкрито / закрито / аварія. За вимогою замовника — виведення сигналів на диспетчеризацію або систему верхнього рівня.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ЩО ЦЕ ТАКЕ — зелений фон -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Про продукт</span>
-    <h2>Що таке щит керування зенітними ліхтарями</h2>
-    <p class="em-lead">Щит керування зенітними ліхтарями — це апаратура автоматизації, яка керує електроприводами відкривання прорізів у покрівлі будівлі: фрамугами, люками, зенітними ліхтарями.</p>
-    <div class="em-about-grid">
-      <div class="em-about-item">
-        <div class="em-about-num">01</div>
-        <p>Залежно від об'єкта щит може виконувати одразу кілька функцій: протипожежне відкриття за сигналом АУПС, провітрювання за розкладом або температурним датчиком, зональне керування окремими групами приводів.</p>
-      </div>
-      <div class="em-about-item">
-        <div class="em-about-num">02</div>
-        <p>Конкретний склад функцій визначається технічним завданням і проектною документацією. Виготовляємо як за готовою схемою замовника, так і розробляємо схему самостійно під ваше ТЗ.</p>
-      </div>
-      <div class="em-about-item">
-        <div class="em-about-num">03</div>
-        <p>Реалізація може бути релейно-контакторною або на базі ПЛК — залежно від складності логіки та кількості зон. Вибираємо рішення виходячи з доцільності та бюджету.</p>
+      <div class="em-hero-collage">
+        <div class="em-hero-collage-item"><img src="/images/zenitni-lihtari/zenitni-lihtari-fasad-shchyt-kyiv-2026-06-c1.jpg" alt="Щит керування зенітними ліхтарями — фасад з кнопками та перемикачами" loading="eager" /></div>
+        <div class="em-hero-collage-item"><img src="/images/zenitni-lihtari/zenitni-lihtari-vnutrishnii-montazh-kyiv-2026-06-c2.jpg" alt="Внутрішній монтаж щита керування зенітними ліхтарями" loading="eager" /></div>
+        <div class="em-hero-collage-item"><img src="/images/zenitni-lihtari/zenitni-lihtari-plk-ovr-pr100-kyiv-2026-06-c3.jpg" alt="Щит з ПЛК OVR PR-100 для керування зенітними ліхтарями" loading="lazy" /></div>
+        <div class="em-hero-collage-item"><img src="/images/zenitni-lihtari/zenitni-lihtari-rele-kontaktory-kyiv-2026-06-c4.jpg" alt="Реле та контактори у щиті керування зенітними ліхтарями" loading="lazy" /></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ДЕ ЗАСТОСОВУЄТЬСЯ — білий фон -->
-<section class="em-section">
-  <span class="em-section-label">Застосування</span>
-  <h2>Де застосовується</h2>
-  <p class="em-lead">Щити керування зенітними ліхтарями встановлюють там, де потрібне автоматичне або дистанційне керування відкриттям покрівельних прорізів.</p>
-  <div class="em-objects-grid">
-    <div class="em-object-card">
-      <div class="em-object-num">01</div>
-      <h3>Склади та логістичні центри</h3>
-      <p>Димовидалення через покрівлю, природне провітрювання великих прольотів.</p>
+  <section class="em-section">
+    <span class="em-section-label">Наші роботи</span>
+    <h2>Виготовлення щитів для зенітних ліхтарів — фото з виробництва</h2>
+    <div class="em-product-gallery">
+      <div class="em-gallery-item em-gallery-item-large" data-caption="Щит керування зенітними ліхтарями — загальний вигляд відкритого щита" data-full="/images/zenitni-lihtari/zenitni-lihtari-zahalnyi-vyhlyad-kyiv-2026-06-01.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-zahalnyi-vyhlyad-kyiv-2026-06-01.jpg" alt="Щит керування зенітними ліхтарями — загальний вигляд" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Фасад щита — перемикачі Авт/Руч, кнопки Відкрити/Закрити, лампи індикації по зонах" data-full="/images/zenitni-lihtari/zenitni-lihtari-fasad-shchyt-kyiv-2026-06-02.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-fasad-shchyt-kyiv-2026-06-02.jpg" alt="Фасад щита керування зенітними ліхтарями" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Внутрішній монтаж — автомати QF, контактори KM, реле K, клемні колодки" data-full="/images/zenitni-lihtari/zenitni-lihtari-vnutrishnii-montazh-kyiv-2026-06-03.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-vnutrishnii-montazh-kyiv-2026-06-03.jpg" alt="Внутрішній монтаж щита зенітних ліхтарів" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="ПЛК OVR PR-100 — програмований логічний контролер для керування зонами ліхтарів" data-full="/images/zenitni-lihtari/zenitni-lihtari-plk-ovr-pr100-kyiv-2026-06-04.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-plk-ovr-pr100-kyiv-2026-06-04.jpg" alt="ПЛК OVR PR-100 у щиті керування зенітними ліхтарями" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Реле керування K1–K4 та контактори KM1–KM2 — нижня секція монтажу" data-full="/images/zenitni-lihtari/zenitni-lihtari-rele-kontaktory-kyiv-2026-06-05.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-rele-kontaktory-kyiv-2026-06-05.jpg" alt="Реле та контактори у щиті зенітних ліхтарів" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Клемні колодки з маркуванням — підключення приводів зенітних ліхтарів" data-full="/images/zenitni-lihtari/zenitni-lihtari-klemy-markuvannia-kyiv-2026-06-06.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-klemy-markuvannia-kyiv-2026-06-06.jpg" alt="Клемні колодки та маркування у щиті зенітних ліхтарів" width="1200" height="900" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Готовий щит — закритий, підготовлений до відправки замовнику" data-full="/images/zenitni-lihtari/zenitni-lihtari-gotovyi-shchyt-kyiv-2026-06-07.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-gotovyi-shchyt-kyiv-2026-06-07.jpg" alt="Готовий щит керування зенітними ліхтарями" width="900" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Принципова схема всередині дверцят — для зручного обслуговування" data-full="/images/zenitni-lihtari/zenitni-lihtari-skhema-dvirtsi-kyiv-2026-06-08.jpg"><img src="/images/zenitni-lihtari/zenitni-lihtari-skhema-dvirtsi-kyiv-2026-06-08.jpg" alt="Принципова схема на дверцятах щита зенітних ліхтарів" width="900" height="1200" loading="lazy" /></div>
     </div>
-    <div class="em-object-card">
-      <div class="em-object-num">02</div>
-      <h3>Виробничі цехи</h3>
-      <p>Аварійне відкриття за сигналом пожежної сигналізації, зональне керування по секціях цеху.</p>
-    </div>
-    <div class="em-object-card">
-      <div class="em-object-num">03</div>
-      <h3>Торгові та розважальні центри</h3>
-      <p>Протипожежна автоматика, провітрювання атріумів, керування по поверхах.</p>
-    </div>
-    <div class="em-object-card">
-      <div class="em-object-num">04</div>
-      <h3>Агропромислові об'єкти</h3>
-      <p>Провітрювання зерносховищ, тваринницьких приміщень — за датчиком температури або вручну.</p>
-    </div>
-    <div class="em-object-card">
-      <div class="em-object-num">05</div>
-      <h3>Підрядні організації</h3>
-      <p>Електромонтажні компанії, які ведуть монтаж систем димовидалення і потребують щит за схемою замовника.</p>
+    <div class="em-gallery-cta"><a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a></div>
+  </section>
+
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Застосування</span>
+      <h2>Де застосовуються щити керування зенітними ліхтарями</h2>
+      <p class="em-lead">Встановлюються на будівлях з природним освітленням або вентиляцією через покрівлю.</p>
+      <div class="em-objects-grid">
+        <div class="em-object-card"><div class="em-object-num">01</div><h3>Складські та логістичні комплекси</h3><p>Природне освітлення та аварійне провітрювання при пожежі через покрівельні ліхтарі.</p></div>
+        <div class="em-object-card"><div class="em-object-num">02</div><h3>Виробничі цехи</h3><p>Природна вентиляція та аварійне димовидалення через зенітні ліхтарі або люки покрівлі.</p></div>
+        <div class="em-object-card"><div class="em-object-num">03</div><h3>Торгові центри та атріуми</h3><p>Автоматичне відкриття при пожежі або провітрювання в теплу пору за розкладом.</p></div>
+        <div class="em-object-card"><div class="em-object-num">04</div><h3>Спортивні та виставкові зали</h3><p>Велика площа даху — природне освітлення та провітрювання з автоматичним керуванням.</p></div>
+        <div class="em-object-card"><div class="em-object-num">05</div><h3>Агропромислові об'єкти</h3><p>Зернові комплекси, тепличні господарства — природна вентиляція та регуляція мікроклімату.</p></div>
+        <div class="em-object-card"><div class="em-object-num">06</div><h3>Підрядні організації</h3><p>Електромонтажні компанії, які ведуть монтаж систем природного освітлення та вентиляції.</p></div>
+      </div>
     </div>
   </div>
-</section>
 
-<!-- ХАРАКТЕРИСТИКИ — зелений фон -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
+  <section class="em-section">
     <span class="em-section-label">Характеристики</span>
     <h2>Технічні характеристики щита керування зенітними ліхтарями</h2>
     <table class="em-specs-table">
       <tbody>
-        <tr><td class="em-specs-label">Кількість зон керування</td><td class="em-specs-value">від 1 і більше — залежно від ТЗ</td></tr>
+        <tr><td class="em-specs-label">Кількість зон керування</td><td class="em-specs-value">від 1 і більше — за проєктом або ТЗ</td></tr>
+        <tr><td class="em-specs-label">Типи приводів</td><td class="em-specs-value">Електромеханічні приводи фрамуг будь-яких виробників</td></tr>
         <tr><td class="em-specs-label">Режими керування</td><td class="em-specs-value">Автоматичний (від АУПС) / Ручний / Дистанційний</td></tr>
-        <tr><td class="em-specs-label">Вхід від АУПС</td><td class="em-specs-value">Нормально-відкритий або нормально-закритий контакт</td></tr>
-        <tr><td class="em-specs-label">Тип приводів</td><td class="em-specs-value">Будь-який — за паспортними даними виробника</td></tr>
+        <tr><td class="em-specs-label">Керування за часовою програмою</td><td class="em-specs-value">За потребою — через таймер або ПЛК</td></tr>
         <tr><td class="em-specs-label">Виготовлення за схемами замовника</td><td class="em-specs-value">Так</td></tr>
         <tr><td class="em-specs-label">Розробка схем під ТЗ</td><td class="em-specs-value">Так</td></tr>
-        <tr><td class="em-specs-label">Термін виготовлення</td><td class="em-specs-value">Від 2 тижнів, узгоджується при постановці у виготовлення</td></tr>
         <tr><td class="em-specs-label">Гарантія</td><td class="em-specs-value">12 місяців</td></tr>
+        <tr><td class="em-specs-label">Терміни виготовлення</td><td class="em-specs-value">від 2 тижнів</td></tr>
         <tr><td class="em-specs-label">Доставка</td><td class="em-specs-value">Київ, Київська область, вся Україна</td></tr>
       </tbody>
     </table>
-  </div>
-</div>
+  </section>
 
-<!-- КОМПОНЕНТИ — білий фон -->
-<section class="em-section">
-  <span class="em-section-label">Компоненти</span>
-  <h2>Компоненти та виробники</h2>
-  <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
-  <div class="em-brands">
-    <div class="em-brands-group">
-      <div class="em-brands-group-label">Основні бренди</div>
-      <div class="em-brands-row">
-        <div class="em-brand-pill">ETI</div>
-        <div class="em-brand-pill">Hager</div>
-        <div class="em-brand-pill">Schneider Electric</div>
-        <div class="em-brand-pill">Eaton</div>
-      </div>
-    </div>
-    <div class="em-brands-group">
-      <div class="em-brands-group-label">Економ-комплектація</div>
-      <div class="em-brands-row">
-        <div class="em-brand-pill secondary">E-Next</div>
-        <div class="em-brand-pill secondary">Asko</div>
-        <div class="em-brand-pill secondary">Chint</div>
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Компоненти</span>
+      <h2>Компоненти та виробники</h2>
+      <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
+      <div class="em-brands">
+        <div class="em-brands-group"><div class="em-brands-group-label">Основні бренди</div><div class="em-brands-row"><div class="em-brand-pill">ETI</div><div class="em-brand-pill">Hager</div><div class="em-brand-pill">Schneider Electric</div><div class="em-brand-pill">Eaton</div></div></div>
+        <div class="em-brands-group"><div class="em-brands-group-label">Економ-комплектація</div><div class="em-brands-row"><div class="em-brand-pill secondary">E-Next</div><div class="em-brand-pill secondary">Asko</div><div class="em-brand-pill secondary">Chint</div></div></div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- ЯК МИ ПРАЦЮЄМО — зелений фон -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Як ми працюємо</span>
-    <h2>5 кроків від ТЗ до готового щита</h2>
-    <div class="em-steps-row">
-      <div class="em-step"><div class="em-step-num">01</div><h3>Технічне завдання</h3><p>Надсилаєте ТЗ, схему або описуєте задачу. Приймаємо PDF, DWG, фото, усний опис.</p></div>
-      <div class="em-step"><div class="em-step-num">02</div><h3>Розрахунок та схема</h3><p>Розробляємо або перевіряємо схему, узгоджуємо вартість та строки. Відповідаємо за 1–2 дні.</p></div>
-      <div class="em-step"><div class="em-step-num">03</div><h3>Оплата</h3><p>Після оплати виріб ставиться у виробництво.</p></div>
-      <div class="em-step"><div class="em-step-num">04</div><h3>Збірка та перевірка</h3><p>Збираємо у Києві. Маркуємо, перевіряємо кожен щит перед відправкою.</p></div>
-      <div class="em-step"><div class="em-step-num">05</div><h3>Передача з документацією</h3><p>Доставка по Києву та Київській обл. або Нова Пошта. Паспорт виробу та схема — у щиті.</p></div>
+  <section class="em-section">
+    <span class="em-section-label">Переваги</span>
+    <h2>Чому замовляють у нас</h2>
+    <div class="em-why-grid">
+      <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
+      <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
+      <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть ТЗ або опис задачі. Розробимо схему та узгодимо з вами.</p></div>
+      <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
+      <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
+      <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- ПЕРЕВАГИ — білий фон -->
-<section class="em-section">
-  <span class="em-section-label">Переваги</span>
-  <h2>Чому замовляють у нас</h2>
-  <div class="em-why-grid">
-    <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
-    <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
-    <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть технічне завдання або опис задачі. Ми розробимо схему та узгодимо з вами.</p></div>
-    <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
-    <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
-    <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<FaqAccordion items={faqItems} sectionTitle="Питання про щити керування зенітними ліхтарями" />
-
-<!-- КОНТАКТНИЙ БЛОК -->
-<ContactBlock title="Готові обговорити ваше замовлення — щит керування зенітними ліхтарями" />
-
-<!-- ТАКОЖ ВИГОТОВЛЯЄМО -->
-<AlsoMake currentSlug="zenitni-lihtari" />
-
-<Footer />
-
-<script is:inline src="/js/em-site.js"></script>
-
-<style>
-/* ════════════════════════════════════════
-   HERO — центрований варіант (без фото)
-════════════════════════════════════════ */
-.em-hero-product--centered {
-  padding: 64px 24px;
-}
-.em-hero-product-inner-centered {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-.em-hero-product-inner-centered h1 {
-  margin-bottom: 20px;
-}
-.em-hero-product-inner-centered .em-hero-product-lead {
-  font-size: 17px;
-  color: var(--c-muted);
-  line-height: 1.65;
-  margin-bottom: 28px;
-  font-family: var(--ff-body);
-}
-.em-hero-product-inner-centered .em-hero-badges {
-  justify-content: center;
-  margin-bottom: 32px;
-}
-.em-hero-product-inner-centered .em-hero-product-actions {
-  justify-content: center;
-  margin-bottom: 14px;
-}
-.em-hero-product-inner-centered .em-hero-product-contact {
-  font-size: 13px;
-  color: var(--c-muted);
-  font-family: var(--ff-body);
-}
-.em-hero-product-inner-centered .em-hero-product-contact a {
-  color: var(--c-text);
-  font-weight: 600;
-  text-decoration: none;
-}
-.em-hero-product-inner-centered .em-hero-product-contact a:hover {
-  color: var(--c-accent);
-}
-
-@media (max-width: 600px) {
-  .em-hero-product--centered { padding: 40px 16px; }
-  .em-hero-product-inner-centered .em-hero-product-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-/* ════════════════════════════════════════
-   ФУНКЦІЇ ЩИТА — 4 картки
-════════════════════════════════════════ */
-.em-functions-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-top: 8px;
-}
-.em-function-card {
-  background: var(--c-bg2);
-  border: 1.5px solid var(--c-accent-border);
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  transition: border-color var(--transition), box-shadow var(--transition);
-}
-.em-function-card:hover {
-  border-color: var(--c-accent);
-  box-shadow: 0 4px 16px var(--c-accent-mid);
-}
-.em-function-icon {
-  width: 48px;
-  height: 48px;
-  background: var(--c-accent-faint);
-  border: 1.5px solid var(--c-accent-border);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-.em-function-icon svg {
-  width: 22px;
-  height: 22px;
-  stroke: var(--c-accent);
-}
-.em-function-card h3 {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: var(--c-head);
-}
-.em-function-card p {
-  font-size: 14px;
-  color: var(--c-muted);
-  line-height: 1.65;
-  font-family: var(--ff-body);
-}
-
-@media (max-width: 600px) {
-  .em-functions-grid { grid-template-columns: 1fr; }
-}
-
-/* ════════════════════════════════════════
-   ЩО ТАКЕ ЩКЗ — 3 пункти
-════════════════════════════════════════ */
-.em-about-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 8px;
-}
-.em-about-item {
-  background: #fff;
-  border: 1.5px solid var(--c-accent-border);
-  border-radius: var(--radius);
-  padding: 24px 20px;
-}
-.em-about-num {
-  font-family: var(--ff);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--c-accent);
-  opacity: 0.15;
-  line-height: 1;
-  margin-bottom: 12px;
-}
-.em-about-item p {
-  font-size: 14px;
-  color: var(--c-muted);
-  line-height: 1.65;
-  font-family: var(--ff-body);
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .em-about-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 600px) {
-  .em-about-grid { grid-template-columns: 1fr; }
-}
-
-/* specs у em-section-alt */
-.em-section-alt .em-specs-table {
-  background: transparent;
-}
-.em-section-alt .em-specs-table tr {
-  border-bottom-color: var(--c-accent-border);
-}
-</style>
-
-</body>
-</html>
+  <FaqAccordion items={faqItems} sectionTitle="Питання про щити керування зенітними ліхтарями" />
+  <ContactBlock title="Готові обговорити ваше замовлення — щит керування зенітними ліхтарями" />
+  <AlsoMake currentSlug="zenitni-lihtari" />
+  <Lightbox />
+  <script is:inline src="/js/em-site.js"></script>
+</BaseLayout>

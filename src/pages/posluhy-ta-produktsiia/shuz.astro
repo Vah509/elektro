@@ -1,245 +1,94 @@
 ---
 import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import Lightbox from '../../components/Lightbox.astro';
 
-const title = "Щити керування засувками (ШУЗ) на замовлення | elektroschit.com.ua";
-const description = "Виготовлення щитів керування електроприводними засувками (ШУЗ) для трубопровідних систем будь-якої складності. Гарантія 12 міс. Київ, Київська область та вся Україна.";
+const page = {
+  section:     'produktsiia',
+  title:       'Щити керування засувками (ШУЗ) на замовлення | elektroschit.com.ua',
+  description: 'Виготовлення щитів керування електроприводними засувками (ШУЗ) для трубопровідних систем будь-якої складності. Гарантія 12 міс. Київ, Київська область та вся Україна.',
+  canonical:   `${SITE_CANONICAL}/posluhy-ta-produktsiia/shuz/`,
+  crumbs: [
+    { label: 'Головна',   href: '/' },
+    { label: 'Продукція', href: '/posluhy-ta-produktsiia/' },
+    { label: 'Щити керування засувками (ШУЗ)' },
+  ],
+};
 
 const faqItems = [
-  {
-    q: "Що робити, якщо готової схеми немає?",
-    a: "Надішліть опис задачі — які приводи, скільки, які режими роботи потрібні. Розробимо принципову схему самостійно та узгодимо з вами перед початком виготовлення."
-  },
-  {
-    q: "Чи можна надати свої компоненти для збірки?",
-    a: "Ні. Ми самостійно закуповуємо все обладнання відповідно до узгодженої специфікації і передаємо замовнику готовий виріб з гарантією. Це дозволяє нам відповідати за якість щита від початку до кінця."
-  },
-  {
-    q: "Яку документацію ви передаєте разом зі щитом?",
-    a: "Паспорт виробу та принципову схему. Документи вкладаються безпосередньо у щит."
-  },
-  {
-    q: "Чи потрібен ПЛК, чи достатньо релейної схеми?",
-    a: "Залежить від задачі. Якщо приводів і сигналів небагато — реалізуємо на релейній схемі: надійно і дешевше. Якщо приводів багато або логіка складна — інтегруємо ПЛК. Завжди вибираємо рішення виходячи з доцільності."
-  },
-  {
-    q: "Чи підходить щит для будь-яких електроприводних засувок?",
-    a: "Так. Виготовляємо ШУЗ під приводи будь-якого виробника. Для розробки схеми потрібні паспортні дані приводів — назва, модель або технічна документація."
-  },
-  {
-    q: "Чи можна керувати кількома засувками незалежно?",
-    a: "Так. Кожен привід керується окремо — місцево або дистанційно. Кількість приводів в одному щиті — від 1 до 32 і більше, залежно від технічного завдання."
-  },
-  {
-    q: "Чи інтегрується щит з системою диспетчеризації?",
-    a: "Так, за вимогою замовника. Тип інтеграції визначається проектом або технічним завданням."
-  },
+  { q: "Що робити, якщо готової схеми немає?", a: "Надішліть опис задачі — які приводи, скільки, які режими роботи потрібні. Розробимо принципову схему самостійно та узгодимо з вами перед початком виготовлення." },
+  { q: "Чи можна надати свої компоненти для збірки?", a: "Ні. Ми самостійно закуповуємо все обладнання відповідно до узгодженої специфікації і передаємо замовнику готовий виріб з гарантією. Це дозволяє нам відповідати за якість щита від початку до кінця." },
+  { q: "Яку документацію ви передаєте разом зі щитом?", a: "Паспорт виробу та принципову схему. Документи вкладаються безпосередньо у щит." },
+  { q: "Чи потрібен ПЛК, чи достатньо релейної схеми?", a: "Залежить від задачі. Якщо приводів і сигналів небагато — реалізуємо на релейній схемі: надійно і дешевше. Якщо приводів багато або логіка складна — інтегруємо ПЛК. Завжди вибираємо рішення виходячи з доцільності." },
+  { q: "Чи підходить щит для будь-яких електроприводних засувок?", a: "Так. Виготовляємо ШУЗ під приводи будь-якого виробника. Для розробки схеми потрібні паспортні дані приводів — назва, модель або технічна документація." },
+  { q: "Чи можна керувати кількома засувками незалежно?", a: "Так. Кожен привід керується окремо — місцево або дистанційно. Кількість приводів в одному щиті — від 1 до 32 і більше, залежно від технічного завдання." },
+  { q: "Чи інтегрується щит з системою диспетчеризації?", a: "Так, за вимогою замовника. Тип інтеграції визначається проектом або технічним завданням." },
 ];
 ---
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={`${SITE_CANONICAL}/posluhy-ta-produktsiia/shuz/`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/em-hrshch.css" />
-</head>
-<body>
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
 
-<Header activePage="produktsiia" />
-
-<Breadcrumbs current="Щити керування засувками (ШУЗ)" />
-
-<!-- HERO — зелений -->
-<div class="em-hero-product">
-  <div class="em-hero-product-inner">
-    <div class="em-hero-product-text">
-      <h1>Виготовлення щитів керування засувками (ШУЗ) на замовлення</h1>
-      <p class="em-hero-product-lead">Виготовляємо щити керування електроприводними засувками для трубопровідних систем будь-якої складності. Місцеве, дистанційне керування та інтеграція у диспетчеризацію — все в одному щиті під ваше технічне завдання. Київ, Київська область та вся Україна.</p>
-      <div class="em-hero-badges">
-        <div class="em-badge"><strong>від 1 до 32+</strong> приводів</div>
-        <div class="em-badge"><strong>від 1 тижня</strong> — виготовлення</div>
-        <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
-        <div class="em-badge"><strong>25 років</strong> — досвід</div>
+  <div class="em-hero-product">
+    <div class="em-hero-product-inner">
+      <div class="em-hero-product-text">
+        <h1>Виготовлення щитів керування засувками (ШУЗ) на замовлення</h1>
+        <p class="em-hero-product-lead">Виготовляємо щити керування електроприводними засувками для трубопровідних систем будь-якої складності. Місцеве, дистанційне керування та інтеграція у диспетчеризацію — все в одному щиті під ваше технічне завдання. Київ, Київська область та вся Україна.</p>
+        <div class="em-hero-badges">
+          <div class="em-badge"><strong>від 1 до 32+</strong> приводів</div>
+          <div class="em-badge"><strong>від 1 тижня</strong> — виготовлення</div>
+          <div class="em-badge"><strong>12 міс.</strong> — гарантія</div>
+          <div class="em-badge"><strong>25 років</strong> — досвід</div>
+        </div>
+        <div class="em-hero-product-actions">
+          <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
+        </div>
+        <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
       </div>
-      <div class="em-hero-product-actions">
-        <a href="#kontakty-blok" class="em-btn-primary">Замовити / Зв'язатися з нами</a>
-      </div>
-      <p class="em-hero-product-contact">Або зателефонуйте: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
-    </div>
-    <div class="em-hero-collage">
-      <div class="em-hero-collage-item">
-        <img src="/images/shuz/shuz-panel-fasad-kyiv-2026-06-c1.jpg"
-             alt="Щит керування засувкою ШУЗ — фасад панелі з кнопками та сигнальними лампами" loading="eager" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/shuz/shuz-montazh-kontaktory-kyiv-2026-06-c2.jpg"
-             alt="Внутрішній монтаж ШУЗ — контактори KM1/KM2, реле положення, клеми" loading="eager" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/shuz/shuz-povnyi-vyhlyad-kyiv-2026-06-c3.jpg"
-             alt="ШУЗ — повний вигляд відкритого щита з двома секціями" loading="lazy" />
-      </div>
-      <div class="em-hero-collage-item">
-        <img src="/images/shuz/shuz-dvirtsi-lampy-kyiv-2026-06-c4.jpg"
-             alt="Дверці ШУЗ зсередини — сигнальні лампи та кнопки керування" loading="lazy" />
+      <div class="em-hero-collage">
+        <div class="em-hero-collage-item"><img src="/images/shuz/shuz-panel-fasad-kyiv-2026-06-c1.jpg" alt="Щит керування засувкою ШУЗ — фасад панелі з кнопками та сигнальними лампами" loading="eager" /></div>
+        <div class="em-hero-collage-item"><img src="/images/shuz/shuz-montazh-kontaktory-kyiv-2026-06-c2.jpg" alt="Внутрішній монтаж ШУЗ — контактори KM1/KM2, реле положення, клеми" loading="eager" /></div>
+        <div class="em-hero-collage-item"><img src="/images/shuz/shuz-povnyi-vyhlyad-kyiv-2026-06-c3.jpg" alt="ШУЗ — повний вигляд відкритого щита з двома секціями" loading="lazy" /></div>
+        <div class="em-hero-collage-item"><img src="/images/shuz/shuz-dvirtsi-lampy-kyiv-2026-06-c4.jpg" alt="Дверці ШУЗ зсередини — сигнальні лампи та кнопки керування" loading="lazy" /></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ГАЛЕРЕЯ — білий -->
-<section class="em-section">
-  <span class="em-section-label">Наші роботи</span>
-  <h2>Виготовлення ШУЗ — фото з нашого виробництва</h2>
-  <div class="em-product-gallery">
-    <div class="em-gallery-item em-gallery-item-large"
-         data-caption="ШУЗ — повний вигляд відкритого щита, дві секції монтажу"
-         data-full="/images/shuz/shuz-povnyi-vyhlyad-kyiv-2026-06-01.jpg">
-      <img src="/images/shuz/shuz-povnyi-vyhlyad-kyiv-2026-06-01.jpg"
-           alt="ШУЗ — повний вигляд відкритого щита" width="675" height="1200" loading="lazy" />
+  <section class="em-section">
+    <span class="em-section-label">Наші роботи</span>
+    <h2>Виготовлення ШУЗ — фото з нашого виробництва</h2>
+    <div class="em-product-gallery">
+      <div class="em-gallery-item em-gallery-item-large" data-caption="ШУЗ — повний вигляд відкритого щита, дві секції монтажу" data-full="/images/shuz/shuz-povnyi-vyhlyad-kyiv-2026-06-01.jpg"><img src="/images/shuz/shuz-povnyi-vyhlyad-kyiv-2026-06-01.jpg" alt="ШУЗ — повний вигляд відкритого щита" width="675" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Фасад панелі ШУЗ — кнопки Відкрити/Закрити/Стоп, сигнальні лампи, перемикач режимів" data-full="/images/shuz/shuz-panel-fasad-kyiv-2026-06-02.jpg"><img src="/images/shuz/shuz-panel-fasad-kyiv-2026-06-02.jpg" alt="Панель керування ШУЗ з кнопками та сигнальними лампами" width="890" height="1144" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Внутрішній монтаж ШУЗ — контактори KM1/KM2, реле положення K1/K2/K3, клемні колодки" data-full="/images/shuz/shuz-montazh-kontaktory-kyiv-2026-06-03.jpg"><img src="/images/shuz/shuz-montazh-kontaktory-kyiv-2026-06-03.jpg" alt="Внутрішній монтаж ШУЗ — контактори та реле положення ETI" width="768" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Верхня секція ШУЗ — KM1/KM2, реле контролю напруги KV1, автомати QF2/QF3, реле K1/K2/K3" data-full="/images/shuz/shuz-montazh-rele-kyiv-2026-06-04.jpg"><img src="/images/shuz/shuz-montazh-rele-kyiv-2026-06-04.jpg" alt="Верхня секція ШУЗ — реле контролю напруги та реле положення" width="1200" height="675" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Нижня секція ШУЗ — автомат QF1 ETI, клемні колодки підключення приводів, шина N" data-full="/images/shuz/shuz-klemy-sektsiya-kyiv-2026-06-05.jpg"><img src="/images/shuz/shuz-klemy-sektsiya-kyiv-2026-06-05.jpg" alt="Клемні колодки та вхідний автомат у нижній секції ШУЗ" width="1200" height="675" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Дверці ШУЗ зсередини — сигнальні лампи HL1–HL7, кнопки місцевого керування" data-full="/images/shuz/shuz-dvirtsi-lampy-kyiv-2026-06-06.jpg"><img src="/images/shuz/shuz-dvirtsi-lampy-kyiv-2026-06-06.jpg" alt="Внутрішня частина дверцят ШУЗ — сигнальні лампи та кнопки" width="848" height="1200" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="ШУЗ у пластиковому корпусі — автомати QF1/QF2/QF3, контактори KM1/KM2, клеми" data-full="/images/shuz/shuz-plastyk-korpus-kyiv-2026-06-07.jpg"><img src="/images/shuz/shuz-plastyk-korpus-kyiv-2026-06-07.jpg" alt="ШУЗ у вологозахищеному пластиковому корпусі" width="1200" height="675" loading="lazy" /></div>
+      <div class="em-gallery-item" data-caption="Щит керування засувками — внутрішній монтаж, клемні колодки з маркуванням" data-full="/images/shuz/shuz-montazh-staryy-kyiv-2026-06-08.jpg"><img src="/images/shuz/shuz-montazh-staryy-kyiv-2026-06-08.jpg" alt="Щит керування засувками — внутрішній монтаж та клемні колодки" width="1017" height="1200" loading="lazy" /></div>
     </div>
-    <div class="em-gallery-item"
-         data-caption="Фасад панелі ШУЗ — кнопки Відкрити/Закрити/Стоп, сигнальні лампи, перемикач режимів"
-         data-full="/images/shuz/shuz-panel-fasad-kyiv-2026-06-02.jpg">
-      <img src="/images/shuz/shuz-panel-fasad-kyiv-2026-06-02.jpg"
-           alt="Панель керування ШУЗ з кнопками та сигнальними лампами" width="890" height="1144" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Внутрішній монтаж ШУЗ — контактори KM1/KM2, реле положення K1/K2/K3, клемні колодки"
-         data-full="/images/shuz/shuz-montazh-kontaktory-kyiv-2026-06-03.jpg">
-      <img src="/images/shuz/shuz-montazh-kontaktory-kyiv-2026-06-03.jpg"
-           alt="Внутрішній монтаж ШУЗ — контактори та реле положення ETI" width="768" height="1200" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Верхня секція ШУЗ — KM1/KM2, реле контролю напруги KV1, автомати QF2/QF3, реле K1/K2/K3"
-         data-full="/images/shuz/shuz-montazh-rele-kyiv-2026-06-04.jpg">
-      <img src="/images/shuz/shuz-montazh-rele-kyiv-2026-06-04.jpg"
-           alt="Верхня секція ШУЗ — реле контролю напруги та реле положення" width="1200" height="675" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Нижня секція ШУЗ — автомат QF1 ETI, клемні колодки підключення приводів, шина N"
-         data-full="/images/shuz/shuz-klemy-sektsiya-kyiv-2026-06-05.jpg">
-      <img src="/images/shuz/shuz-klemy-sektsiya-kyiv-2026-06-05.jpg"
-           alt="Клемні колодки та вхідний автомат у нижній секції ШУЗ" width="1200" height="675" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Дверці ШУЗ зсередини — сигнальні лампи HL1–HL7, кнопки місцевого керування"
-         data-full="/images/shuz/shuz-dvirtsi-lampy-kyiv-2026-06-06.jpg">
-      <img src="/images/shuz/shuz-dvirtsi-lampy-kyiv-2026-06-06.jpg"
-           alt="Внутрішня частина дверцят ШУЗ — сигнальні лампи та кнопки" width="848" height="1200" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="ШУЗ у пластиковому корпусі — автомати QF1/QF2/QF3, контактори KM1/KM2, клеми"
-         data-full="/images/shuz/shuz-plastyk-korpus-kyiv-2026-06-07.jpg">
-      <img src="/images/shuz/shuz-plastyk-korpus-kyiv-2026-06-07.jpg"
-           alt="ШУЗ у вологозахищеному пластиковому корпусі" width="1200" height="675" loading="lazy" />
-    </div>
-    <div class="em-gallery-item"
-         data-caption="Щит керування засувками — внутрішній монтаж, клемні колодки з маркуванням"
-         data-full="/images/shuz/shuz-montazh-staryy-kyiv-2026-06-08.jpg">
-      <img src="/images/shuz/shuz-montazh-staryy-kyiv-2026-06-08.jpg"
-           alt="Щит керування засувками — внутрішній монтаж та клемні колодки" width="1017" height="1200" loading="lazy" />
-    </div>
-  </div>
-  <div class="em-gallery-cta">
-    <a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a>
-  </div>
-</section>
+    <div class="em-gallery-cta"><a href="/vykonani-roboty/" class="em-btn-primary">Переглянути роботи →</a></div>
+  </section>
 
-<!-- ДЕ ЗАСТОСОВУЄТЬСЯ — зелений -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Застосування</span>
-    <h2>ШУЗ — для яких об'єктів</h2>
-    <p class="em-lead">ШУЗ встановлюють на об'єктах із запірно-регулювальною арматурою з електроприводом.</p>
-    <div class="em-objects-grid">
-      <div class="em-object-card">
-        <div class="em-object-num">01</div>
-        <h3>Насосні станції</h3>
-        <p>Керування запірною арматурою на вводах і виводах насосів, автоматичне відкриття/закриття за сигналом.</p>
-      </div>
-      <div class="em-object-card">
-        <div class="em-object-num">02</div>
-        <h3>Пожежні трубопровідні системи</h3>
-        <p>Керування засувками пожежного водопроводу, автоматичне відкриття від АУПС.</p>
-      </div>
-      <div class="em-object-card">
-        <div class="em-object-num">03</div>
-        <h3>Теплові пункти та котельні</h3>
-        <p>Керування засувками на подачі та поверненні теплоносія.</p>
-      </div>
-      <div class="em-object-card">
-        <div class="em-object-num">04</div>
-        <h3>Водопостачання та каналізація</h3>
-        <p>Автоматизація запірної арматури на водозабірних та очисних спорудах.</p>
-      </div>
-      <div class="em-object-card">
-        <div class="em-object-num">05</div>
-        <h3>Харчова та хімічна промисловість</h3>
-        <p>Керування технологічними засувками в трубопровідних системах виробництва.</p>
-      </div>
-      <div class="em-object-card">
-        <div class="em-object-num">06</div>
-        <h3>Підрядні організації</h3>
-        <p>Електромонтажні компанії, які ведуть монтаж трубопровідних систем і потребують щит за схемою замовника.</p>
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Застосування</span>
+      <h2>ШУЗ — для яких об'єктів</h2>
+      <p class="em-lead">ШУЗ встановлюють на об'єктах із запірно-регулювальною арматурою з електроприводом.</p>
+      <div class="em-objects-grid">
+        <div class="em-object-card"><div class="em-object-num">01</div><h3>Насосні станції</h3><p>Керування запірною арматурою на вводах і виводах насосів, автоматичне відкриття/закриття за сигналом.</p></div>
+        <div class="em-object-card"><div class="em-object-num">02</div><h3>Пожежні трубопровідні системи</h3><p>Керування засувками пожежного водопроводу, автоматичне відкриття від АУПС.</p></div>
+        <div class="em-object-card"><div class="em-object-num">03</div><h3>Теплові пункти та котельні</h3><p>Керування засувками на подачі та поверненні теплоносія.</p></div>
+        <div class="em-object-card"><div class="em-object-num">04</div><h3>Водопостачання та каналізація</h3><p>Автоматизація запірної арматури на водозабірних та очисних спорудах.</p></div>
+        <div class="em-object-card"><div class="em-object-num">05</div><h3>Харчова та хімічна промисловість</h3><p>Керування технологічними засувками в трубопровідних системах виробництва.</p></div>
+        <div class="em-object-card"><div class="em-object-num">06</div><h3>Підрядні організації</h3><p>Електромонтажні компанії, які ведуть монтаж трубопровідних систем і потребують щит за схемою замовника.</p></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ЩО ВХОДИТЬ ДО СКЛАДУ — білий -->
-<section class="em-section">
-  <span class="em-section-label">Склад щита</span>
-  <h2>Що входить до складу ШУЗ</h2>
-  <p class="em-lead">Склад щита визначається технічним завданням. Стандартна комплектація для керування електроприводами МЕО, AUMA та аналогами.</p>
-  <div class="em-why-grid">
-    <div class="em-why-card">
-      <div class="em-why-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <h3>Захисне обладнання</h3>
-      <p>Автоматичні вимикачі та пристрої захисту від перевантаження і заклинювання приводу.</p>
-    </div>
-    <div class="em-why-card">
-      <div class="em-why-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
-      </div>
-      <h3>Реле контролю положення</h3>
-      <p>Сигналізація стану приводу: «Відкрито» / «Закрито» — з виходами на диспетчеризацію.</p>
-    </div>
-    <div class="em-why-card">
-      <div class="em-why-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-      </div>
-      <h3>Місцеве керування</h3>
-      <p>Кнопки «Відкрити» / «Закрити» / «Стоп» та перемикач режимів «Місцево / Дистанційно / Автомат».</p>
-    </div>
-    <div class="em-why-card">
-      <div class="em-why-card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-      <h3>Виходи на диспетчеризацію</h3>
-      <p>Клемні колодки для підключення до АСУ ТП або диспетчерського пульту — за вимогою замовника.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ХАРАКТЕРИСТИКИ — зелений -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
+  <section class="em-section">
     <span class="em-section-label">Характеристики</span>
     <h2>Технічні характеристики ШУЗ</h2>
     <table class="em-specs-table">
@@ -256,98 +105,36 @@ const faqItems = [
         <tr><td class="em-specs-label">Доставка</td><td class="em-specs-value">Київ, Київська область, вся Україна</td></tr>
       </tbody>
     </table>
-  </div>
-</div>
+  </section>
 
-<!-- ЯК МИ ПРАЦЮЄМО — білий -->
-<section class="em-section">
-  <span class="em-section-label">Як ми працюємо</span>
-  <h2>5 кроків від ТЗ до готового щита</h2>
-  <div class="em-steps-row">
-    <div class="em-step">
-      <div class="em-step-num">01</div>
-      <h3>Технічне завдання</h3>
-      <p>Надсилаєте ТЗ, схему або описуєте задачу. Приймаємо PDF, DWG, фото, усний опис.</p>
-    </div>
-    <div class="em-step">
-      <div class="em-step-num">02</div>
-      <h3>Розрахунок та схема</h3>
-      <p>Розробляємо або перевіряємо схему, узгоджуємо вартість та строки. Відповідаємо за 1–2 дні.</p>
-    </div>
-    <div class="em-step">
-      <div class="em-step-num">03</div>
-      <h3>Оплата</h3>
-      <p>Після оплати виріб ставиться у виробництво.</p>
-    </div>
-    <div class="em-step">
-      <div class="em-step-num">04</div>
-      <h3>Збірка та перевірка</h3>
-      <p>Збираємо у Києві. Маркуємо, перевіряємо кожен щит перед відправкою.</p>
-    </div>
-    <div class="em-step">
-      <div class="em-step-num">05</div>
-      <h3>Передача з документацією</h3>
-      <p>Доставка по Києву та Київській обл. або Нова Пошта. Паспорт виробу та схема — у щиті.</p>
-    </div>
-  </div>
-</section>
-
-<!-- КОМПОНЕНТИ — зелений -->
-<div class="em-section-alt">
-  <div class="em-section-alt-inner">
-    <span class="em-section-label">Компоненти</span>
-    <h2>Компоненти та виробники</h2>
-    <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
-    <div class="em-brands">
-      <div class="em-brands-group">
-        <div class="em-brands-group-label">Основні бренди</div>
-        <div class="em-brands-row">
-          <div class="em-brand-pill">ETI</div>
-          <div class="em-brand-pill">Hager</div>
-          <div class="em-brand-pill">Schneider Electric</div>
-          <div class="em-brand-pill">Eaton</div>
-        </div>
-      </div>
-      <div class="em-brands-group">
-        <div class="em-brands-group-label">Економ-комплектація</div>
-        <div class="em-brands-row">
-          <div class="em-brand-pill secondary">E-Next</div>
-          <div class="em-brand-pill secondary">Asko</div>
-          <div class="em-brand-pill secondary">Chint</div>
-        </div>
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Компоненти</span>
+      <h2>Компоненти та виробники</h2>
+      <p class="em-lead">Підбираємо під бюджет та наявність. Конкретний бренд узгоджується при прийомі замовлення.</p>
+      <div class="em-brands">
+        <div class="em-brands-group"><div class="em-brands-group-label">Основні бренди</div><div class="em-brands-row"><div class="em-brand-pill">ETI</div><div class="em-brand-pill">Hager</div><div class="em-brand-pill">Schneider Electric</div><div class="em-brand-pill">Eaton</div></div></div>
+        <div class="em-brands-group"><div class="em-brands-group-label">Економ-комплектація</div><div class="em-brands-row"><div class="em-brand-pill secondary">E-Next</div><div class="em-brand-pill secondary">Asko</div><div class="em-brand-pill secondary">Chint</div></div></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ПЕРЕВАГИ — білий -->
-<section class="em-section">
-  <span class="em-section-label">Переваги</span>
-  <h2>Чому замовляють у нас</h2>
-  <div class="em-why-grid">
-    <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
-    <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
-    <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть нам технічне завдання або опис того, що ви хочете. Ми самі розробимо схему та узгодимо з вами.</p></div>
-    <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
-    <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
-    <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
-  </div>
-</section>
+  <section class="em-section">
+    <span class="em-section-label">Переваги</span>
+    <h2>Чому замовляють у нас</h2>
+    <div class="em-why-grid">
+      <div class="em-why-card"><h3>Досвід з 1999 року</h3><p>25+ років виготовлення щитів для промислових та комерційних об'єктів.</p></div>
+      <div class="em-why-card"><h3>Робота за проєктною документацією</h3><p>Приймаємо схеми від будь-якої проєктної організації та збираємо точно за ними.</p></div>
+      <div class="em-why-card"><h3>Розробляємо схеми самостійно</h3><p>Якщо немає проєкту — надішліть нам технічне завдання або опис того, що ви хочете. Ми самі розробимо схему та узгодимо з вами.</p></div>
+      <div class="em-why-card"><h3>Тестування перед відправкою</h3><p>Кожен щит перевіряється до передачі замовнику. Паспорт виробу — з кожним щитом.</p></div>
+      <div class="em-why-card"><h3>Доставка по всій Україні</h3><p>По Києву та Київській обл. — власним транспортом. По Україні — Новою Поштою.</p></div>
+      <div class="em-why-card"><h3>Гарантія 12 місяців</h3><p>На кожен виготовлений щит — письмове гарантійне зобов'язання.</p></div>
+    </div>
+  </section>
 
-<!-- Розділювач: білий Переваги → зелений FAQ -->
-<div style="background:var(--c-bg2);border-top:2px solid var(--c-accent-border);border-bottom:2px solid var(--c-accent-border);margin:0;padding:0;height:4px;"></div>
-
-<!-- FAQ — FaqAccordion рендерить em-section (білий), тому перед ним вставлено розділювач зеленого кольору -->
-<FaqAccordion items={faqItems} sectionTitle="Питання про виготовлення ШУЗ" />
-
-<!-- КОНТАКТНИЙ БЛОК — зелений -->
-<ContactBlock title="Готові обговорити ваше замовлення — щит керування засувками" />
-
-<!-- ТАКОЖ ВИГОТОВЛЯЄМО — білий -->
-<AlsoMake currentSlug="shuz" />
-
-<Footer />
-<Lightbox />
-<script is:inline src="/js/em-site.js"></script>
-</body>
-</html>
+  <FaqAccordion items={faqItems} sectionTitle="Питання про виготовлення ШУЗ" />
+  <ContactBlock title="Готові обговорити ваше замовлення — щит керування засувками" />
+  <AlsoMake currentSlug="shuz" />
+  <Lightbox />
+  <script is:inline src="/js/em-site.js"></script>
+</BaseLayout>

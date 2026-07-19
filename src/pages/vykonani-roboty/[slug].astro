@@ -1,8 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
 import Lightbox from '../../components/Lightbox.astro';
@@ -11,84 +9,64 @@ import WorkDescription from '../../components/WorkDescription.astro';
 import WorkSpecs from '../../components/WorkSpecs.astro';
 import WorkBrands from '../../components/WorkBrands.astro';
 import WorkSimilar from '../../components/WorkSimilar.astro';
+import { SITE_CANONICAL } from '../../config';
 
 export async function getStaticPaths() {
   const works = await getCollection('vykonani-roboty');
   return works.map(work => ({
     params: { slug: work.slug },
-    props: { work },
+    props:  { work },
   }));
 }
 
 const { work } = Astro.props;
-const { data } = work;
+const { data }  = work;
 const { Content } = await render(work);
 
-const seoTitle = data.seoTitle
-  ?? `${data.title} — Виконані роботи | elektroschit.com.ua`;
-const canonical = `https://elektroschit.com.ua/vykonani-roboty/${work.slug}/`;
+const seoTitle = data.seoTitle ?? `${data.title} — Виконані роботи | elektroschit.com.ua`;
+const canonical = `${SITE_CANONICAL}/vykonani-roboty/${work.slug}/`;
+
+const page = {
+  section:  'vykonani-roboty',
+  title:    seoTitle,
+  description: data.description,
+  canonical,
+  ogType:   'article' as const,
+  crumbs: [
+    { label: 'Головна',          href: '/' },
+    { label: 'Виконані роботи',  href: '/vykonani-roboty/' },
+    { label: data.title },
+  ],
+};
 ---
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{seoTitle}</title>
-  <meta name="description" content={data.description} />
-  <link rel="canonical" href={canonical} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/em-hrshch.css" />
-  <link rel="stylesheet" href="/css/em-work.css" />
-</head>
-<body>
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
+  <link slot="head" rel="stylesheet" href="/css/em-work.css" />
 
-<Header activePage="vykonani-roboty" />
+  <WorkPhotos photos={data.photos} title={data.title} />
 
-<Breadcrumbs
-  current={data.title}
-  parentLabel="Виконані роботи"
-  parentHref="/vykonani-roboty/"
-/>
+  <WorkDescription
+    title={data.title}
+    types={data.types}
+    tags={data.tags}
+    properties={data.properties}
+  >
+    <Content />
+  </WorkDescription>
 
-<!-- 1. Фото -->
-<WorkPhotos photos={data.photos} title={data.title} />
+  <WorkSpecs specs={data.specs} />
+  <WorkBrands brands={data.brands} />
 
-<!-- 2. Теги + H1 + Опис (Content рендериться тут напряму) -->
-<WorkDescription
-  title={data.title}
-  types={data.types}
-  tags={data.tags}
-  properties={data.properties}
->
-  <Content />
-</WorkDescription>
+  <WorkSimilar
+    currentSlug={work.slug}
+    types={data.types}
+    tags={data.tags}
+  />
 
-<!-- 3. Характеристики -->
-<WorkSpecs specs={data.specs} />
+  <ContactBlock title="Хочете такий щит? Зв'яжіться з нами" />
+  <AlsoMake currentSlug="" />
+  <Lightbox />
 
-<!-- 4. Бренди -->
-<WorkBrands brands={data.brands} />
-
-<!-- 5. Схожі роботи -->
-<WorkSimilar
-  currentSlug={work.slug}
-  types={data.types}
-  tags={data.tags}
-/>
-
-<hr class="em-divider" />
-
-<!-- Стандартні блоки -->
-<ContactBlock title="Хочете такий щит? Зв'яжіться з нами" />
-<AlsoMake currentSlug="" />
-<Footer />
-<Lightbox />
-
-<script is:inline src="/js/em-site.js"></script>
-<script is:inline src="/js/em-work-lightbox.js"></script>
-
-</body>
-</html>
+  <script is:inline src="/js/em-site.js"></script>
+  <script is:inline src="/js/em-work-lightbox.js"></script>
+</BaseLayout>

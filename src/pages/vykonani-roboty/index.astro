@@ -1,21 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import { SITE_CANONICAL } from '../../config';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
 import { TYPE_LABELS, TAG_LABELS } from '../../data/tags-registry';
 
 const allWorks = await getCollection('vykonani-roboty');
 
-// Сортування: нові першими
 const works = allWorks.sort((a, b) =>
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-// Об'єднаний список фільтрів: спочатку типи які є в роботах, потім теги які є в роботах
 const usedTypes = Object.keys(TYPE_LABELS).filter(t =>
   works.some(w => w.data.types.includes(t))
 );
@@ -23,205 +19,170 @@ const usedTags = Object.keys(TAG_LABELS).filter(t =>
   works.some(w => w.data.tags.includes(t))
 );
 
-// Об'єднані лейбли для JS (передаємо в скрипт)
 const ALL_LABELS = { ...TYPE_LABELS, ...TAG_LABELS };
+
+const page = {
+  section:     'vykonani-roboty',
+  title:       'Виконані роботи — електрощити на замовлення | elektroschit.com.ua',
+  description: 'Фото виконаних робіт: ГРЩ, ВРЩ, щити димовидалення, керування двигунами, ШУЗ, КРМ. Виготовлення електрощитів у Києві з 1999 року.',
+  canonical:   `${SITE_CANONICAL}/vykonani-roboty/`,
+  crumbs: [
+    { label: 'Головна', href: '/' },
+    { label: 'Виконані роботи' },
+  ],
+};
 ---
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Виконані роботи — електрощити на замовлення | elektroschit.com.ua</title>
-  <meta name="description" content="Фото виконаних робіт: ГРЩ, ВРЩ, щити димовидалення, керування двигунами, ШУЗ, КРМ. Виготовлення електрощитів у Києві з 1999 року." />
-  <link rel="canonical" href={`${SITE_CANONICAL}/vykonani-roboty/`} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/em-hrshch.css" />
-  <link rel="stylesheet" href="/css/em-work.css" />
-  <style>
-    .em-works-h1-wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 24px 0;
-    }
-    .em-works-h1 {
-      font-family: var(--ff, 'Geologica', sans-serif);
-      font-size: clamp(22px, 3vw, 32px);
-      font-weight: 700;
-      color: var(--c-head, #0f172a);
-      line-height: 1.2;
-    }
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
+  <link slot="head" rel="stylesheet" href="/css/em-work.css" />
+  <style slot="head">
+    .em-works-h1-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 24px 0; }
+    .em-works-h1 { font-family: var(--ff); font-size: clamp(22px, 3vw, 32px); font-weight: 700; color: var(--c-head); line-height: 1.2; }
   </style>
-</head>
-<body>
 
-<Header activePage="vykonani-roboty" />
-<Breadcrumbs current="Виконані роботи" simple={true} />
-
-<div class="em-works-h1-wrap">
-  <h1 class="em-works-h1">Виконані роботи — електрощити на замовлення</h1>
-</div>
-
-<!-- Об'єднаний фільтр: типи + теги -->
-<div class="em-works-filter-wrap">
-  <div class="em-works-filter" id="em-filter">
-
-    <!-- Всі роботи -->
-    <button type="button" class="em-filter-btn active" data-filter="all" data-kind="all">
-      Всі роботи
-      <span class="em-filter-count">({works.length})</span>
-    </button>
-
-    <!-- Розділи (types) -->
-    {usedTypes.map(t => {
-      const count = works.filter(w => w.data.types.includes(t)).length;
-      return (
-        <button type="button" class="em-filter-btn em-filter-btn--type" data-filter={t} data-kind="type">
-          {TYPE_LABELS[t]}
-          <span class="em-filter-count">({count})</span>
-        </button>
-      );
-    })}
-
-    <!-- Теги -->
-    {usedTags.map(t => {
-      const count = works.filter(w => w.data.tags.includes(t)).length;
-      return (
-        <button type="button" class="em-filter-btn em-filter-btn--tag" data-filter={t} data-kind="tag">
-          {TAG_LABELS[t]}
-          <span class="em-filter-count">({count})</span>
-        </button>
-      );
-    })}
-
+  <div class="em-works-h1-wrap">
+    <h1 class="em-works-h1">Виконані роботи — електрощити на замовлення</h1>
   </div>
-</div>
 
-<!-- Сітка робіт -->
-<div class="em-works-section">
-  <div class="em-works-grid" id="em-works-grid">
-    {works.map(w => (
-      <a
-        href={`/vykonani-roboty/${w.slug}/`}
-        class="em-work-card"
-        data-types={w.data.types.join(',')}
-        data-tags={w.data.tags.join(',')}
-      >
-        <div class="em-work-card-photo">
-          <img
-            src={w.data.photos[0].src}
-            alt={w.data.photos[0].caption}
-            loading="lazy"
-          />
-        </div>
-        <div class="em-work-card-body">
-          <div class="em-work-card-tags">
-            {w.data.types.map(t => (
-              <span class="em-work-tag em-work-tag--type">{TYPE_LABELS[t] ?? t}</span>
-            ))}
-            {w.data.tags.map(t => (
-              <span class="em-work-tag em-work-tag--tag">{TAG_LABELS[t] ?? t}</span>
-            ))}
+  <div class="em-works-filter-wrap">
+    <div class="em-works-filter" id="em-filter">
+      <button type="button" class="em-filter-btn active" data-filter="all" data-kind="all">
+        Всі роботи
+        <span class="em-filter-count">({works.length})</span>
+      </button>
+      {usedTypes.map(t => {
+        const count = works.filter(w => w.data.types.includes(t)).length;
+        return (
+          <button type="button" class="em-filter-btn em-filter-btn--type" data-filter={t} data-kind="type">
+            {TYPE_LABELS[t]}
+            <span class="em-filter-count">({count})</span>
+          </button>
+        );
+      })}
+      {usedTags.map(t => {
+        const count = works.filter(w => w.data.tags.includes(t)).length;
+        return (
+          <button type="button" class="em-filter-btn em-filter-btn--tag" data-filter={t} data-kind="tag">
+            {TAG_LABELS[t]}
+            <span class="em-filter-count">({count})</span>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+
+  <div class="em-works-section">
+    <div class="em-works-grid" id="em-works-grid">
+      {works.map(w => (
+        <a
+          href={`/vykonani-roboty/${w.slug}/`}
+          class="em-work-card"
+          data-types={w.data.types.join(',')}
+          data-tags={w.data.tags.join(',')}
+        >
+          <div class="em-work-card-photo">
+            <img src={w.data.photos[0].src} alt={w.data.photos[0].caption} loading="lazy" />
           </div>
-          <div class="em-work-card-title">{w.data.title}</div>
-          <div class="em-work-card-brands">{w.data.brands.join(' · ')}</div>
-          <span class="em-work-card-btn">Детальніше →</span>
-        </div>
-      </a>
-    ))}
+          <div class="em-work-card-body">
+            <div class="em-work-card-tags">
+              {w.data.types.map((t: string) => (
+                <span class="em-work-tag em-work-tag--type">{TYPE_LABELS[t] ?? t}</span>
+              ))}
+              {w.data.tags.map((t: string) => (
+                <span class="em-work-tag em-work-tag--tag">{TAG_LABELS[t] ?? t}</span>
+              ))}
+            </div>
+            <div class="em-work-card-title">{w.data.title}</div>
+            <div class="em-work-card-brands">{w.data.brands.join(' · ')}</div>
+            <span class="em-work-card-btn">Детальніше →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    <div class="em-works-pagination" id="em-pagination"></div>
   </div>
-  <div class="em-works-pagination" id="em-pagination"></div>
-</div>
 
-<ContactBlock title="Готові виготовити такий щит для вашого об'єкта" />
-<AlsoMake currentSlug="" />
-<Footer />
+  <ContactBlock title="Готові виготовити такий щит для вашого об'єкта" />
+  <AlsoMake currentSlug="" />
 
-<script is:inline src="/js/em-site.js"></script>
+  <script is:inline src="/js/em-site.js"></script>
 
-<script define:vars={{ ALL_LABELS }}>
-(function() {
-  const PER_PAGE = 15;
-  let activeFilter = 'all';
-  let activeKind   = 'all'; // 'all' | 'type' | 'tag'
-  let currentPage  = 1;
+  <script define:vars={{ ALL_LABELS }}>
+  (function() {
+    const PER_PAGE = 15;
+    let activeFilter = 'all';
+    let activeKind   = 'all';
+    let currentPage  = 1;
 
-  // Читаємо URL параметри ?type=hrshch або ?tag=avr
-  const urlParams = new URLSearchParams(window.location.search);
-  const typeParam = urlParams.get('type');
-  const tagParam  = urlParams.get('tag');
-  if (typeParam) { activeFilter = typeParam; activeKind = 'type'; }
-  if (tagParam)  { activeFilter = tagParam;  activeKind = 'tag'; }
+    const urlParams = new URLSearchParams(window.location.search);
+    const typeParam = urlParams.get('type');
+    const tagParam  = urlParams.get('tag');
+    if (typeParam) { activeFilter = typeParam; activeKind = 'type'; }
+    if (tagParam)  { activeFilter = tagParam;  activeKind = 'tag'; }
 
-  const grid           = document.getElementById('em-works-grid');
-  const paginationWrap = document.getElementById('em-pagination');
-  const filterBtns     = document.querySelectorAll('.em-filter-btn');
-  const allCards       = Array.from(grid.querySelectorAll('.em-work-card'));
+    const grid           = document.getElementById('em-works-grid');
+    const paginationWrap = document.getElementById('em-pagination');
+    const filterBtns     = document.querySelectorAll('.em-filter-btn');
+    const allCards       = Array.from(grid.querySelectorAll('.em-work-card'));
 
-  function setActiveFilter() {
-    filterBtns.forEach(btn => {
-      btn.classList.toggle('active',
-        btn.dataset.filter === activeFilter && btn.dataset.kind === activeKind ||
-        activeFilter === 'all' && btn.dataset.kind === 'all'
-      );
-    });
-  }
-
-  function render() {
-    const filtered = activeFilter === 'all'
-      ? allCards
-      : allCards.filter(card => {
-          if (activeKind === 'type') {
-            return card.dataset.types.split(',').includes(activeFilter);
-          }
-          if (activeKind === 'tag') {
-            const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
-            return tags.includes(activeFilter);
-          }
-          return true;
-        });
-
-    const totalPages = Math.ceil(filtered.length / PER_PAGE);
-    if (currentPage > totalPages) currentPage = 1;
-
-    const start   = (currentPage - 1) * PER_PAGE;
-    const visible = filtered.slice(start, start + PER_PAGE);
-
-    allCards.forEach(card  => { card.style.display = 'none'; });
-    visible.forEach(card   => { card.style.display = 'flex'; });
-
-    if (totalPages > 1) {
-      paginationWrap.innerHTML = Array.from({ length: totalPages }, (_, i) => i + 1)
-        .map(p => `<button type="button" class="em-pg-btn${p === currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`)
-        .join('');
-      paginationWrap.querySelectorAll('.em-pg-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          currentPage = parseInt(btn.dataset.page);
-          render();
-          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+    function setActiveFilter() {
+      filterBtns.forEach(btn => {
+        btn.classList.toggle('active',
+          btn.dataset.filter === activeFilter && btn.dataset.kind === activeKind ||
+          activeFilter === 'all' && btn.dataset.kind === 'all'
+        );
       });
-    } else {
-      paginationWrap.innerHTML = '';
     }
 
-    setActiveFilter();
-  }
+    function render() {
+      const filtered = activeFilter === 'all'
+        ? allCards
+        : allCards.filter(card => {
+            if (activeKind === 'type') return card.dataset.types.split(',').includes(activeFilter);
+            if (activeKind === 'tag') {
+              const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+              return tags.includes(activeFilter);
+            }
+            return true;
+          });
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeFilter = btn.dataset.filter;
-      activeKind   = btn.dataset.kind;
-      currentPage  = 1;
-      render();
+      const totalPages = Math.ceil(filtered.length / PER_PAGE);
+      if (currentPage > totalPages) currentPage = 1;
+
+      const start   = (currentPage - 1) * PER_PAGE;
+      const visible = filtered.slice(start, start + PER_PAGE);
+
+      allCards.forEach(card => { card.style.display = 'none'; });
+      visible.forEach(card  => { card.style.display = 'flex'; });
+
+      if (totalPages > 1) {
+        paginationWrap.innerHTML = Array.from({ length: totalPages }, (_, i) => i + 1)
+          .map(p => `<button type="button" class="em-pg-btn${p === currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`)
+          .join('');
+        paginationWrap.querySelectorAll('.em-pg-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            currentPage = parseInt(btn.dataset.page);
+            render();
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      } else {
+        paginationWrap.innerHTML = '';
+      }
+
+      setActiveFilter();
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.dataset.filter;
+        activeKind   = btn.dataset.kind;
+        currentPage  = 1;
+        render();
+      });
     });
-  });
 
-  render();
-})();
-</script>
-
-</body>
-</html>
+    render();
+  })();
+  </script>
+</BaseLayout>
