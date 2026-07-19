@@ -36,5 +36,5 @@ export const WORK_HOURS    = 'робочі дні з 9:00 до 17:00';
 // Порожній рядок = скрипт не вставляється в HTML.
 // Заповни коли отримаєш реальні ID у GTM / Clarity.
 
-export const GTM_ID     = '';   // напр. 'GTM-XXXXXXX'
+export const GTM_ID     = 'GTM-PZSRTZ2T';
 export const CLARITY_ID = '';   // напр. 'abcdef1234'

@@ -176,18 +176,19 @@ const localBusinessJsonLd = {
 
   <Header activePage={page.section} />
 
-  <!-- Хлібні крихти -->
+  <!-- Хлібні крихти — лише візуальний рендер.
+       Schema.org розмітка для хлібних крихт віддана JSON-LD (breadcrumbJsonLd
+       нижче), щоб уникнути дублювання Microdata + JSON-LD на одній сторінці. -->
   {hasCrumbs && (
     <nav aria-label="Хлібні крихти" class="em-breadcrumbs-wrap">
-      <ol class="em-breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <ol class="em-breadcrumbs">
         {page.crumbs.map((crumb, i) => (
-          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <li>
             {i > 0 && <span class="em-breadcrumbs-sep" aria-hidden="true">›</span>}
             {crumb.href
-              ? <a href={crumb.href} itemprop="item"><span itemprop="name">{crumb.label}</span></a>
-              : <span itemprop="name" aria-current="page">{crumb.label}</span>
+              ? <a href={crumb.href}>{crumb.label}</a>
+              : <span aria-current="page">{crumb.label}</span>
             }
-            <meta itemprop="position" content={String(i + 1)} />
           </li>
         ))}
       </ol>
