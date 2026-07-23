@@ -1,0 +1,116 @@
+---
+import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../../config';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FaqAccordion from '../../../components/FaqAccordion.astro';
+import AlsoMake from '../../../components/AlsoMake.astro';
+import ContactBlock from '../../../components/ContactBlock.astro';
+
+const page = {
+  lang:        'ru' as const,
+  altUrl:      '/posluhy-ta-produktsiia/elektromontazh/',
+  section:     'posluhy',
+  title:       'Электромонтажные работы на промышленных объектах | elektroschit.com.ua',
+  description: 'Электромонтажные работы на промышленных предприятиях, складах и агрообъектах. Монтаж щитов, прокладка кабеля, подключение оборудования, пусконаладка. Киев и Украина.',
+  canonical:   `${SITE_CANONICAL}/ru/posluhy-ta-produktsiia/elektromontazh/`,
+  crumbs: [
+    { label: 'Главная',  href: '/ru/' },
+    { label: 'Услуги',  href: '/ru/posluhy-ta-produktsiia/' },
+    { label: 'Электромонтажные работы' },
+  ],
+};
+
+const faqItems = [
+  { q: 'Что делать, если проектной документации нет?',           a: 'Обратитесь к нам — рассмотрим сложность задачи. Если это в наших силах, можем разработать проект самостоятельно или привлечь независимого специалиста, который поможет с этим.' },
+  { q: 'Можно ли заказать только монтаж без щитов?',             a: 'Да. Выполняем монтажные работы как в комплексе с изготовлением щитов, так и отдельно — если щитовое оборудование уже есть или поставляется другой стороной.' },
+  { q: 'Какую документацию вы передаёте после завершения работ?', a: 'Паспорта на изготовленные щиты и принципиальные схемы. Перечень исполнительной документации согласовывается при приёме заказа.' },
+  { q: 'Выезжаете ли вы за пределы Киевской области?',           a: 'Да. Основная география — Киев и Киевская область, но выезжаем и на объекты в других регионах Украины. Уточняйте при обращении.' },
+  { q: 'Как рассчитать стоимость монтажных работ?',              a: 'Пришлите электрическую часть проектной документации. Наш специалист уточнит детали, после чего рассчитаем стоимость и согласуем сроки выполнения.' },
+  { q: 'Можно ли предоставить свои компоненты для сборки щитов?', a: 'Нет. Мы самостоятельно закупаем всё оборудование согласно согласованной спецификации и передаём заказчику готовое изделие с гарантией.' },
+];
+---
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
+  <style slot="head">
+    .em-why-grid--two { grid-template-columns: repeat(2, 1fr) !important; }
+    @media (max-width: 600px) { .em-why-grid--two { grid-template-columns: 1fr !important; } }
+  </style>
+
+  <!-- HERO — центрированный, без фото -->
+  <section class="em-hero">
+    <div class="em-hero-inner">
+      <span class="em-hero-tag">Услуга</span>
+      <h1>Электромонтажные работы на промышленных объектах</h1>
+      <p class="em-hero-sub">Выполняем электромонтажные работы на промышленных предприятиях, складах, агропредприятиях и коммерческих объектах. От прокладки кабельных трасс до подключения оборудования и пусконаладки — полный комплекс работ под ключ.</p>
+      <div class="em-hero-badges">
+        <div class="em-badge"><strong>полный комплекс</strong> — от ТЗ до пусконаладки</div>
+        <div class="em-badge"><strong>25 лет</strong> — опыт</div>
+        <div class="em-badge"><strong>Киев</strong> и вся Украина</div>
+      </div>
+      <div class="em-hero-actions">
+        <a href="#kontakty-blok" class="em-btn-primary">Обсудить задачу</a>
+      </div>
+      <p style="font-size:13px; color:var(--c-muted); margin-top:8px; font-family:var(--ff-body);">
+        Или позвоните: <a href={`tel:${PHONE}`} style="color:var(--c-text); font-weight:600; text-decoration:none;">{PHONE_DISPLAY}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ЧТО ВЫПОЛНЯЕМ — белый -->
+  <section class="em-section">
+    <span class="em-section-label">Услуги</span>
+    <h2>Что выполняем</h2>
+    <div class="em-objects-grid">
+      <div class="em-object-card"><div class="em-object-num">01</div><h3>Прокладка кабельных трасс</h3><p>Монтаж лотков, труб, кабель-каналов. Прокладка и маркировка кабеля на любых объектах.</p></div>
+      <div class="em-object-card"><div class="em-object-num">02</div><h3>Монтаж и подключение щитов</h3><p>Установка и подключение щитов нашего производства или предоставленных заказчиком.</p></div>
+      <div class="em-object-card"><div class="em-object-num">03</div><h3>Подключение технологического оборудования</h3><p>Двигатели, насосы, вентиляция, конвейеры, компрессоры — подключение и проверка.</p></div>
+      <div class="em-object-card"><div class="em-object-num">04</div><h3>Пусконаладка</h3><p>Тестирование, проверка защит, ввод оборудования в работу.</p></div>
+    </div>
+  </section>
+
+  <!-- ЩИТЫ + МОНТАЖ В ОДНИХ РУКАХ — зелёный -->
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Комплексная услуга</span>
+      <h2>Щиты и монтаж — в одних руках</h2>
+      <p class="em-lead">Если вам нужно не только изготовить электрощиты, но и выполнить монтажные работы на объекте — берёмся за весь комплекс. Щиты изготавливаем на собственном производстве, монтаж выполняет наш электромонтажный отдел.</p>
+      <div class="em-why-grid em-why-grid--two">
+        <div class="em-why-card"><h3>Одна ответственная сторона</h3><p>Без лишней координации между разными подрядчиками — от изготовления щита до ввода в работу.</p></div>
+        <div class="em-why-card"><h3>Без задержек</h3><p>Щит приходит на объект одновременно с монтажной бригадой — согласованный график без простоев.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- НА КАКИХ ОБЪЕКТАХ — белый -->
+  <section class="em-section">
+    <span class="em-section-label">Объекты</span>
+    <h2>На каких объектах работаем</h2>
+    <div class="em-objects-grid">
+      <div class="em-object-card"><div class="em-object-num">01</div><h3>Промышленные предприятия и цеха</h3><p>Реконструкция электрохозяйства, подключение нового оборудования, монтаж новых линий.</p></div>
+      <div class="em-object-card"><div class="em-object-num">02</div><h3>Склады и логистические комплексы</h3><p>Монтаж освещения, силовых линий, подключение подъёмно-транспортного оборудования.</p></div>
+      <div class="em-object-card"><div class="em-object-num">03</div><h3>Агропредприятия и элеваторы</h3><p>Электромонтаж на зерновых комплексах, фермах, тепличных хозяйствах.</p></div>
+      <div class="em-object-card"><div class="em-object-num">04</div><h3>Торговые и коммерческие объекты</h3><p>Торговые центры, магазины, административные здания — нежилые коммерческие объекты.</p></div>
+    </div>
+  </section>
+
+  <!-- ХАРАКТЕРИСТИКИ — зелёный -->
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Параметры услуги</span>
+      <h2>Технические характеристики</h2>
+      <table class="em-specs-table">
+        <tbody>
+          <tr><td class="em-specs-label">Комплекс работ</td><td class="em-specs-value">Прокладка кабеля, монтаж щитов, подключение оборудования, пусконаладка</td></tr>
+          <tr><td class="em-specs-label">Работа по проектной документации</td><td class="em-specs-value">Да</td></tr>
+          <tr><td class="em-specs-label">Щиты + монтаж под ключ</td><td class="em-specs-value">Да</td></tr>
+          <tr><td class="em-specs-label">Только монтаж (без щитов)</td><td class="em-specs-value">Да</td></tr>
+          <tr><td class="em-specs-label">География</td><td class="em-specs-value">Киев и Киевская область — основная. Выезд по всей Украине — по договорённости.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <FaqAccordion items={faqItems} sectionTitle="Вопросы об электромонтажных работах" lang="ru" />
+  <ContactBlock title="Готовы обсудить электромонтажные работы на вашем объекте" lang="ru" />
+  <AlsoMake currentSlug="elektromontazh" lang="ru" />
+  <script is:inline src="/js/em-site.js"></script>
+</BaseLayout>

@@ -53,11 +53,26 @@ export async function GET() {
   const works = await getCollection('vykonani-roboty');
   const workPaths = works.map((work) => `vykonani-roboty/${work.slug}`);
 
+  // 4. Русскоязычные страницы /ru/
+  const ruPages = import.meta.glob('./ru/**/*.astro');
+  const ruPaths = Object.keys(ruPages)
+    .map((filePath) => {
+      // filePath: './ru/index.astro' или './ru/posluhy-ta-produktsiia/hrshch.astro'
+      const parts = filePath.replace(/^\.\//, '').replace(/\.astro$/, '').split('/');
+      const last = parts[parts.length - 1];
+      if (last.startsWith('[')) return null;
+      if (last === 'index') parts.pop();
+      return parts.join('/');
+    })
+    .filter((p): p is string => p !== null);
+
   const allPaths = [
     ...topLevelPaths,
     ...productPaths,
     'vykonani-roboty',
     ...workPaths,
+    ...ruPaths,
+    'ru/vykonani-roboty',
   ];
 
   // Прибираємо можливі дублікати

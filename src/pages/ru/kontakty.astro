@@ -1,17 +1,17 @@
 ---
-import { PHONE, PHONE_DISPLAY, EMAIL, ADDRESS, MAPS_URL, VIBER, TELEGRAM, WHATSAPP, SITE_CANONICAL } from '../config';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { PHONE, PHONE_DISPLAY, EMAIL, ADDRESS, MAPS_URL, VIBER, TELEGRAM, WHATSAPP, SITE_CANONICAL } from '../../config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const page = {
-  lang:        'uk' as const,
-  altUrl:      '/ru/kontakty/',
+  lang:        'ru' as const,
+  altUrl:      '/kontakty/',
   section:     'kontakty',
-  title:       'Контакти — виготовлення електрощитів | elektroschit.com.ua',
-  description: "Зв'яжіться з виробником електрощитів у Києві. Телефон, email, Viber, Telegram, WhatsApp. Відповідаємо протягом 1–2 робочих днів. Адреса: вул. Печенізька, 35/43.",
-  canonical:   `${SITE_CANONICAL}/kontakty/`,
+  title:       'Контакты — изготовление электрощитов | elektroschit.com.ua',
+  description: 'Свяжитесь с производителем электрощитов в Киеве. Телефон, email, Viber, Telegram, WhatsApp. Отвечаем в течение 1–2 рабочих дней. Адрес: ул. Печенежская, 35/43.',
+  canonical:   `${SITE_CANONICAL}/ru/kontakty/`,
   crumbs: [
-    { label: 'Головна', href: '/' },
-    { label: 'Контакти' },
+    { label: 'Главная', href: '/ru/' },
+    { label: 'Контакты' },
   ],
 };
 ---
@@ -20,15 +20,15 @@ const page = {
 
   <div class="em-hero">
     <div class="em-hero-inner">
-      <h1>Контакти</h1>
-      <p class="em-hero-sub">Зв'яжіться зручним способом — відповідаємо протягом 1–2 робочих днів</p>
+      <h1>Контакты</h1>
+      <p class="em-hero-sub">Свяжитесь удобным способом — отвечаем в течение 1–2 рабочих дней</p>
     </div>
   </div>
 
   <div class="em-section-alt" id="kontakty-blok">
     <div class="em-section-alt-inner">
-      <span class="em-section-label">Зв'яжіться з нами</span>
-      <h2>Як з нами зв'язатися</h2>
+      <span class="em-section-label">Свяжитесь с нами</span>
+      <h2>Как с нами связаться</h2>
 
       <a href={`tel:${PHONE}`} class="em-kontakty-phone">
         <svg class="em-kontakty-phone-icon" viewBox="0 0 24 24">
@@ -43,25 +43,25 @@ const page = {
           <a href={`mailto:${EMAIL}`} class="em-kontakty-info-value">{EMAIL}</a>
         </div>
         <div class="em-kontakty-info-card">
-          <div class="em-kontakty-info-label">Адреса</div>
+          <div class="em-kontakty-info-label">Адрес</div>
           <span class="em-kontakty-info-value">{ADDRESS}</span>
         </div>
         <div class="em-kontakty-info-card">
-          <div class="em-kontakty-info-label">Месенджери</div>
-          <span class="em-kontakty-info-value">Viber · Telegram · WhatsApp — за тим самим номером</span>
+          <div class="em-kontakty-info-label">Мессенджеры</div>
+          <span class="em-kontakty-info-value">Viber · Telegram · WhatsApp — по тому же номеру</span>
         </div>
       </div>
 
-      <p class="em-kontakty-hint">Натисніть на іконку, щоб зателефонувати або відкрити зручний месенджер:</p>
+      <p class="em-kontakty-hint">Нажмите на иконку, чтобы позвонить или открыть удобный мессенджер:</p>
 
       <div class="em-contact-grid">
         <a href={`tel:${PHONE}`} class="em-contact-card">
           <svg class="em-contact-card-icon" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
-          <span class="em-contact-card-label">Телефонувати</span>
+          <span class="em-contact-card-label">Позвонить</span>
         </a>
         <a href={`mailto:${EMAIL}`} class="em-contact-card">
           <svg class="em-contact-card-icon" viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm2 2v.01L12 13l8-6.99V6H4zm16 2.24l-7.39 6.47a1 1 0 0 1-1.22 0L4 8.24V18h16V8.24z"/></svg>
-          <span class="em-contact-card-label">Написати email</span>
+          <span class="em-contact-card-label">Написать email</span>
         </a>
         <a href={VIBER} class="em-contact-card em-contact-card-viber">
           <svg class="em-contact-card-icon" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2.4 5.6 2.4 10.4c0 2.6 1.3 4.9 3.4 6.5l-.5 3.7a.6.6 0 0 0 .9.6l3.6-2.1c.7.1 1.4.2 2.2.2 5.5 0 9.6-3.6 9.6-8.4S17.5 2 12 2z"/></svg>
@@ -77,28 +77,28 @@ const page = {
         </a>
         <a href={MAPS_URL} target="_blank" rel="noopener" class="em-contact-card">
           <svg class="em-contact-card-icon" viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
-          <span class="em-contact-card-label">Відкрити на карті</span>
+          <span class="em-contact-card-label">Открыть на карте</span>
         </a>
       </div>
 
       <div class="em-kontakty-schedule">
-        <div class="em-kontakty-schedule-title">Графік роботи</div>
+        <div class="em-kontakty-schedule-title">График работы</div>
         <div class="em-kontakty-schedule-grid">
-          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Понеділок</span><span class="em-schedule-time">9:00 – 17:00</span></div>
-          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Вівторок</span><span class="em-schedule-time">9:00 – 17:00</span></div>
-          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Середа</span><span class="em-schedule-time">9:00 – 17:00</span></div>
-          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Четвер</span><span class="em-schedule-time">9:00 – 17:00</span></div>
-          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">П'ятниця</span><span class="em-schedule-time">9:00 – 17:00</span></div>
-          <div class="em-schedule-row em-schedule-row--off"><span class="em-schedule-day">Субота</span><span class="em-schedule-time em-schedule-off">вихідний</span></div>
-          <div class="em-schedule-row em-schedule-row--off"><span class="em-schedule-day">Неділя</span><span class="em-schedule-time em-schedule-off">вихідний</span></div>
+          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Понедельник</span><span class="em-schedule-time">9:00 – 17:00</span></div>
+          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Вторник</span><span class="em-schedule-time">9:00 – 17:00</span></div>
+          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Среда</span><span class="em-schedule-time">9:00 – 17:00</span></div>
+          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Четверг</span><span class="em-schedule-time">9:00 – 17:00</span></div>
+          <div class="em-schedule-row em-schedule-row--work"><span class="em-schedule-day">Пятница</span><span class="em-schedule-time">9:00 – 17:00</span></div>
+          <div class="em-schedule-row em-schedule-row--off"><span class="em-schedule-day">Суббота</span><span class="em-schedule-time em-schedule-off">выходной</span></div>
+          <div class="em-schedule-row em-schedule-row--off"><span class="em-schedule-day">Воскресенье</span><span class="em-schedule-time em-schedule-off">выходной</span></div>
         </div>
       </div>
     </div>
   </div>
 
   <section class="em-section">
-    <span class="em-section-label">Адреса</span>
-    <h2>Як нас знайти</h2>
+    <span class="em-section-label">Адрес</span>
+    <h2>Как нас найти</h2>
     <p class="em-lead">{ADDRESS}</p>
     <div class="em-kontakty-map-wrap">
       <iframe
@@ -107,11 +107,11 @@ const page = {
         style="border:0; border-radius: 12px; display: block;"
         allowfullscreen loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        title={`Розташування на карті — ${ADDRESS}`}
+        title={`Расположение на карте — ${ADDRESS}`}
       ></iframe>
     </div>
     <div class="em-kontakty-map-cta">
-      <a href={MAPS_URL} target="_blank" rel="noopener" class="em-btn-primary">Відкрити в Google Maps →</a>
+      <a href={MAPS_URL} target="_blank" rel="noopener" class="em-btn-primary">Открыть в Google Maps →</a>
     </div>
   </section>
 

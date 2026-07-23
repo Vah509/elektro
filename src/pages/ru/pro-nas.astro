@@ -1,0 +1,131 @@
+---
+import { PHONE, PHONE_DISPLAY, SITE_CANONICAL } from '../../config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactBlock from '../../components/ContactBlock.astro';
+
+const page = {
+  lang:        'ru' as const,
+  altUrl:      '/pro-nas/',
+  section:     'pro-nas',
+  title:       'О нас — производство электрощитов с 1999 года | elektroschit.com.ua',
+  description: 'Изготавливаем силовые щиты и щиты управления с 1999 года. 25+ лет опыта, 500+ выполненных проектов. Киев и вся Украина.',
+  canonical:   `${SITE_CANONICAL}/ru/pro-nas/`,
+  crumbs: [
+    { label: 'Главная', href: '/ru/' },
+    { label: 'О нас' },
+  ],
+};
+---
+<BaseLayout {page}>
+  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
+  <link slot="head" rel="stylesheet" href="/css/em-pro-nas.css" />
+
+  <div class="em-hero-product">
+    <div class="em-hero-product-inner em-pro-nas-hero-inner">
+      <div class="em-hero-product-text">
+        <h1>Производство электрощитов с 1999 года</h1>
+        <p class="em-hero-product-lead">Компания «Электромонтаж» изготавливает силовые щиты и щиты управления на заказ для промышленных предприятий и электромонтажных организаций. На рынке с 1999 года — более 25 лет производственного опыта.</p>
+        <div class="em-hero-badges">
+          <div class="em-badge"><strong>1999</strong> — год основания</div>
+          <div class="em-badge"><strong>25+ лет</strong> — опыт</div>
+          <div class="em-badge"><strong>500+</strong> — проектов</div>
+          <div class="em-badge"><strong>от 2 недель</strong> — изготовление</div>
+          <div class="em-badge"><strong>12 мес.</strong> — гарантия</div>
+        </div>
+        <div class="em-hero-product-actions">
+          <a href="#kontakty-blok" class="em-btn-primary">Заказать / Связаться с нами</a>
+        </div>
+        <p class="em-hero-product-contact">Или позвоните: <a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></p>
+      </div>
+      <div class="em-pro-nas-facts">
+        <table class="em-facts-table" aria-label="Основные сведения о компании">
+          <tbody>
+            <tr><td class="em-facts-label">На рынке с</td><td class="em-facts-value"><strong>1999 года</strong></td></tr>
+            <tr><td class="em-facts-label">Опыт</td><td class="em-facts-value">25+ лет</td></tr>
+            <tr><td class="em-facts-label">Выполнено проектов</td><td class="em-facts-value"><strong>500+</strong></td></tr>
+            <tr><td class="em-facts-label">География</td><td class="em-facts-value">Киев и Киевская область. Доставка по всей Украине.</td></tr>
+            <tr><td class="em-facts-label">Гарантия</td><td class="em-facts-value">12 месяцев на каждый щит</td></tr>
+            <tr><td class="em-facts-label">Телефон</td><td class="em-facts-value"><a href={`tel:${PHONE}`}>{PHONE_DISPLAY}</a></td></tr>
+            <tr><td class="em-facts-label">Адрес</td><td class="em-facts-value">Киев, ул. Печенежская, 35/43, оф. 168</td></tr>
+            <tr><td class="em-facts-label">Режим работы</td><td class="em-facts-value">Пн–Пт: 9:00–17:30</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Специализация</span>
+      <h2>Что мы изготавливаем</h2>
+      <p class="em-lead">Силовые щиты и щиты управления любой сложности на заказ. Также выполняем программирование ПЛК и электромонтажные работы на промышленных объектах.</p>
+      <div class="em-products-grid">
+        <a href="/ru/posluhy-ta-produktsiia/hrshch/" class="em-product-card"><div class="em-product-card-body"><h3>Силовые щиты — ГРЩ / ВРЩ</h3><p>Главные и вводно-распределительные щиты до 630А. Для промышленных объектов и объектов реконструкции.</p></div></a>
+        <a href="/ru/posluhy-ta-produktsiia/dvyhuny/" class="em-product-card"><div class="em-product-card-body"><h3>Щиты управления двигателями</h3><p>Прямой пуск, реверс, звезда-треугольник, частотные преобразователи, мягкие пускатели.</p></div></a>
+        <a href="/ru/posluhy-ta-produktsiia/shuz/" class="em-product-card"><div class="em-product-card-body"><h3>Щиты управления задвижками (ШУЗ)</h3><p>Трубопроводные системы, электроприводная арматура. АВТ и ручной режим.</p></div></a>
+        <a href="/ru/posluhy-ta-produktsiia/dymovydalennia/" class="em-product-card"><div class="em-product-card-body"><h3>Щиты дымоудаления</h3><p>Дымоудаление, подпор воздуха, управление противопожарными клапанами и вентиляторами.</p></div></a>
+        <a href="/ru/posluhy-ta-produktsiia/krm/" class="em-product-card"><div class="em-product-card-body"><h3>КРМ — конденсаторные установки</h3><p>Компенсация реактивной мощности. Снижение нагрузки на сеть и оплату за электроэнергию.</p></div></a>
+        <a href="/ru/posluhy-ta-produktsiia/ahro/" class="em-product-card"><div class="em-product-card-body"><h3>Электрощиты для агрохозяйств</h3><p>Зерновые комплексы, насосы, вентиляция, сушилки. Работа в сложных условиях среды.</p></div></a>
+      </div>
+      <div style="margin-top: 24px;">
+        <a href="/ru/posluhy-ta-produktsiia/" class="em-btn-primary">Посмотреть всю продукцию →</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="em-section">
+    <span class="em-section-label">Как мы работаем</span>
+    <h2>5 шагов от ТЗ до готового щита</h2>
+    <p class="em-lead">Полный цикл под ключ: от приёма задания до передачи готового щита с документацией. Комплектующие закупаем самостоятельно — отвечаем за качество изделия от начала до конца.</p>
+    <div class="em-steps-row">
+      <div class="em-step"><div class="em-step-num">01</div><h3>Техническое задание</h3><p>Присылаете ТЗ, схему или описываете задачу. Принимаем PDF, DWG, фото, устное описание.</p><div class="em-step-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div></div>
+      <div class="em-step"><div class="em-step-num">02</div><h3>Расчёт и схема</h3><p>Разрабатываем или проверяем схему, согласовываем стоимость и сроки. Отвечаем за 1–2 дня.</p><div class="em-step-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div></div>
+      <div class="em-step"><div class="em-step-num">03</div><h3>Оплата</h3><p>Частичная или полная — после этого запускаем щит в производство.</p><div class="em-step-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div></div>
+      <div class="em-step"><div class="em-step-num">04</div><h3>Сборка и проверка</h3><p>Собираем в Киеве. Маркируем, проверяем каждый щит перед отправкой.</p><div class="em-step-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div></div>
+      <div class="em-step"><div class="em-step-num">05</div><h3>Передача с документацией</h3><p>Доставка по Киеву и Киевской обл. или Новой Почтой. Паспорт изделия и схема — в щите.</p></div>
+    </div>
+  </section>
+
+  <div class="em-section-alt">
+    <div class="em-section-alt-inner">
+      <span class="em-section-label">Комплектующие</span>
+      <h2>Комплектующие и производители</h2>
+      <p class="em-lead">Подбираем под бюджет и наличие. Конкретный бренд согласовывается при приёме заказа.</p>
+      <div class="em-brands">
+        <div class="em-brands-group">
+          <div class="em-brands-group-label">Основные бренды</div>
+          <div class="em-brands-row">
+            <div class="em-brand-pill">ETI</div>
+            <div class="em-brand-pill">Hager</div>
+            <div class="em-brand-pill">Schneider Electric</div>
+            <div class="em-brand-pill">Eaton</div>
+          </div>
+        </div>
+        <div class="em-brands-group">
+          <div class="em-brands-group-label">Эконом-комплектация</div>
+          <div class="em-brands-row">
+            <div class="em-brand-pill secondary">E-Next</div>
+            <div class="em-brand-pill secondary">Asko</div>
+            <div class="em-brand-pill secondary">Chint</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="em-section">
+    <span class="em-section-label">Почему нас выбирают</span>
+    <h2>Почему заказывают у нас</h2>
+    <div class="em-why-grid">
+      <div class="em-why-card"><h3>25+ лет опыта</h3><p>На рынке с 1999 года. Знаем специфику промышленных объектов, реконструкций и нового строительства.</p></div>
+      <div class="em-why-card"><h3>Отвечаем за качество</h3><p>Комплектующие закупаем самостоятельно. Никаких подделок и несертифицированных аналогов без согласования.</p></div>
+      <div class="em-why-card"><h3>Гарантия 12 месяцев</h3><p>Каждый щит получает паспорт изделия, принципиальную схему и письменную гарантию на 12 месяцев.</p></div>
+      <div class="em-why-card"><h3>Сроки от 2 недель</h3><p>Реальные сроки изготовления — от 2 недель. Согласовываем сроки до начала работы.</p></div>
+      <div class="em-why-card"><h3>Отвечаем за 1–2 дня</h3><p>Присылайте ТЗ или схему — рассчитаем стоимость и сроки и вернёмся с ответом в течение 1–2 рабочих дней.</p></div>
+      <div class="em-why-card"><h3>Киев и вся Украина</h3><p>Собственное производство в Киеве. Доставка по всей Украине — Новой Почтой и собственным транспортом.</p></div>
+    </div>
+  </section>
+
+  <ContactBlock title="Готовы обсудить ваш заказ" lang="ru" />
+  <script is:inline src="/js/em-site.js"></script>
+</BaseLayout>
