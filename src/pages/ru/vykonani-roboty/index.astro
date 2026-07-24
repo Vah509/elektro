@@ -16,8 +16,6 @@ const page = {
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/main.css" />
-
   <div class="em-not-translated">
     <div class="em-not-translated-inner">
       <div class="em-not-translated-icon">
@@ -31,7 +29,7 @@ const page = {
         Раздел «Выполненные работы» с фотографиями наших электрощитов
         доступен только на украинском языке.
       </p>
-      <a href="/vykonani-roboty/" class="em-btn-primary em-not-translated-btn">
+      <a id="em-uk-link" href="/vykonani-roboty/" class="em-btn-primary em-not-translated-btn">
         Перейти на украинскую версию →
       </a>
     </div>
@@ -77,6 +75,17 @@ const page = {
       display: inline-block;
     }
   </style>
+
+  <script is:inline>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const from = params.get('from');
+      if (from) {
+        const link = document.getElementById('em-uk-link');
+        if (link) link.href = '/vykonani-roboty/' + from + '/';
+      }
+    })();
+  </script>
 
   <script is:inline src="/js/em-site.js"></script>
 </BaseLayout>

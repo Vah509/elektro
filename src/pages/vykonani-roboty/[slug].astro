@@ -32,7 +32,7 @@ const page = {
   description: data.description,
   canonical,
   lang:     'uk' as const,
-  altUrl:   '/ru/vykonani-roboty/',
+  altUrl:   `/ru/vykonani-roboty/?from=${work.slug}`,
   ogType:   'article' as const,
   crumbs: [
     { label: 'Головна',          href: '/' },
