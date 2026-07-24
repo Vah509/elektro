@@ -999,7 +999,7 @@ h3 { font-size: 15px; }
 /* ── Перемикач мови — десктоп (між nav і header-right) ── */
 /* Прихований на мобільному та планшеті — там є в гамбургері */
 .em-lang-switch {
-  display: none; /* мобільний default — прихований */
+  display: none;
   flex-direction: column;
   align-items: center;
   gap: 2px;
@@ -1012,9 +1012,13 @@ h3 { font-size: 15px; }
   background: var(--c-divider);
   margin: 1px 0;
 }
+@media (max-width: 900px) {
+  .em-lang-switch { display: none !important; }
+}
 @media (min-width: 901px) {
   .em-lang-switch {
-    display: flex; /* показуємо тільки на десктопі */
+    display: flex !important;
+    flex-direction: column !important;
   }
 }
 
