@@ -5,6 +5,20 @@
 const { items = [], sectionTitle = 'Часті запитання', lang = 'uk' } = Astro.props;
 
 const sectionLabel = lang === 'ru' ? 'Частые вопросы' : 'Часті запитання';
+
+// JSON-LD FAQPage — для rich snippets у пошуку Google
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item: { q: string; a: string }) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
 ---
 <section class="em-section">
   <span class="em-section-label">{sectionLabel}</span>
@@ -25,3 +39,5 @@ const sectionLabel = lang === 'ru' ? 'Частые вопросы' : 'Часті
     ))}
   </div>
 </section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
