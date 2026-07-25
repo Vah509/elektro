@@ -24,6 +24,10 @@ export const ADDRESS       = 'Київ, вул. Печенізька, 35/43, о�
 export const ADDRESS_STREET = 'вул. Печенізька, 35/43, оф. 168';
 export const ADDRESS_CITY   = 'Київ';
 
+// Адреса та графік для RU-версії сайту
+export const ADDRESS_RU    = 'Киев, ул. Печенежская, 35/43, оф. 168';
+export const WORK_HOURS_RU = 'рабочие дни с 9:00 до 17:00';
+
 export const MAPS_URL      = 'https://www.google.com/maps/search/?api=1&query=Київ,+вул.+Печенізька,+35/43';
 
 export const VIBER         = 'viber://chat?number=%2B380733058694';

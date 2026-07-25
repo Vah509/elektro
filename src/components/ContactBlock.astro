@@ -1,6 +1,9 @@
 ---
-import { PHONE, PHONE_DISPLAY, EMAIL, ADDRESS, MAPS_URL, VIBER, TELEGRAM, WHATSAPP, WORK_HOURS } from '../config';
+import { PHONE, PHONE_DISPLAY, EMAIL, ADDRESS, ADDRESS_RU, MAPS_URL, VIBER, TELEGRAM, WHATSAPP, WORK_HOURS, WORK_HOURS_RU } from '../config';
 const { title = 'Готові обговорити ваше замовлення', lang = 'uk' } = Astro.props;
+
+const displayAddress  = lang === 'ru' ? ADDRESS_RU    : ADDRESS;
+const displayHours    = lang === 'ru' ? WORK_HOURS_RU : WORK_HOURS;
 
 const t = {
   label:     lang === 'ru' ? 'Свяжитесь с нами'   : "Зв'яжіться з нами",
@@ -35,7 +38,7 @@ const t = {
       </div>
       <div class="em-contact-text-item">
         <span class="em-contact-text-label">{t.address}</span>
-        <span class="em-contact-text-value">{ADDRESS}</span>
+        <span class="em-contact-text-value">{displayAddress}</span>
       </div>
     </div>
     <p class="em-contact-hint">{t.hint}</p>
@@ -68,6 +71,6 @@ const t = {
       </a>
     </div>
 
-    <p class="em-contact-hours"><strong>{t.hours}</strong> {WORK_HOURS}</p>
+    <p class="em-contact-hours"><strong>{t.hours}</strong> {displayHours}</p>
   </div>
 </div>
