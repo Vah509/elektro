@@ -25,8 +25,7 @@ const prodPrefix = lang === 'ru'
   : '/posluhy-ta-produktsiia';
 
 const menuProducts = [
-  { href: `${prodPrefix}/grshch-i-vrshch/`,                    label: lang === 'ru' ? 'ГРЩ / ВРЩ — силовые щиты'      : 'ГРЩ / ВРЩ — силові щити',
-    hrefUk: '/posluhy-ta-produktsiia/hrshch/' },
+  { href: lang === 'ru' ? `${prodPrefix}/grshch-i-vrshch/` : '/posluhy-ta-produktsiia/hrshch/', label: lang === 'ru' ? 'ГРЩ / ВРЩ — силовые щиты'      : 'ГРЩ / ВРЩ — силові щити' },
   { href: lang === 'ru' ? `${prodPrefix}/shchity-dymoudaleniya/`              : '/posluhy-ta-produktsiia/dymovydalennia/',  label: lang === 'ru' ? 'Щит дымоудаления'              : 'Щит димовидалення' },
   { href: lang === 'ru' ? `${prodPrefix}/shchity-upravleniya-dvigatelyami/`  : '/posluhy-ta-produktsiia/dvyhuny/',         label: lang === 'ru' ? 'Управление двигателями'        : 'Керування двигунами' },
   { href: lang === 'ru' ? `${prodPrefix}/shuz/`                              : '/posluhy-ta-produktsiia/shuz/',            label: lang === 'ru' ? 'Управление задвижками (ШУЗ)'   : 'Керування засувками (ШУЗ)' },
