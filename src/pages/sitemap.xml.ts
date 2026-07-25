@@ -23,6 +23,10 @@ import { SITE_CANONICAL } from '../config';
 // Сторінки, які НІКОЛИ не повинні потрапляти в sitemap
 const EXCLUDED_NAMES = ['admin_509'];
 
+// Дата білду — використовується як lastmod для всіх сторінок.
+// Кожен деплой оновлює дату → Googlebot знає що обходити.
+const BUILD_DATE = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
 // Витягує «чисті» шляхи (без .astro та без квадратних дужок)
 // зі списку ключів, які повертає import.meta.glob
 function extractPaths(globEntries: Record<string, unknown>, prefix: string): string[] {
@@ -85,7 +89,7 @@ export async function GET() {
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${url}</loc></url>`).join('\n')}
+${urls.map((url) => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${BUILD_DATE}</lastmod>\n  </url>`).join('\n')}
 </urlset>
 `;
 
