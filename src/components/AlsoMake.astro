@@ -2,60 +2,89 @@
 // currentSlug — slug поточної сторінки, щоб не показувати себе
 const { currentSlug = '', lang = 'uk' } = Astro.props;
 
-const prefix = lang === 'ru' ? '/ru' : '';
+// Таблиця RU slug-ів для /ru/uslugi-i-produktsiya/
+const ruSlugs: Record<string, string> = {
+  'hrshch':          'grshch-i-vrshch',
+  'dymovydalennia':  'shchity-dymoudaleniya',
+  'dvyhuny':         'shchity-upravleniya-dvigatelyami',
+  'shuz':            'shuz',
+  'krm':             'krm',
+  'zenitni-lihtari': 'zenitnyye-fonari',
+  'ahro':            'elektroschity-dlya-agro',
+  'plk':             'programmirovanie-plk',
+  'elektromontazh':  'elektromontazh',
+};
 
 const allProducts = [
   {
     slug: 'hrshch',
-    href: `${prefix}/posluhy-ta-produktsiia/hrshch`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['hrshch']}/`
+      : '/posluhy-ta-produktsiia/hrshch/',
     title: lang === 'ru' ? 'ГРЩ / ВРЩ — силовые щиты'            : 'ГРЩ / ВРЩ — силові щити',
     desc:  lang === 'ru' ? 'Главные и вводно-распределительные щиты до 630А' : 'Головні та вводно-розподільчі щити до 630А',
   },
   {
     slug: 'dymovydalennia',
-    href: `${prefix}/posluhy-ta-produktsiia/dymovydalennia`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['dymovydalennia']}/`
+      : '/posluhy-ta-produktsiia/dymovydalennia/',
     title: lang === 'ru' ? 'Щиты дымоудаления'                    : 'Щити димовидалення',
     desc:  lang === 'ru' ? 'Дымоудаление, подпор воздуха, противопожарные клапаны' : 'Димовидалення, підпір повітря, протипожежні клапани',
   },
   {
     slug: 'dvyhuny',
-    href: `${prefix}/posluhy-ta-produktsiia/dvyhuny`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['dvyhuny']}/`
+      : '/posluhy-ta-produktsiia/dvyhuny/',
     title: lang === 'ru' ? 'Щиты управления двигателями'           : 'Щити керування двигунами',
     desc:  lang === 'ru' ? 'Прямой пуск, реверс, звезда-треугольник, ЧП, мягкий пуск' : "Прямий пуск, реверс, зірка-трикутник, ЧП, м'який пуск",
   },
   {
     slug: 'shuz',
-    href: `${prefix}/posluhy-ta-produktsiia/shuz`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['shuz']}/`
+      : '/posluhy-ta-produktsiia/shuz/',
     title: lang === 'ru' ? 'Щиты управления задвижками (ШУЗ)'     : 'Щити керування засувками (ШУЗ)',
     desc:  lang === 'ru' ? 'Трубопроводные системы, электроприводная арматура' : 'Трубопровідні системи, електроприводна арматура',
   },
   {
     slug: 'krm',
-    href: `${prefix}/posluhy-ta-produktsiia/krm`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['krm']}/`
+      : '/posluhy-ta-produktsiia/krm/',
     title: lang === 'ru' ? 'КРМ — конденсаторные установки'       : 'КРМ — конденсаторні установки',
     desc:  lang === 'ru' ? 'Компенсация реактивной мощности на производстве' : 'Компенсація реактивної потужності на виробництві',
   },
   {
     slug: 'zenitni-lihtari',
-    href: `${prefix}/posluhy-ta-produktsiia/zenitni-lihtari`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['zenitni-lihtari']}/`
+      : '/posluhy-ta-produktsiia/zenitni-lihtari/',
     title: lang === 'ru' ? 'Щиты управления зенитными фонарями'   : 'Щити керування зенітними ліхтарями',
     desc:  lang === 'ru' ? 'Фрамуги, люки, противопожарная автоматика' : 'Фрамуги, люки, протипожежна автоматика',
   },
   {
     slug: 'ahro',
-    href: `${prefix}/posluhy-ta-produktsiia/ahro`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['ahro']}/`
+      : '/posluhy-ta-produktsiia/ahro/',
     title: lang === 'ru' ? 'Электрощиты для агрохозяйств'         : 'Електрощити для агрогосподарств',
     desc:  lang === 'ru' ? 'Зерновые комплексы, насосы, вентиляция, сушилки' : 'Зернові комплекси, насоси, вентиляція, сушарки',
   },
   {
     slug: 'plk',
-    href: `${prefix}/posluhy-ta-produktsiia/plk`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['plk']}/`
+      : '/posluhy-ta-produktsiia/plk/',
     title: lang === 'ru' ? 'Программирование ПЛК'                 : 'Програмування ПЛК',
     desc:  lang === 'ru' ? 'Разработка и наладка программ для контроллеров' : 'Розробка та налагодження програм для контролерів',
   },
   {
     slug: 'elektromontazh',
-    href: `${prefix}/posluhy-ta-produktsiia/elektromontazh`,
+    href: lang === 'ru'
+      ? `/ru/uslugi-i-produktsiya/${ruSlugs['elektromontazh']}/`
+      : '/posluhy-ta-produktsiia/elektromontazh/',
     title: lang === 'ru' ? 'Электромонтажные работы'              : 'Електромонтажні роботи',
     desc:  lang === 'ru' ? 'Монтаж кабельных трасс, щитов, заземления на объектах' : "Монтаж кабельних трас, щитів, заземлення на об'єктах",
   },
