@@ -1,6 +1,7 @@
 ---
 id: 260707065417
 title: "Щит керування зовнішнім та охоронним освітленням за астрономічним таймером"
+seoTitle: "Щит керування освітленням за таймером | elektroschit.com.ua"
 date: 2026-07-07
 types: ["shafi-keruvannia"]
 tags: ["upravlinnia-osvitlenniiam"]

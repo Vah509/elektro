@@ -1,6 +1,7 @@
 ---
 id: 260706131011
 title: "АВР 400А на мотоприводному переключателі Technoelectric"
+seoTitle: "АВР 400А Technoelectric | elektroschit.com.ua"
 date: 2026-07-06
 types: ["hrshch"]
 tags: ["avr", "sylova-shafa"]

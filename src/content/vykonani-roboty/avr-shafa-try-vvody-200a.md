@@ -1,6 +1,7 @@
 ---
 id: 260706125757
 title: "Шафа АВР на три вводи з ручним керуванням — 100А і 200А"
+seoTitle: "Шафа АВР на три вводи 100А/200А | elektroschit.com.ua"
 date: 2026-07-06
 types: ["hrshch"]
 tags: ["avr", "sylova-shafa"]

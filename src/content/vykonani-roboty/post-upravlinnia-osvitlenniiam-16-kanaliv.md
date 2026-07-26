@@ -1,6 +1,7 @@
 ---
 id: 260707130112
 title: "Пост керування освітленням на 16 каналів"
+seoTitle: "Пост керування освітленням, 16 каналів | elektroschit.com.ua"
 date: 2023-03-09
 types: ["shafi-keruvannia"]
 tags: ["upravlinnia-osvitlenniiam"]

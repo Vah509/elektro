@@ -1,6 +1,7 @@
 ---
 id: 260706070626
 title: "Шафа АВР 250А з трьома вводами: мережа, резерв, дизель-генератор"
+seoTitle: "Шафа АВР 250А, три вводи | elektroschit.com.ua"
 date: 2026-07-06
 types: ["hrshch"]
 tags: ["avr", "sylova-shafa"]

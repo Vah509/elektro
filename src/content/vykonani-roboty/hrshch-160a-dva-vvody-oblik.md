@@ -1,6 +1,7 @@
 ---
 id: 2606291
 title: "ГРЩ 160А з двома вводами та обліком по ТТ"
+seoTitle: "ГРЩ 160А, два вводи, облік | elektroschit.com.ua"
 date: 2026-06-29
 types: ["hrshch"]
 tags: ["sylova-shafa"]

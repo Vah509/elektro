@@ -1,6 +1,7 @@
 ---
 id: 260707132413
 title: "Шафа керування мікрокліматом та годівлею для агропідприємства"
+seoTitle: "Шафа мікроклімату та годівлі для агро | elektroschit.com.ua"
 date: 2026-07-07
 types: ["shafi-keruvannia", "ahro"]
 tags: []

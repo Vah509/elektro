@@ -1,6 +1,7 @@
 ---
 id: 260703205002
 title: "Шафа керування вентилятором димовидалення та клапаном з диспетчеризацією"
+seoTitle: "Шафа димовидалення з диспетчеризацією | elektroschit.com.ua"
 date: 2026-07-03
 types: ["dymovydalennia", "dvyhuny", "shafi-keruvannia"]
 tags: []

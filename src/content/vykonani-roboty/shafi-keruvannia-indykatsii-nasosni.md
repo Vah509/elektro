@@ -1,6 +1,7 @@
 ---
 id: 260707070240
 title: "Шафа індикації насосних станцій пожежогасіння та ХВС"
+seoTitle: "Шафа індикації насосних станцій | elektroschit.com.ua"
 date: 2022-10-29
 types: ["shafi-keruvannia"]
 tags: []

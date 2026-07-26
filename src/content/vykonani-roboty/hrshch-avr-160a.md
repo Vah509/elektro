@@ -1,6 +1,7 @@
 ---
 id: 260706065620
 title: "Щит АВР 160А з автоматичним введенням резерву CHNT"
+seoTitle: "Щит АВР 160А CHNT | elektroschit.com.ua"
 date: 2026-07-06
 types: ["hrshch"]
 tags: ["avr", "sylova-shafa"]

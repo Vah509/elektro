@@ -23,7 +23,7 @@ const { work } = Astro.props;
 const { data }  = work;
 const { Content } = await render(work);
 
-const seoTitle = data.seoTitle ?? `${data.title} — Виконані роботи | elektroschit.com.ua`;
+const seoTitle = data.seoTitle ?? `${data.title} | elektroschit.com.ua`;
 const canonical = `${SITE_CANONICAL}/vykonani-roboty/${work.slug}/`;
 
 const page = {

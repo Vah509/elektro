@@ -1,6 +1,7 @@
 ---
 id: 260706181231
 title: "Шафа індикації насосних станцій АПГ з мнемосхемами"
+seoTitle: "Шафа індикації АПГ з мнемосхемами | elektroschit.com.ua"
 date: 2026-07-06
 types: ["plk", "shafi-keruvannia"]
 tags: []

@@ -1,6 +1,7 @@
 ---
 id: 2606293
 title: "ГРЩ 400А з вступним автоматом та обліком"
+seoTitle: "ГРЩ 400А з вступним автоматом | elektroschit.com.ua"
 date: 2026-06-29
 types: ["hrshch"]
 tags: ["sylova-shafa"]

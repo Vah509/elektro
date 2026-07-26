@@ -1,6 +1,7 @@
 ---
 id: 2606294
 title: "Шафа керування підпором повітря (ШКПП)"
+seoTitle: "Шафа підпору повітря (ШКПП) | elektroschit.com.ua"
 date: 2026-06-29
 types: ["dvyhuny", "dymovydalennia", "shafi-keruvannia"]
 tags: []

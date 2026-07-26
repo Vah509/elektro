@@ -1,6 +1,7 @@
 ---
 id: 2606292
 title: "ГРЩ з рубильником ETI 400А та обліком"
+seoTitle: "ГРЩ з рубильником ETI 400А та обліком | elektroschit.com.ua"
 date: 2026-06-29
 types: ["hrshch"]
 tags: ["sylova-shafa"]

@@ -1,6 +1,7 @@
 ---
 id: 260706070053
 title: "Шафа АВР 250А на контакторах АСКО-УКРЕМ"
+seoTitle: "Шафа АВР 250А на контакторах | elektroschit.com.ua"
 date: 2026-07-06
 types: ["hrshch"]
 tags: ["avr", "sylova-shafa"]

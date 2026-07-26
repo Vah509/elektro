@@ -1,6 +1,7 @@
 ---
 id: 2606281
 title: "ВРЩ 200А для магазину з кав'ярнею"
+seoTitle: "ВРЩ 200А для магазину з кав'ярнею | elektroschit.com.ua"
 date: 2026-06-28
 types: ["hrshch"]
 tags: ["sylova-shafa", "avr"]

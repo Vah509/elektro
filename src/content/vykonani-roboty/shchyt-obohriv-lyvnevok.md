@@ -1,6 +1,7 @@
 ---
 id: 260707064815
 title: "Шкаф керування обігрівом ливневої каналізації"
+seoTitle: "Шафа обігріву ливневої каналізації | elektroschit.com.ua"
 date: 2026-07-07
 types: ["shafi-keruvannia"]
 tags: []

@@ -1,6 +1,7 @@
 ---
 id: 260706130410
 title: "Шафа АВР на три вводи з перемикачами ETI MLBS"
+seoTitle: "Шафа АВР на три вводи ETI MLBS | elektroschit.com.ua"
 date: 2026-07-06
 types: ["hrshch"]
 tags: ["avr", "sylova-shafa"]

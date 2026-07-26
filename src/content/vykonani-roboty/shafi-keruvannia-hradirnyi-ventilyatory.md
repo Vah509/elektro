@@ -1,6 +1,7 @@
 ---
 id: 260707065901
 title: "Шафа керування вентиляторами охолодження градирні"
+seoTitle: "Шафа керування вентиляторами градирні | elektroschit.com.ua"
 date: 2022-09-01
 types: ["shafi-keruvannia"]
 tags: []
