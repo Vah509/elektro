@@ -158,6 +158,12 @@ const localBusinessJsonLd = {
   <meta property="og:locale"      content={ogLocale} />
   <meta property="og:site_name"   content="Elektroschit" />
 
+  <!-- X (Twitter) Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={page.title} />
+  <meta name="twitter:description" content={page.description} />
+  <meta name="twitter:image"       content={`${SITE_CANONICAL}/images/og-default.jpg`} />
+
   <!-- Фавікон -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
