@@ -10,18 +10,28 @@ import WorkSpecs from '../../components/WorkSpecs.astro';
 import WorkBrands from '../../components/WorkBrands.astro';
 import WorkSimilar from '../../components/WorkSimilar.astro';
 import { SITE_CANONICAL } from '../../config';
+import { getGlobalSimilarWorksMap } from '../../utils/similarWorksGraph';
+import { TYPE_LABELS } from '../../data/tags-registry';
 
 export async function getStaticPaths() {
   const works = await getCollection('vykonani-roboty');
+  const similarMap = await getGlobalSimilarWorksMap({
+    row1Count: 4,
+    row2Count: 4,
+    typeWeight: 2,
+    tagWeight: 1,
+    fallbackToSameType: true,
+  });
   return works.map(work => ({
     params: { slug: work.slug },
-    props:  { work },
+    props:  { work, similar: similarMap.get(work.slug) ?? { relatedTop: [], moreWorks: [] } },
   }));
 }
 
-const { work } = Astro.props;
+const { work, similar } = Astro.props;
 const { data }  = work;
 const { Content } = await render(work);
+const currentTypeLabel = TYPE_LABELS[data.types[0]] ?? data.types[0];
 
 const seoTitle = data.seoTitle ?? `${data.title} | elektroschit.com.ua`;
 const canonical = `${SITE_CANONICAL}/vykonani-roboty/${work.slug}/`;
@@ -59,9 +69,9 @@ const page = {
   <WorkBrands brands={data.brands} />
 
   <WorkSimilar
-    currentSlug={work.slug}
-    types={data.types}
-    tags={data.tags}
+    relatedTop={similar.relatedTop}
+    moreWorks={similar.moreWorks}
+    currentTypeLabel={currentTypeLabel}
   />
 
   <ContactBlock title="Хочете такий щит? Зв'яжіться з нами" />

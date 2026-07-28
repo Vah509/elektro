@@ -1,77 +1,85 @@
 ---
-// Схожі роботи — алгоритм Б: тип=2 очки, тег=1 очко, топ-3 по даті
-import { getCollection } from 'astro:content';
+// Схожі роботи — тепер чисто відображення.
+// Весь підрахунок (граф перелінковки) відбувається один раз на білд
+// у src/utils/similarWorksGraph.ts, викликається з [slug].astro
+// і передається сюди вже готовими списками.
+import type { CollectionEntry } from 'astro:content';
 import { TYPE_LABELS, TAG_LABELS } from '../data/tags-registry';
 
+type Work = CollectionEntry<'vykonani-roboty'>;
+
 interface Props {
-  currentSlug: string;
-  types: string[];
-  tags: string[];
+  relatedTop: Work[];   // Ряд 1 — реально схожі роботи
+  moreWorks:  Work[];   // Ряд 2 — інші роботи (з захистом від сиріт)
+  currentTypeLabel?: string;
 }
-const { currentSlug, types, tags } = Astro.props;
+const { relatedTop, moreWorks, currentTypeLabel } = Astro.props;
 
-const allWorks = await getCollection('vykonani-roboty');
-
-const scored = allWorks
-  .filter(w => w.slug !== currentSlug)
-  .map(w => {
-    let score = 0;
-    types.forEach(t => { if (w.data.types.includes(t)) score += 2; });
-    tags.forEach(t  => { if (w.data.tags.includes(t))  score += 1; });
-    return { work: w, score };
-  })
-  .filter(x => x.score > 0)
-  .sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
-    return new Date(b.work.data.date).getTime() - new Date(a.work.data.date).getTime();
-  })
-  .slice(0, 3)
-  .map(x => x.work);
-
-const showGrid = scored.length >= 1;
-// Назва першого типу для заголовку
-const firstTypeLabel = TYPE_LABELS[types[0]] ?? types[0];
+const hasRow1 = relatedTop.length > 0;
+const hasRow2 = moreWorks.length > 0;
 ---
 
 <div class="em-section-alt">
   <div class="em-section-alt-inner">
-    <span class="em-section-label">Схожі проєкти</span>
-    <h2>Інші роботи — {firstTypeLabel}</h2>
 
-    {showGrid ? (
-      <div class="em-similar-grid">
-        {scored.map(work => (
-          <a href={`/vykonani-roboty/${work.slug}/`} class="em-work-card">
-            <div class="em-work-card-photo">
-              <img
-                src={work.data.photos[0].src}
-                alt={work.data.photos[0].caption}
-                loading="lazy"
-              />
-            </div>
-            <div class="em-work-card-body">
-              <div class="em-work-card-tags">
-                {work.data.types.map((t: string) => (
-                  <span class="em-work-tag em-work-tag--type">
-                    {TYPE_LABELS[t] ?? t}
-                  </span>
-                ))}
-                {work.data.tags.map((t: string) => (
-                  <span class="em-work-tag em-work-tag--tag">
-                    {TAG_LABELS[t] ?? t}
-                  </span>
-                ))}
+    {hasRow1 && (
+      <>
+        <span class="em-section-label">Схожі проєкти</span>
+        <h2>Інші роботи{currentTypeLabel ? ` — ${currentTypeLabel}` : ''}</h2>
+
+        <div class="em-similar-grid">
+          {relatedTop.map((work) => (
+            <a href={`/vykonani-roboty/${work.slug}/`} class="em-work-card">
+              <div class="em-work-card-photo">
+                <img
+                  src={work.data.photos[0].src}
+                  alt={work.data.photos[0].caption}
+                  loading="lazy"
+                />
               </div>
-              <div class="em-work-card-title">{work.data.title}</div>
-              <div class="em-work-card-brands">
-                {work.data.brands.join(' · ')}
+              <div class="em-work-card-body">
+                <div class="em-work-card-tags">
+                  {work.data.types.map((t: string) => (
+                    <span class="em-work-tag em-work-tag--type">
+                      {TYPE_LABELS[t] ?? t}
+                    </span>
+                  ))}
+                  {work.data.tags.map((t: string) => (
+                    <span class="em-work-tag em-work-tag--tag">
+                      {TAG_LABELS[t] ?? t}
+                    </span>
+                  ))}
+                </div>
+                <div class="em-work-card-title">{work.data.title}</div>
+                <div class="em-work-card-brands">
+                  {work.data.brands.join(' · ')}
+                </div>
+                <span class="em-work-card-btn">Детальніше →</span>
               </div>
-              <span class="em-work-card-btn">Детальніше →</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    ) : (
+            </a>
+          ))}
+        </div>
+      </>
+    )}
+
+    {hasRow2 && (
+      <>
+        <span class="em-section-label em-section-label--sub">Також можуть зацікавити</span>
+        <h3 class="em-more-works-title">Інші наші роботи</h3>
+
+        <div class="em-more-works-grid">
+          {moreWorks.map((work) => (
+            <a href={`/vykonani-roboty/${work.slug}/`} class="em-more-work-card">
+              <span class="em-more-work-type">{TYPE_LABELS[work.data.types[0]] ?? work.data.types[0]}</span>
+              <span class="em-more-work-title">{work.data.title}</span>
+              <span class="em-more-work-arrow">→</span>
+            </a>
+          ))}
+        </div>
+      </>
+    )}
+
+    {!hasRow1 && !hasRow2 && (
       <div class="em-similar-empty">
         <p>Переглянути всі наші роботи в каталозі</p>
         <a href="/vykonani-roboty/" class="em-btn-primary">
@@ -79,14 +87,16 @@ const firstTypeLabel = TYPE_LABELS[types[0]] ?? types[0];
         </a>
       </div>
     )}
+
   </div>
 </div>
 
 <style>
 .em-similar-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  margin-bottom: 8px;
 }
 @media (max-width: 900px) {
   .em-similar-grid { grid-template-columns: repeat(2, 1fr); }
@@ -95,7 +105,7 @@ const firstTypeLabel = TYPE_LABELS[types[0]] ?? types[0];
   .em-similar-grid { grid-template-columns: 1fr; }
 }
 
-/* Картка роботи (використовується і тут і в каталозі) */
+/* Картка роботи — Ряд 1 (повний формат) */
 .em-work-card {
   background: #fff;
   border: 1.5px solid var(--c-accent-border);
@@ -168,7 +178,69 @@ const firstTypeLabel = TYPE_LABELS[types[0]] ?? types[0];
 }
 .em-work-card:hover .em-work-card-btn { background: var(--c-accent-hover); }
 
-/* Кнопка якщо нема схожих */
+/* Ряд 2 — компактні картки «Інші наші роботи» */
+.em-section-label--sub {
+  margin-top: 28px;
+  display: inline-block;
+}
+.em-more-works-title {
+  font-family: var(--ff);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--c-head);
+  margin: 4px 0 16px;
+}
+.em-more-works-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+@media (max-width: 900px) {
+  .em-more-works-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .em-more-works-grid { grid-template-columns: 1fr; }
+}
+.em-more-work-card {
+  background: #fff;
+  border: 1.5px solid var(--c-accent-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.em-more-work-card:hover {
+  border-color: var(--c-accent);
+  transform: translateY(-2px);
+}
+.em-more-work-type {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.em-more-work-title {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--c-head);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.em-more-work-arrow {
+  font-size: 13px;
+  color: var(--c-muted);
+  margin-top: auto;
+}
+
+/* Кнопка якщо взагалі нема жодних рекомендацій (теоретичний edge-case) */
 .em-similar-empty {
   display: flex;
   flex-direction: column;
