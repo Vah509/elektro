@@ -61,8 +61,13 @@ import { getCollection } from 'astro:content';
 import { SITE_CANONICAL } from '../config';
 import lastmodMap from '../data/lastmod-map.json';
 
-// Сторінки, які НІКОЛИ не повинні потрапляти в sitemap
+// Сторінки, які НІКОЛИ не повинні потрапляти в sitemap (за іменем файлу)
 const EXCLUDED_NAMES = ['admin_509'];
+
+// Сторінки, які НІКОЛИ не повинні потрапляти в sitemap (за повним urlPath,
+// бо ім'я файлу — 'index', як і в усіх інших розділів, тому виключити
+// за іменем не можна)
+const EXCLUDED_PATHS = ['ru/vykonani-roboty'];
 
 // Фолбек-дата — використовується ТІЛЬКИ якщо для файлу немає запису
 // у lastmod-map.json (наприклад, мапа ще не встигла його підхопити)
@@ -160,7 +165,11 @@ export async function GET() {
     return true;
   });
 
-  const urlObjects = uniqueEntries.map(({ urlPath, filePath }) => {
+  const finalEntries = uniqueEntries.filter(
+    (entry) => !EXCLUDED_PATHS.includes(entry.urlPath),
+  );
+
+  const urlObjects = finalEntries.map(({ urlPath, filePath }) => {
     const clean = urlPath.replace(/^\/+|\/+$/g, '');
     const loc = clean ? `${SITE_CANONICAL}/${clean}/` : `${SITE_CANONICAL}/`;
     const lastmod = getLastModDate(filePath);

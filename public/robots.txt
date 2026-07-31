@@ -4,4 +4,7 @@ Allow: /
 Disallow: /admin_509/
 Disallow: /admin_509
 
+Disallow: /ru/vykonani-roboty/
+Disallow: /ru/vykonani-roboty
+
 Sitemap: https://elektroschit.com.ua/sitemap.xml
