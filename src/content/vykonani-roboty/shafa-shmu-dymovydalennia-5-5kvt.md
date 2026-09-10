@@ -1,6 +1,7 @@
 ---
 id: 260816093228
 title: "Шафа управління вентилятором димовидалення 5,5 кВт (ШМУ)"
+seoTitle: "Шафа ШМУ димовидалення 5,5 кВт | elektroschit.com.ua"
 date: 2026-08-16
 types: ["dymovydalennia"]
 tags: []
