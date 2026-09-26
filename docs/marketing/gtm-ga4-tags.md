@@ -1,7 +1,7 @@
 # GTM / GA4 — теги и события: справочник
 
 Контейнер: **GTM-PZSRTZ2T** · GA4 Measurement ID: **G-BQR848YQKK**
-Версия: v3.0 · Обновлено: 2026-09-25 (по факту первых двух недель реальных данных)
+Версия: v4.0 · Обновлено: 2026-09-26 (добавлено агрегированное событие `contact_click`)
 
 Это справочник по всем событиям, которые отслеживаются на сайте
 elektroschit.com.ua. Используй его, чтобы быстро вспомнить, что есть,
@@ -10,7 +10,7 @@ elektroschit.com.ua. Используй его, чтобы быстро вспо
 
 ---
 
-## Список событий (12 штук)
+## Список событий (13 штук)
 
 | Событие | Что фиксирует | Триггер в GTM | Статус |
 |---|---|---|---|
@@ -26,6 +26,117 @@ elektroschit.com.ua. Используй его, чтобы быстро вспо
 | `open_lightbox` | Открытие фото в галерее (лайтбокс) | Click — Gallery Photo | ✅ работает |
 | `click_cta_header` | Клик по кнопке "Залишити заявку" в шапке (на каждой странице) | Click — CTA Header | ✅ работает, есть реальные данные |
 | `click_cta_hero` | Клик по кнопке "Замовити / Зв'язатися з нами" в hero-блоке | Click — CTA Hero | ⚠️ см. "Известная проблема" ниже |
+| `contact_click` | Агрегированное событие поверх 6 контактных кликов (phone/viber/telegram/whatsapp/email×2), с параметрами `product` и `lang` | 6 триггеров активации + 1 исключение (см. раздел ниже) | ✅ настроено и проверено, готово для Google Ads |
+
+---
+
+## `contact_click` — агрегированная конверсия для Google Ads (добавлено 2026-09-26)
+
+**Зачем:** отдельные `click_phone`, `click_viber` и т.д. размазывают
+конверсию Google Ads на 5-6 мелких событий вместо одного сильного
+сигнала. `contact_click` дублирует их логику одним событием поверх, не
+заменяя существующие — старые события остаются для детальной аналитики
+по каналам.
+
+### Тег
+
+**GA4 Event — contact_click**
+- Тип: Google Аналитика: событие GA4
+- Идентификатор потока данных: `G-BQR848YQKK`
+- Название события: `contact_click`
+- Параметры события:
+  - `product` → `{{Product Slug}}`
+  - `lang` → `{{Page Lang}}`
+
+### Переменные
+
+**Product Slug** (тип: Таблица поиска, входная переменная `{{Page Path}}`)
+Матчит путь страницы на один из 8 продуктов (без `elektromontazh`), UA и
+RU пути обоих языков дают одинаковый результат:
+
+| Path | Product |
+|---|---|
+| `/posluhy-ta-produktsiia/hrshch/`, `/ru/uslugi-i-produktsiya/grshch-i-vrshch/` | `hrshch` |
+| `/posluhy-ta-produktsiia/dymovydalennia/`, `/ru/uslugi-i-produktsiya/shchity-dymoudaleniya/` | `dymovydalennia` |
+| `/posluhy-ta-produktsiia/dvyhuny/`, `/ru/uslugi-i-produktsiya/shchity-upravleniya-dvigatelyami/` | `dvyhuny` |
+| `/posluhy-ta-produktsiia/shuz/`, `/ru/uslugi-i-produktsiya/shuz/` | `shuz` |
+| `/posluhy-ta-produktsiia/krm/`, `/ru/uslugi-i-produktsiya/krm/` | `krm` |
+| `/posluhy-ta-produktsiia/zenitni-lihtari/`, `/ru/uslugi-i-produktsiya/zenitnyye-fonari/` | `zenitni-lihtari` |
+| `/posluhy-ta-produktsiia/ahro/`, `/ru/uslugi-i-produktsiya/elektroschity-dlya-agro/` | `ahro` |
+| `/posluhy-ta-produktsiia/plk/`, `/ru/uslugi-i-produktsiya/programmirovanie-plk/` | `plk` |
+
+`elektromontazh` намеренно не входит в таблицу — на страницах этого
+продукта `contact_click` не должен срабатывать вообще (см. exception
+ниже). Если путь не совпал ни с одной строкой — переменная возвращает
+пустое значение.
+
+**Page Lang** (тип: Таблица регулярных выражений, входная переменная
+`{{Page Path}}`)
+```
+Шаблон: ^/ru/.*   →  Результат: ru
+Значение по умолчанию: uk
+```
+⚠️ Важный нюанс: шаблон обязательно с `.*` в конце (`^/ru/.*`, а не
+просто `^/ru/`) — GTM Regex Table требует полного совпадения строки, а
+не совпадения по началу. С коротким шаблоном (`^/ru/`) переменная не
+матчила реальные пути вида `/ru/uslugi-i-produktsiya/shuz/` и всегда
+откатывалась на дефолтное значение `uk`, даже на RU-страницах.
+
+### Триггеры активации (6 штук, логика "ИЛИ")
+
+Использованы уже существующие 6 контактных триггеров без изменений:
+Click — Phone, Click — Viber, Click — Telegram, Click — WhatsApp,
+Click — Email, Click — Email (mailto).
+
+### Триггер-исключение
+
+**Exception — On Elektromontazh Page**
+- Тип: **Клик — Только ссылки**
+- Условие: `{{Page Path}}` содержит `elektromontazh`
+
+⚠️ **Важный нюанс, отнявший больше всего времени при настройке:** GTM
+блокирует триггер только когда exception и активирующий триггер — **один
+и тот же тип события**. Первая попытка сделать exception типом
+"Просмотр страницы" (Page View) не сработала — событие `contact_click`
+всё равно срабатывало на странице elektromontazh, потому что Page View
+триггер генерирует событие `gtm.js`, а активирующие триггеры —
+`gtm.linkClick`, и GTM не сопоставляет exception с активирующим
+триггером разных типов событий.
+
+Вторая попытка — тип "Клик — Все элементы" (`gtm.click`) — тоже не
+сработала: контактные ссылки генерируют более специфичное событие
+`gtm.linkClick`, а не общий `gtm.click`.
+
+Только третья попытка — тип **"Клик — Только ссылки"**, то есть
+буквально тот же подтип клика (`gtm.linkClick`), что и у всех 6
+активирующих триггеров — заблокировала тег корректно на UA- и
+RU-версиях страницы elektromontazh. Правило на будущее: exception
+должен быть не просто того же верхнеуровневого типа ("Клик"), а того
+же **конкретного подтипа** ("Только ссылки" vs "Все элементы"), что и
+триггеры, которые он блокирует.
+
+### Проверено через GTM Preview (2026-09-26)
+
+- UA-страница ШУЗ → `contact_click` срабатывает, `product: shuz`, `lang: uk`
+- RU-страница ШУЗ → `contact_click` срабатывает, `product: shuz`, `lang: ru`
+- UA-страница dymovydalennia → `contact_click` срабатывает, оба контактных
+  канала (phone, email) корректно агрегируются в одно событие каждый раз
+- RU-страница dymovydalennia → аналогично, `lang: ru`
+- UA-страница elektromontazh → `contact_click` НЕ срабатывает (в списке
+  "Неактивированные теги"), остальные 6 событий (click_phone и т.д.)
+  продолжают работать как раньше
+- RU-страница elektromontazh → аналогично, не срабатывает
+
+### Дальнейшие шаги (не выполнено на момент этой ревизии)
+
+1. В GA4 (Admin → Custom Definitions) зарегистрировать `product` и
+   `lang` как event-scoped custom dimensions — без этого параметры
+   собираются, но не видны в отчётах GA4/Ads
+2. В GA4 (Admin → Events) пометить `contact_click` как Key Event
+3. Связать GA4 с Google Ads (Admin → Google Ads Linking), импортировать
+   `contact_click` как conversion action
+4. Ценность конверсии решено НЕ проставлять (осознанный выбор — сначала
+   накопить достаточно данных по количеству, а не оценивать сразу в деньгах)
 
 ---
 
@@ -68,7 +179,9 @@ Cloudflare Scrape Shield обфусцирует email-ссылку непосл�
 `/cdn-cgi/l/email-protection#...`. Причина расхождения не выяснена
 (возможно, разные версии кэша Cloudflare). Тег `GA4 — click_email`
 привязан сразу к двум триггерам (`Click — Email` и `Click — Email
-(mailto)`), чтобы событие срабатывало при любом варианте URL.
+(mailto)`), чтобы событие срабатывало при любом варианте URL. Тег
+`GA4 Event — contact_click` использует те же два триггера в списке
+активирующих.
 
 ### FAQ, галерея, "Также изготавливаем" — расширенные CSS-селекторы
 Изначальные селекторы (`.em-faq-question`, `.em-gallery-item`,
@@ -90,6 +203,14 @@ Cloudflare Scrape Shield обфусцирует email-ссылку непосл�
 ### `click_cta_header` — уникальный класс, проблем нет
 Кнопка "Залишити заявку" в шапке имеет уникальный класс `.em-header-cta`,
 не встречающийся больше нигде на сайте — событие считает точно её.
+
+### Trigger exceptions должны совпадать по подтипу события, не только по типу
+См. подробный разбор в разделе `contact_click` выше — общее правило GTM:
+exception блокирует активирующий триггер только если у них совпадает
+конкретный тип события (`gtm.linkClick`, `gtm.click`, `gtm.js` и т.д.),
+а не просто верхнеуровневая категория триггера ("Клик", "Просмотр
+страницы"). При добавлении новых exception-триггеров в будущем — сверять
+подтип с тем, что реально стоит на блокируемых активирующих триггерах.
 
 ---
 
@@ -121,10 +242,14 @@ Cloudflare Scrape Shield обфусцирует email-ссылку непосл�
 1. Исправить название события в теге `click_cta_hero` (см. проблему выше)
 2. В GA4 (Admin → Events) отметить конверсиями: `click_phone`,
    `click_viber`, `click_telegram`, `click_whatsapp`, `click_email`,
-   `click_map`
-3. Продолжать следить за накоплением данных — при малом трафике
+   `click_map` — **или**, раз теперь есть агрегированное `contact_click`,
+   пометить конверсией только его одного, чтобы не размазывать данные
+   Google Ads на 6+ мелких событий (см. раздел `contact_click` выше)
+3. Зарегистрировать `product` и `lang` как custom dimensions в GA4
+4. Связать GA4 с Google Ads, импортировать `contact_click` как conversion action
+5. Продолжать следить за накоплением данных — при малом трафике
    выводы о поведении посетителей делать пока рано
 
 ---
 
-*elektroschit.com.ua | GTM/GA4 tags reference v3.0 | 2026-09-25*
+*elektroschit.com.ua | GTM/GA4 tags reference v4.0 | 2026-09-26*
