@@ -253,6 +253,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"shafa-dymovydalennia-1-5kvt.md": {
+	id: "shafa-dymovydalennia-1-5kvt.md";
+  slug: "shafa-dymovydalennia-1-5kvt";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "shafa-indykatsii-pozhezhohasinnia.md": {
 	id: "shafa-indykatsii-pozhezhohasinnia.md";
   slug: "shafa-indykatsii-pozhezhohasinnia";
