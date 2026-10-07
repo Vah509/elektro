@@ -1,5 +1,5 @@
 ---
-id: 2610061
+id: 261007071349
 title: Шафа управління димовидаленням 1,5 кВт з диспетчеризацією
 seoTitle: Виготовлення шафи димовидалення 1,5 кВт з диспетчеризацією на замовлення — Київ | elektroschit.com.ua
 date: 2026-10-06
@@ -28,11 +28,11 @@ specs:
     value: IP54
 brands: ['ETI']
 photos:
-  - src: /images/dymovydalennia/dymovydalennia-shmu-fasad-1-5kvt-kyiv-2026-10-01.jpg
+  - src: /images/vykonani-roboty/shafa-dymovydalennia-1-5kvt/dymovydalennia-shmu-fasad-1-5kvt-kyiv-2026-10-01.jpg
     caption: Шафа управління димовидаленням, лицьова панель
-  - src: /images/dymovydalennia/dymovydalennia-shmu-dvertsi-indykatsiia-1-5kvt-kyiv-2026-10-02.jpg
+  - src: /images/vykonani-roboty/shafa-dymovydalennia-1-5kvt/dymovydalennia-shmu-dvertsi-indykatsiia-1-5kvt-kyiv-2026-10-02.jpg
     caption: Внутрішня сторона дверей, індикація та елементи керування
-  - src: /images/dymovydalennia/dymovydalennia-shmu-vnutrishniy-montazh-1-5kvt-kyiv-2026-10-03.jpg
+  - src: /images/vykonani-roboty/shafa-dymovydalennia-1-5kvt/dymovydalennia-shmu-vnutrishniy-montazh-1-5kvt-kyiv-2026-10-03.jpg
     caption: Внутрішня компоновка, захист і пуск двигуна
 ---
 
