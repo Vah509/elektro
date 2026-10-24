@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.em-hero-collage-item').forEach(item => {
     const img = item.querySelector('img');
     if (!img) return;
-    heroItems.push({ src: img.src, caption: img.alt || '' });
+    heroItems.push({ src: img.dataset.full || img.src, caption: img.alt || '' });
   });
   document.querySelectorAll('.em-hero-collage-item').forEach((item, i) => {
     const img = item.querySelector('img');
