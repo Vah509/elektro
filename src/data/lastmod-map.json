@@ -1,6 +1,6 @@
 {
   "src/pages/admin_509.astro": "2026-07-05",
-  "src/pages/index.astro": "2026-07-27",
+  "src/pages/index.astro": "2026-10-24",
   "src/pages/kontakty.astro": "2026-07-23",
   "src/pages/posluhy-ta-produktsiia/ahro.astro": "2026-07-26",
   "src/pages/posluhy-ta-produktsiia/dvyhuny.astro": "2026-07-26",
@@ -62,9 +62,10 @@
   "src/content/vykonani-roboty/shkaf-indykatsii-apg-mnemo.md": "2026-07-26",
   "src/content/vykonani-roboty/shkpp-pidpir-povitria.md": "2026-07-26",
   "src/content/vykonani-roboty/shksdv-klapan-dyspetcheryzatsiya.md": "2026-07-26",
+  "src/content/vykonani-roboty/shmu-dymovydalennia-22kvt-plavnyi-pusk.md": "2026-10-21",
   "src/content/vykonani-roboty/shu-nasos-klapan-ahro.md": "2026-07-26",
   "src/content/vykonani-roboty/shuz-keruvannia-zasuvkoiu.md": "2026-07-26",
   "src/content/vykonani-roboty/shuz-zasuvka.md": "2026-07-26",
   "src/content/vykonani-roboty/vrshch-200a-magazyn-kavyarnia.md": "2026-07-26",
-  "src/content/vykonani-roboty/shmu-dymovydalennia-22kvt-plavnyi-pusk.md": "2026-10-21"
+  "src/layouts/BaseLayout.astro": "2026-10-24"
 }

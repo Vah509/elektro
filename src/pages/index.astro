@@ -5,6 +5,8 @@ import ContactBlock from '../components/ContactBlock.astro';
 import AlsoMake from '../components/AlsoMake.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import Lightbox from '../components/Lightbox.astro';
+import hrshchCss from '../../public/css/em-hrshch.css?raw';
+import homeCss from '../../public/css/em-home.css?raw';
 
 const page = {
   lang:        'uk' as const,
@@ -27,8 +29,9 @@ const faqItems = [
 ];
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
-  <link slot="head" rel="stylesheet" href="/css/em-home.css" />
+  <!-- CSS inline: прибирає 2 блокуючі запити на головній -->
+  <style slot="head" is:inline set:html={hrshchCss}></style>
+  <style slot="head" is:inline set:html={homeCss}></style>
 
   <div class="em-hero-product">
     <div class="em-hero-product-inner">
@@ -172,5 +175,5 @@ const faqItems = [
   <ContactBlock title="Готові обговорити ваше замовлення" />
 
   <Lightbox />
-  <script is:inline src="/js/em-site.js"></script>
+  <script is:inline defer src="/js/em-site.js"></script>
 </BaseLayout>
