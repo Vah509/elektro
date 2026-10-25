@@ -7,6 +7,7 @@ const page = {
   lang:        'ru' as const,
   altUrl:      '/posluhy-ta-produktsiia/',
   section:     'produktsiia',
+  styles:     ['em-hrshch'],
   title:       'Продукция и услуги — электрощиты | elektroschit.com.ua',
   description: 'Изготовление силовых щитов, щитов управления, КРМ, дымоудаления. Программирование ПЛК, электромонтажные работы. Гарантия 12 месяцев. Киев и вся Украина.',
   canonical:   `${SITE_CANONICAL}/ru/uslugi-i-produktsiya/`,
@@ -17,7 +18,6 @@ const page = {
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
   <style slot="head">
     .em-hub-hero { background: var(--c-bg2); border-bottom: 2px solid var(--c-accent-border); padding: 56px 24px 48px; }
     .em-hub-hero-inner { max-width: 1200px; margin: 0 auto; }

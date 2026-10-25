@@ -33,7 +33,7 @@
 | Хостинг | Cloudflare Pages |
 | Репо | GitHub: Vah509/elektro |
 | Деплой | Ручне завантаження ZIP через GitHub UI → автодеплой |
-| CSS | Кастомна система, префікс `em-`, файли в `public/css/` |
+| CSS | Кастомна система, префікс `em-`, файли в `public/css/`. Усі сторінкові CSS вшиваються inline у `<head>` при збірці через `page.styles` у BaseLayout (окремих запитів за CSS немає) |
 | JS | Ваніла JS, `public/js/em-site.js` |
 | Шрифти | Geologica (заголовки 700) + Manrope (текст 400/500/600) |
 | Sitemap | Власний `src/pages/sitemap.xml.ts` (БЕЗ пакету `@astrojs/sitemap` — падав з помилкою `reduce` через динамічний роут) |

@@ -5,13 +5,12 @@ import ContactBlock from '../components/ContactBlock.astro';
 import AlsoMake from '../components/AlsoMake.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import Lightbox from '../components/Lightbox.astro';
-import hrshchCss from '../../public/css/em-hrshch.css?raw';
-import homeCss from '../../public/css/em-home.css?raw';
 
 const page = {
   lang:        'uk' as const,
   altUrl:      '/ru/',
   section:     '',
+  styles:     ['em-hrshch', 'em-home'],
   title:       'Електрощити на замовлення | elektroschit.com.ua',
   description: 'Виготовлення силових щитів та щитів керування будь-якої складності. Гарантія 12 міс. Терміни від 2 тижнів. Київ, Київська область та вся Україна.',
   canonical:   `${SITE_CANONICAL}/`,
@@ -29,10 +28,6 @@ const faqItems = [
 ];
 ---
 <BaseLayout {page}>
-  <!-- CSS inline: прибирає 2 блокуючі запити на головній -->
-  <style slot="head" is:inline set:html={hrshchCss}></style>
-  <style slot="head" is:inline set:html={homeCss}></style>
-
   <div class="em-hero-product">
     <div class="em-hero-product-inner">
       <div class="em-hero-product-text">

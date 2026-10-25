@@ -25,6 +25,7 @@ const page = {
   lang:        'uk' as const,
   altUrl:      '/ru/vykonani-roboty/',
   section:     'vykonani-roboty',
+  styles:     ['em-hrshch', 'em-work'],
   title:       'Виконані роботи — електрощити на замовлення | elektroschit.com.ua',
   description: 'Фото виконаних робіт: ГРЩ, ВРЩ, щити димовидалення, керування двигунами, ШУЗ, КРМ. Виготовлення електрощитів у Києві з 1999 року.',
   canonical:   `${SITE_CANONICAL}/vykonani-roboty/`,
@@ -35,8 +36,6 @@ const page = {
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
-  <link slot="head" rel="stylesheet" href="/css/em-work.css" />
   <style slot="head">
     .em-works-h1-wrap { max-width: 1200px; margin: 0 auto; padding: 24px 24px 0; }
     .em-works-h1 { font-family: var(--ff); font-size: clamp(22px, 3vw, 32px); font-weight: 700; color: var(--c-head); line-height: 1.2; }

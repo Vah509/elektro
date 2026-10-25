@@ -38,6 +38,7 @@ const canonical = `${SITE_CANONICAL}/vykonani-roboty/${work.slug}/`;
 
 const page = {
   section:  'vykonani-roboty',
+  styles:  ['em-hrshch', 'em-work'],
   title:    seoTitle,
   description: data.description,
   canonical,
@@ -51,8 +52,6 @@ const page = {
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
-  <link slot="head" rel="stylesheet" href="/css/em-work.css" />
 
   <WorkPhotos photos={data.photos} title={data.title} />
 

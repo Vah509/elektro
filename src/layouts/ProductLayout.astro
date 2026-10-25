@@ -96,6 +96,7 @@ interface PageProps {
   lang?:       'uk' | 'ru';
   altUrl?:     string;
   ogType?:     'website' | 'article';
+  styles?:     string[];
 }
 
 interface Props {
@@ -156,6 +157,9 @@ const {
 } = Astro.props;
 
 const lang = page.lang ?? 'uk';
+
+// Усі продуктові сторінки отримують em-hrshch inline (+ додаткові стилі зі сторінки, якщо є)
+const layoutPage = { ...page, styles: ['em-hrshch', ...(page.styles ?? [])] };
 const hasExtra1 = Astro.slots.has('extra1');
 const hasExtra2 = Astro.slots.has('extra2');
 const hasBrands = !!brands;
@@ -180,9 +184,8 @@ const t = {
   orCall:         lang === 'ru' ? 'Или позвоните:'           : 'Або зателефонуйте:',
 };
 ---
-<BaseLayout {page}>
+<BaseLayout page={layoutPage}>
   <slot slot="head" name="head" />
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
 
   <!-- ════════════════════════════════════════
        1. HERO — зелений фон

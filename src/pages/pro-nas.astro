@@ -7,6 +7,7 @@ const page = {
   lang:        'uk' as const,
   altUrl:      '/ru/pro-nas/',
   section:     'pro-nas',
+  styles:     ['em-hrshch', 'em-pro-nas'],
   title:       'Про нас — виробництво електрощитів з 1999 року | elektroschit.com.ua',
   description: 'Виготовляємо силові щити та щити керування з 1999 року. 25+ років досвіду, 500+ виконаних проектів. Київ та вся Україна.',
   canonical:   `${SITE_CANONICAL}/pro-nas/`,
@@ -17,8 +18,6 @@ const page = {
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
-  <link slot="head" rel="stylesheet" href="/css/em-pro-nas.css" />
 
   <div class="em-hero-product">
     <div class="em-hero-product-inner em-pro-nas-hero-inner">

@@ -38,7 +38,8 @@ elektroschit.com.ua | src/layouts/
 - Open Graph: `og:type`, `og:title`, `og:description`, `og:url`, `og:locale` (uk_UA), `og:site_name` (Elektroschit)
 - Шрифти: Geologica 700 (заголовки) + Manrope 400/500/600 (текст)
 - `main.css` — базові стилі, завжди
-- Сторінкові CSS — через `<slot name="head" />`
+- Сторінкові CSS — з `public/css/` вшиваються **inline** у `<head>` на етапі збірки за списком `page.styles` (порядок = порядок у `<head>`, одразу після `main.css`). Окремих `<link rel="stylesheet">` на сторінках немає
+- Додаткові `<head>`-вставки сторінки (власні `<style>`, meta) — через `<slot name="head" />` (йдуть ПІСЛЯ `page.styles`)
 - GTM — тільки якщо `GTM_ID` в `config.ts` не порожній
 - Microsoft Clarity — тільки якщо `CLARITY_ID` не порожній
 - Верифікаційні мета-теги — якщо передано `page.verifyMeta`
@@ -65,6 +66,7 @@ elektroschit.com.ua | src/layouts/
 | `crumbs` | Crumb[] | ✅ | Масив хлібних крихт. `[]` — крихти не рендеряться |
 | `ogType` | string | ❌ | Дефолт: `'website'`. Для карток портфоліо: `'article'` |
 | `verifyMeta` | VerifyMeta[] | ❌ | Верифікаційні мета-теги (Search Console, Ahrefs тощо) |
+| `styles` | string[] | ❌ | Імена CSS з `public/css/` без `.css`, напр. `['em-hrshch', 'em-pro-nas']`. Вшиваються inline. Невідоме ім'я = помилка збірки. Для продуктових сторінок `em-hrshch` додає ProductLayout сам |
 
 **Тип Crumb:**
 ```typescript
@@ -88,10 +90,10 @@ const page = {
   description: 'Силові щити та щити керування. Гарантія 12 міс. Київ та вся Україна.',
   canonical:   `${SITE_CANONICAL}/`,
   crumbs:      [],
+  styles:      ['em-hrshch', 'em-home'],
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-home.css" />
   <!-- контент сторінки -->
 </BaseLayout>
 ```
@@ -112,10 +114,10 @@ const page = {
     { label: 'Продукція', href: '/posluhy-ta-produktsiia/' },
     { label: 'ГРЩ та ВРЩ' },  // без href = поточна сторінка
   ],
+  styles: ['em-hrshch'],
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
   <!-- контент сторінки -->
 </BaseLayout>
 ```
@@ -416,7 +418,7 @@ const hero = {
 - `../components/Lightbox.astro`
 - `../config.ts` → `PHONE`, `PHONE_DISPLAY`
 
-ProductLayout сам підключає `em-hrshch.css` і `em-site.js` — сторінкам не потрібно робити це окремо.
+ProductLayout сам додає `em-hrshch` до `page.styles` (inline) і підключає `em-site.js` — сторінкам не потрібно робити це окремо.
 
 ---
 

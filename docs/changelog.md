@@ -8,6 +8,15 @@
 
 ---
 
+## 2026-10-25
+- CSS на всіх сторінках вшивається inline у `<head>` при збірці: новий
+  `page.styles` у `BaseLayout.astro` (імена файлів з `public/css/`),
+  прибрано всі `<link rel="stylesheet">` і `?raw`-імпорти зі сторінок;
+  `ProductLayout` додає `em-hrshch` автоматично. Причина: PSI на сторінках
+  із зовнішнім CSS давав FCP ~3,5 с (оцінка симуляції Lighthouse).
+- `admin_509`: посилання «↗ Сайт» тепер ведуть на `SITE_CANONICAL`, а не
+  на `SITE_PREVIEW` (pages.dev).
+
 ## 2026-09-26
 - Добавлено новое агрегированное событие GTM/GA4 `contact_click` поверх
   6 существующих контактных триггеров (phone/viber/telegram/whatsapp/

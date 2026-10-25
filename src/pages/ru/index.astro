@@ -10,6 +10,7 @@ const page = {
   lang:        'ru' as const,
   altUrl:      '/',
   section:     '',
+  styles:     ['em-hrshch', 'em-home'],
   title:       'Изготовление электрощитов на заказ | elektroschit.com.ua',
   description: 'Изготовление силовых щитов и щитов управления любой сложности. Гарантия 12 мес. Сроки от 2 недель. Киев, Киевская область и вся Украина.',
   canonical:   `${SITE_CANONICAL}/ru/`,
@@ -27,8 +28,6 @@ const faqItems = [
 ];
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
-  <link slot="head" rel="stylesheet" href="/css/em-home.css" />
 
   <div class="em-hero-product">
     <div class="em-hero-product-inner">

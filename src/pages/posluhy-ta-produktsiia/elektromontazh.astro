@@ -9,6 +9,7 @@ const page = {
   lang:        'uk' as const,
   altUrl:      '/ru/uslugi-i-produktsiya/elektromontazh/',
   section:     'posluhy',
+  styles:     ['em-hrshch'],
   title:       "Електромонтажні роботи на замовлення | elektroschit.com.ua",
   description: "Електромонтажні роботи на промислових підприємствах, складах, агрооб'єктах. Монтаж щитів, прокладання кабелю, пусконаладка. Київ та Україна.",
   canonical:   `${SITE_CANONICAL}/posluhy-ta-produktsiia/elektromontazh/`,
@@ -29,7 +30,6 @@ const faqItems = [
 ];
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-hrshch.css" />
   <style slot="head">
     /* Два стовпці для блоку «Щити + монтаж в одних руках» */
     .em-why-grid--two { grid-template-columns: repeat(2, 1fr) !important; }

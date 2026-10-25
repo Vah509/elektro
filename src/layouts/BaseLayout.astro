@@ -19,6 +19,9 @@
 //   ogType?     — 'website' (default) | 'article'
 //   verifyMeta? — [{name: string, content: string}]
 //                 meta-теги верифікації (Search Console, Ahrefs і т.п.)
+//   styles?     — імена сторінкових CSS з public/css/ без розширення,
+//                 напр. ['em-hrshch', 'em-pro-nas']. Вшиваються inline у <head>
+//                 після main.css, у вказаному порядку (без окремих запитів).
 // ============================================================
 
 import mainCss from '../../public/css/main.css?raw';
@@ -31,6 +34,14 @@ import {
   MAPS_URL, WORK_HOURS,
   GTM_ID, CLARITY_ID,
 } from '../config';
+
+// Сторінкові CSS-файли з public/css/ — вшиваються inline у <head> на етапі збірки.
+// Сторінка вказує потрібні у page.styles (імена без .css, порядок = порядок у <head>).
+const pageCssFiles = import.meta.glob('../../public/css/*.css', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+}) as Record<string, string>;
 
 interface Crumb {
   label: string;
@@ -52,6 +63,7 @@ interface PageProps {
   altUrl?:      string;
   ogType?:      'website' | 'article';
   verifyMeta?:  VerifyMeta[];
+  styles?:      string[];
 }
 
 interface Props {
@@ -65,6 +77,15 @@ const ogType      = page.ogType ?? 'website';
 const ogLocale    = lang === 'ru' ? 'ru_UA' : 'uk_UA';
 const verifyMeta  = page.verifyMeta ?? [];
 const hasCrumbs   = page.crumbs.length > 0;
+
+// Сторінкові стилі: ім'я → текст CSS. Невідоме ім'я = помилка збірки (щоб не загубити стилі мовчки).
+const pageStyles = (page.styles ?? []).map((name) => {
+  const css = pageCssFiles[`../../public/css/${name}.css`];
+  if (css === undefined) {
+    throw new Error(`BaseLayout: page.styles містить '${name}', але файлу public/css/${name}.css немає`);
+  }
+  return css;
+});
 
 // JSON-LD BreadcrumbList — будується з того ж масиву crumbs
 const breadcrumbJsonLd = hasCrumbs ? {
@@ -211,6 +232,9 @@ const localBusinessJsonLd = {
   <!-- CSS: main.css вставлений inline (прибирає блокуючий запит).
        Сторінкові стилі додаються через <slot name="head"> -->
   <style is:inline set:html={mainCss}></style>
+  {pageStyles.map((css) => (
+    <style is:inline set:html={css}></style>
+  ))}
   <slot name="head" />
 </head>
 <body>

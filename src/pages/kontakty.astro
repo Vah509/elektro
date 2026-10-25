@@ -6,6 +6,7 @@ const page = {
   lang:        'uk' as const,
   altUrl:      '/ru/kontakty/',
   section:     'kontakty',
+  styles:     ['em-kontakty'],
   title:       'Контакти — виготовлення електрощитів | elektroschit.com.ua',
   description: "Зв'яжіться з виробником електрощитів у Києві. Телефон, email, Viber, Telegram, WhatsApp. Відповідаємо протягом 1–2 робочих днів. Адреса: вул. Печенізька, 35/43.",
   canonical:   `${SITE_CANONICAL}/kontakty/`,
@@ -16,7 +17,6 @@ const page = {
 };
 ---
 <BaseLayout {page}>
-  <link slot="head" rel="stylesheet" href="/css/em-kontakty.css" />
 
   <div class="em-hero">
     <div class="em-hero-inner">
