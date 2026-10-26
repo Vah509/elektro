@@ -5,6 +5,8 @@ import ContactBlock from '../components/ContactBlock.astro';
 import AlsoMake from '../components/AlsoMake.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import Lightbox from '../components/Lightbox.astro';
+import Photo from '../components/Photo.astro';
+import { fullUrl } from '../utils/photo';
 
 const page = {
   lang:        'uk' as const,
@@ -47,16 +49,16 @@ const faqItems = [
       </div>
       <div class="em-hero-collage">
         <div class="em-hero-collage-item">
-          <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c1-sm.jpg" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c1.jpg" alt="Щит керування двигунами — частотні перетворювачі, монтаж" loading="eager" />
+          <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c1.jpg" alt="Щит керування двигунами — частотні перетворювачі, монтаж" sizes="(max-width: 900px) 50vw, 240px" loading="eager" fetchpriority="high" full />
         </div>
         <div class="em-hero-collage-item">
-          <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c2-sm.jpg" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c2.jpg" alt="КРМ — конденсаторна установка компенсації реактивної потужності" loading="eager" />
+          <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c2.jpg" alt="КРМ — конденсаторна установка компенсації реактивної потужності" sizes="(max-width: 900px) 50vw, 240px" loading="eager" full />
         </div>
         <div class="em-hero-collage-item">
-          <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c3-sm.jpg" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c3.jpg" alt="Великий щит керування — відкритий, внутрішній монтаж" loading="lazy" />
+          <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c3.jpg" alt="Великий щит керування — відкритий, внутрішній монтаж" sizes="(max-width: 900px) 50vw, 240px" loading="lazy" full />
         </div>
         <div class="em-hero-collage-item">
-          <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c4-sm.jpg" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c4.jpg" alt="Щит керування засувками ШУЗ — фасад готового виробу" loading="lazy" />
+          <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-c4.jpg" alt="Щит керування засувками ШУЗ — фасад готового виробу" sizes="(max-width: 900px) 50vw, 240px" loading="lazy" full />
         </div>
       </div>
     </div>
@@ -66,29 +68,29 @@ const faqItems = [
     <span class="em-section-label">Наші роботи</span>
     <h2>Реальні щити з нашого виробництва</h2>
     <div class="em-product-gallery em-home-gallery">
-      <div class="em-gallery-item" data-caption="Щит керування засувками ШУЗ — фасад з кнопками керування" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-01.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-01-sm.jpg" alt="Щит керування засувками ШУЗ — фасад з кнопками керування" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит керування засувками ШУЗ — фасад з кнопками керування" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-01.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-01.jpg" alt="Щит керування засувками ШУЗ — фасад з кнопками керування" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит ШУЗ — внутрішній монтаж, контактори ETI" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-02.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-02-sm.jpg" alt="Щит ШУЗ — внутрішній монтаж, контактори ETI" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит ШУЗ — внутрішній монтаж, контактори ETI" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-02.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-02.jpg" alt="Щит ШУЗ — внутрішній монтаж, контактори ETI" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит зовнішнього освітлення ЩЗО — фасад готового виробу" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-03.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-03-sm.jpg" alt="Щит зовнішнього освітлення ЩЗО — фасад готового виробу" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит зовнішнього освітлення ЩЗО — фасад готового виробу" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-03.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-03.jpg" alt="Щит зовнішнього освітлення ЩЗО — фасад готового виробу" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит керування — внутрішній монтаж, клемні колодки" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-04.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-04-sm.jpg" alt="Щит керування — внутрішній монтаж, клемні колодки" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит керування — внутрішній монтаж, клемні колодки" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-04.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-04.jpg" alt="Щит керування — внутрішній монтаж, клемні колодки" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит керування вентиляцією — монтаж автоматів та контакторів" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-05.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-05-sm.jpg" alt="Щит керування вентиляцією — монтаж автоматів та контакторів" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит керування вентиляцією — монтаж автоматів та контакторів" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-05.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-05.jpg" alt="Щит керування вентиляцією — монтаж автоматів та контакторів" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит керування насосами — готовий виріб" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-06.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-06-sm.jpg" alt="Щит керування насосами — готовий виріб" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит керування насосами — готовий виріб" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-06.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-06.jpg" alt="Щит керування насосами — готовий виріб" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит керування — блок Schneider Electric, монтаж" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-07.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-07-sm.jpg" alt="Щит керування — блок Schneider Electric, монтаж" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит керування — блок Schneider Electric, монтаж" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-07.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-07.jpg" alt="Щит керування — блок Schneider Electric, монтаж" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
-      <div class="em-gallery-item" data-caption="Щит керування — деталь монтажу, маркування" data-full="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-08.jpg">
-        <img src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-08-sm.jpg" alt="Щит керування — деталь монтажу, маркування" loading="lazy" />
+      <div class="em-gallery-item" data-caption="Щит керування — деталь монтажу, маркування" data-full={await fullUrl("/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-08.jpg")}>
+        <Photo src="/images/home/home-vyrobnytstvo-elektroshchytiv-kyiv-2026-06-08.jpg" alt="Щит керування — деталь монтажу, маркування" sizes="(max-width: 900px) 50vw, 380px" loading="lazy" />
       </div>
     </div>
     <div class="em-gallery-cta">

@@ -1,6 +1,6 @@
 {
   "src/pages/admin_509.astro": "2026-10-25",
-  "src/pages/index.astro": "2026-10-25",
+  "src/pages/index.astro": "2026-10-26",
   "src/pages/kontakty.astro": "2026-10-25",
   "src/pages/posluhy-ta-produktsiia/ahro.astro": "2026-07-26",
   "src/pages/posluhy-ta-produktsiia/dvyhuny.astro": "2026-07-26",
@@ -13,7 +13,7 @@
   "src/pages/posluhy-ta-produktsiia/shuz.astro": "2026-07-26",
   "src/pages/posluhy-ta-produktsiia/zenitni-lihtari.astro": "2026-07-26",
   "src/pages/pro-nas.astro": "2026-10-25",
-  "src/pages/ru/index.astro": "2026-10-25",
+  "src/pages/ru/index.astro": "2026-10-26",
   "src/pages/ru/kontakty.astro": "2026-10-25",
   "src/pages/ru/pro-nas.astro": "2026-10-25",
   "src/pages/ru/uslugi-i-produktsiya/elektromontazh.astro": "2026-10-25",
@@ -66,5 +66,7 @@
   "src/content/vykonani-roboty/shu-nasos-klapan-ahro.md": "2026-07-26",
   "src/content/vykonani-roboty/shuz-keruvannia-zasuvkoiu.md": "2026-07-26",
   "src/content/vykonani-roboty/shuz-zasuvka.md": "2026-07-26",
-  "src/content/vykonani-roboty/vrshch-200a-magazyn-kavyarnia.md": "2026-07-26"
+  "src/content/vykonani-roboty/vrshch-200a-magazyn-kavyarnia.md": "2026-07-26",
+  "src/components/Photo.astro": "2026-10-26",
+  "src/layouts/ProductLayout.astro": "2026-10-26"
 }

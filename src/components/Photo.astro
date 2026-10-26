@@ -1,0 +1,38 @@
+---
+// Photo.astro — єдиний компонент для всіх фото сайту (astro:assets).
+// src — рядок-шлях '/images/<папка>/<файл>.jpg' (файл у src/assets/images/).
+import { Image } from 'astro:assets';
+import { resolvePhoto, fullUrl } from '../utils/photo';
+
+interface Props {
+  src: string;
+  alt: string;
+  sizes: string;
+  widths?: number[];
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+  /** true — додати data-full на сам <img> (для лайтбокса hero-коллажу) */
+  full?: boolean;
+}
+const { src, alt, sizes, widths = [480, 800, 1200], loading = 'lazy',
+        fetchpriority, class: cls, full = false } = Astro.props;
+const meta = resolvePhoto(src);
+// Ширини не більші за оригінал: підписи srcset (w) відповідають реальним файлам
+const maxW = Math.min(Math.max(...widths), meta.width);
+const realWidths = [...new Set([...widths.filter(w => w < maxW), maxW])];
+const dataFull = full ? await fullUrl(src) : undefined;
+---
+<Image
+  src={meta}
+  alt={alt}
+  widths={realWidths}
+  sizes={sizes}
+  format="webp"
+  quality={78}
+  loading={loading}
+  decoding="async"
+  fetchpriority={fetchpriority}
+  class={cls}
+  data-full={dataFull}
+/>

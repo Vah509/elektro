@@ -42,6 +42,8 @@ import FaqAccordion from '../components/FaqAccordion.astro';
 import AlsoMake from '../components/AlsoMake.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import Lightbox from '../components/Lightbox.astro';
+import Photo from '../components/Photo.astro';
+import { fullUrl } from '../utils/photo';
 import { PHONE, PHONE_DISPLAY } from '../config';
 
 interface CollagePicture {
@@ -156,6 +158,9 @@ const {
   contactTitle,
 } = Astro.props;
 
+// URL великих версій для лайтбокса галереї (WebP 1200)
+const galleryFull = await Promise.all(gallery.items.map(item => fullUrl(item.src)));
+
 const lang = page.lang ?? 'uk';
 
 // Усі продуктові сторінки отримують em-hrshch inline (+ додаткові стилі зі сторінки, якщо є)
@@ -211,10 +216,13 @@ const t = {
       <div class="em-hero-collage">
         {hero.collage.map((img, i) => (
           <div class="em-hero-collage-item">
-            <img
+            <Photo
               src={img.src}
               alt={img.alt}
+              sizes="(max-width: 900px) 50vw, 240px"
               loading={i < 2 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
+              full
             />
           </div>
         ))}
@@ -229,15 +237,16 @@ const t = {
     <span class="em-section-label">{t.ourWorks}</span>
     <h2>{gallery.h2}</h2>
     <div class="em-product-gallery">
-      {gallery.items.map(item => (
+      {gallery.items.map((item, i) => (
         <div
           class={`em-gallery-item${item.large ? ' em-gallery-item-large' : ''}`}
           data-caption={item.caption}
-          data-full={item.src}
+          data-full={galleryFull[i]}
         >
-          <img
+          <Photo
             src={item.src}
             alt={item.alt}
+            sizes={item.large ? '(max-width: 900px) 100vw, 600px' : '(max-width: 900px) 50vw, 380px'}
             loading="lazy"
           />
         </div>
