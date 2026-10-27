@@ -1,0 +1,69 @@
+name: Delete Files From List
+
+# Запускається, коли в ai-deletes/ з'являється .txt зі списком файлів
+# на видалення. Усю логіку й правила безпеки див. у scripts/process-deletes.js.
+on:
+  push:
+    paths:
+      - 'ai-deletes/*.txt'
+
+jobs:
+  delete-files:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Захист від зациклення: бот сам комітить видалення .txt, а це
+      # знову зміна шляху ai-deletes/*.txt. Якщо .txt вже немає —
+      # job завершується без дій.
+      - name: Check for list file
+        id: check-list
+        run: |
+          if ls ai-deletes/*.txt >/dev/null 2>&1; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "У ai-deletes/ немає .txt — завершення без дій."
+          fi
+
+      - name: Setup NodeJS
+        if: steps.check-list.outputs.found == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Git user
+        if: steps.check-list.outputs.found == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        if: steps.check-list.outputs.found == 'true'
+        run: npm install
+
+      - name: Process delete list
+        if: steps.check-list.outputs.found == 'true'
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
+        run: node scripts/process-deletes.js
+
+      # Коммитим ТОЛЬКО те каталоги, где скрипт мог что-то менять
+      # (файлы на видалення + сам список). npm install/dist не чіпаємо.
+      - name: Commit and Push changes
+        if: always() && steps.check-list.outputs.found == 'true'
+        run: |
+          git add -A ai-deletes public src docs
+          if git diff --staged --quiet; then
+            echo "Изменений нет."
+          else
+            git commit -m "🤖 Видалення файлів зі списку"
+            git push origin ${{ github.ref_name }}
+          fi
