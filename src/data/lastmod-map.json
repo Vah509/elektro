@@ -27,7 +27,7 @@
   "src/pages/ru/uslugi-i-produktsiya/shuz.astro": "2026-07-26",
   "src/pages/ru/uslugi-i-produktsiya/zenitnyye-fonari.astro": "2026-07-26",
   "src/pages/ru/vykonani-roboty/index.astro": "2026-07-24",
-  "src/pages/vykonani-roboty/index.astro": "2026-10-25",
+  "src/pages/vykonani-roboty/index.astro": "2026-10-27",
   "src/content/vykonani-roboty/avr-shafa-try-vvody-200a.md": "2026-07-26",
   "src/content/vykonani-roboty/avr-shafa-try-vvody-mlbs.md": "2026-07-26",
   "src/content/vykonani-roboty/dvyhuny-plavnyi-pusk-4x15kw-ahro.md": "2026-07-26",
@@ -66,5 +66,7 @@
   "src/content/vykonani-roboty/shu-nasos-klapan-ahro.md": "2026-07-26",
   "src/content/vykonani-roboty/shuz-keruvannia-zasuvkoiu.md": "2026-07-26",
   "src/content/vykonani-roboty/shuz-zasuvka.md": "2026-07-26",
-  "src/content/vykonani-roboty/vrshch-200a-magazyn-kavyarnia.md": "2026-07-26"
+  "src/content/vykonani-roboty/vrshch-200a-magazyn-kavyarnia.md": "2026-07-26",
+  "src/components/WorkPhotos.astro": "2026-10-27",
+  "src/components/WorkSimilar.astro": "2026-10-27"
 }

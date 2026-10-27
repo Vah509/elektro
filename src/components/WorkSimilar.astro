@@ -5,6 +5,7 @@
 // і передається сюди вже готовими списками.
 import type { CollectionEntry } from 'astro:content';
 import { TYPE_LABELS, TAG_LABELS } from '../data/tags-registry';
+import PhotoImg from './Photo.astro';
 
 type Work = CollectionEntry<'vykonani-roboty'>;
 
@@ -31,9 +32,11 @@ const hasRow2 = moreWorks.length > 0;
           {relatedTop.map((work) => (
             <a href={`/vykonani-roboty/${work.slug}/`} class="em-work-card">
               <div class="em-work-card-photo">
-                <img
+                <PhotoImg
                   src={work.data.photos[0].src}
                   alt={work.data.photos[0].caption}
+                  sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 280px"
+                  widths={[480, 800]}
                   loading="lazy"
                 />
               </div>
@@ -126,14 +129,14 @@ const hasRow2 = moreWorks.length > 0;
   background: var(--c-bg2);
   overflow: hidden;
 }
-.em-work-card-photo img {
+.em-work-card-photo :global(img) {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transition: transform var(--transition);
 }
-.em-work-card:hover .em-work-card-photo img { transform: scale(1.04); }
+.em-work-card:hover .em-work-card-photo :global(img) { transform: scale(1.04); }
 .em-work-card-body {
   padding: 14px 16px 16px;
   display: flex;

@@ -1,5 +1,9 @@
 ---
 // Блок фотографій: головне фото на всю ширину + мініатюри + лайтбокс
+// Фото через astro:assets (Photo.astro): WebP + srcset. Шляхи в .md не змінюються.
+import PhotoImg from './Photo.astro';
+import { fullUrl } from '../utils/photo';
+
 export interface Photo {
   src: string;
   caption: string;
@@ -9,6 +13,10 @@ interface Props {
   title: string; // для aria-label лайтбоксу
 }
 const { photos, title } = Astro.props;
+
+// Великі WebP (до 1200 px): для перемикання головного фото і для лайтбокса
+const fullUrls = await Promise.all(photos.map(p => fullUrl(p.src)));
+const lightboxPhotos = photos.map((p, i) => ({ src: fullUrls[i], caption: p.caption }));
 ---
 
 <div class="em-work-photos">
@@ -19,11 +27,13 @@ const { photos, title } = Astro.props;
        role="button"
        tabindex="0"
        aria-label="Відкрити фото на повний екран">
-    <img
-      id="em-work-main-img"
+    <PhotoImg
       src={photos[0].src}
       alt={photos[0].caption}
+      sizes="(max-width: 900px) 100vw, 800px"
+      widths={[480, 800, 1200]}
       loading="eager"
+      fetchpriority="high"
       class="em-work-main-img"
     />
     <span class="em-work-photo-zoom" aria-hidden="true">
@@ -41,12 +51,18 @@ const { photos, title } = Astro.props;
           type="button"
           class={`em-work-thumb${i === 0 ? ' active' : ''}`}
           data-index={i}
-          data-src={photo.src}
+          data-src={fullUrls[i]}
           data-caption={photo.caption}
           aria-label={photo.caption}
           role="listitem"
         >
-          <img src={photo.src} alt={photo.caption} loading="lazy" />
+          <PhotoImg
+            src={photo.src}
+            alt={photo.caption}
+            sizes="(max-width: 900px) 72px, 200px"
+            widths={[240, 480]}
+            loading="lazy"
+          />
         </button>
       ))}
     </div>
@@ -54,9 +70,9 @@ const { photos, title } = Astro.props;
 </div>
 
 <!-- Дані для JS -->
-<script define:vars={{ photos, title }}>
+<script define:vars={{ photos: lightboxPhotos, title }}>
   const mainWrap = document.getElementById('em-work-main');
-  const mainImg  = document.getElementById('em-work-main-img');
+  const mainImg  = mainWrap.querySelector('.em-work-main-img');
   const thumbs   = document.querySelectorAll('.em-work-thumb');
   let currentIdx = 0;
 
@@ -65,6 +81,8 @@ const { photos, title } = Astro.props;
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.index);
       currentIdx = idx;
+      // Прибираємо srcset першого фото, інакше браузер ігнорує новий src
+      mainImg.removeAttribute('srcset');
       mainImg.src     = btn.dataset.src;
       mainImg.alt     = btn.dataset.caption;
       mainWrap.dataset.index = idx;
@@ -97,14 +115,14 @@ const { photos, title } = Astro.props;
   cursor: zoom-in;
   display: block;
 }
-.em-work-main-img {
+.em-work-main-photo :global(.em-work-main-img) {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
 }
-.em-work-main-photo:hover .em-work-main-img { transform: scale(1.02); }
+.em-work-main-photo:hover :global(.em-work-main-img) { transform: scale(1.02); }
 
 /* Іконка zoom */
 .em-work-photo-zoom {
@@ -153,7 +171,7 @@ const { photos, title } = Astro.props;
   padding: 0;
   transition: border-color 0.2s;
 }
-.em-work-thumb img {
+.em-work-thumb :global(img) {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -191,13 +209,13 @@ const { photos, title } = Astro.props;
     justify-content: center;
     overflow: hidden;
   }
-  .em-work-main-img {
+  .em-work-main-photo :global(.em-work-main-img) {
     width: 100%;
     height: 100%;
     max-height: 70vh;
     object-fit: contain;
   }
-  .em-work-main-photo:hover .em-work-main-img { transform: none; }
+  .em-work-main-photo:hover :global(.em-work-main-img) { transform: none; }
 
   .em-work-thumbs {
     display: grid;
@@ -218,7 +236,7 @@ const { photos, title } = Astro.props;
     position: relative;
     border-width: 2px;
   }
-  .em-work-thumb img {
+  .em-work-thumb :global(img) {
     position: absolute;
     inset: 0;
   }

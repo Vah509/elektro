@@ -4,6 +4,7 @@ import { SITE_CANONICAL } from '../../config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ContactBlock from '../../components/ContactBlock.astro';
 import AlsoMake from '../../components/AlsoMake.astro';
+import PhotoImg from '../../components/Photo.astro';
 import { TYPE_LABELS, TAG_LABELS } from '../../data/tags-registry';
 
 const allWorks = await getCollection('vykonani-roboty');
@@ -74,7 +75,7 @@ const page = {
 
   <div class="em-works-section">
     <div class="em-works-grid" id="em-works-grid">
-      {works.map(w => (
+      {works.map((w, i) => (
         <a
           href={`/vykonani-roboty/${w.slug}/`}
           class="em-work-card"
@@ -82,7 +83,13 @@ const page = {
           data-tags={w.data.tags.join(',')}
         >
           <div class="em-work-card-photo">
-            <img src={w.data.photos[0].src} alt={w.data.photos[0].caption} loading="lazy" />
+            <PhotoImg
+              src={w.data.photos[0].src}
+              alt={w.data.photos[0].caption}
+              sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 380px"
+              widths={[480, 800]}
+              loading={i < 3 ? 'eager' : 'lazy'}
+            />
           </div>
           <div class="em-work-card-body">
             <div class="em-work-card-tags">
