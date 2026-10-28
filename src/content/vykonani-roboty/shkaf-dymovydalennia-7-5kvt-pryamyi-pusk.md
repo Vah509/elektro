@@ -1,6 +1,7 @@
 ---
 id: 261021071613
 title: "Шафа керування вентилятором димовидалення 7,5 кВт з прямим пуском"
+seoTitle: "Шафа димовидалення 7,5 кВт, прямий пуск | elektroschit.com.ua"
 date: 2026-10-21
 types: ["dymovydalennia", "dvyhuny"]
 tags: []

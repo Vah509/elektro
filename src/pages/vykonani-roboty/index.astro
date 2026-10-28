@@ -81,6 +81,7 @@ const page = {
           class="em-work-card"
           data-types={w.data.types.join(',')}
           data-tags={w.data.tags.join(',')}
+          style={i >= 15 ? 'display:none' : undefined}
         >
           <div class="em-work-card-photo">
             <PhotoImg

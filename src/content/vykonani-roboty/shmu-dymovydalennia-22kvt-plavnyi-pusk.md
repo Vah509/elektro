@@ -1,6 +1,7 @@
 ---
 id: 261021200044
 title: "Шафа керування вентилятором димовидалення 22 кВт з плавним пуском"
+seoTitle: "Шафа димовидалення 22 кВт, плавний пуск | elektroschit.com.ua"
 date: 2026-10-21
 types: ["dymovydalennia", "dvyhuny"]
 tags: []

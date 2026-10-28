@@ -1,6 +1,7 @@
 ---
 id: 261021071110
 title: "Шафа керування вентилятором димовидалення 4 кВт з прямим пуском"
+seoTitle: "Шафа димовидалення 4 кВт, прямий пуск | elektroschit.com.ua"
 date: 2026-10-21
 types: ["dymovydalennia", "dvyhuny"]
 tags: []
