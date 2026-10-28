@@ -8,6 +8,20 @@
 
 ---
 
+## 2026-10-28
+- Полная ревизия документации по коду репозитория: единый набор в `docs/site/`, `docs/portfolio/`, `docs/marketing/`; удалены дубли (`context-project*.md`, `layouts*.md`, `sitemap-and-deploy-process.md`, `gtm-ga4-events-setup.md`, старые `site/context.md`, `site/layouts.md`). Добавлены `page-creation-guide.md`, `photos-pipeline.md`, `ru-section.md`, `tools.md`, `portfolio/card-creation-rules.md`, `portfolio/tags-registry.md`.
+- Зафиксированы расхождения старой документации с кодом (Pillow/q82 → Node+sharp, BaseLayout используется всеми страницами, `delete.txt` не работает, `WorkSimilar` принимает готовые списки и т. д.) — см. `docs/README.md`.
+
+## 2026-10-27 — 2026-10-28 (оптимизация фото, этап 2б)
+- Фото портфолио (213 файлов, 39 папок) перенесены в `src/assets/images/vykonani-roboty/<slug>/`; пути в `.md` карточек не менялись. `WorkPhotos`, `WorkSimilar` и каталог переведены на `Photo` (WebP, srcset). Оригиналы из `public/images/vykonani-roboty/` удалены через `ai-deletes/`.
+- Каталог: карточки с 16-й скрыты уже в HTML, пагинация по 15; новые `seoTitle`/description у 4 карточек димовидалення; title на `/pro-nas/` и `/ru/pro-nas/`.
+- Аудит боевого сайта: 67 страниц, 825 картинок, 0 реальных ошибок.
+
+## 2026-10-26 — 2026-10-27 (оптимизация фото, этап 2а)
+- Фото продуктов и главных (110 файлов, 9 папок) перенесены в `src/assets/images/`, выводятся через `src/components/Photo.astro` и `src/utils/photo.ts` (WebP q78, 480/800/1200). `ProductLayout`, `index.astro`, `ru/index.astro` переведены на `Photo`. Удалены `public/images/<9 папок>` и все `-sm.jpg` (122 файла).
+- Новый постоянный механизм удаления файлов: `ai-deletes/`, `scripts/process-deletes.js`, `.github/workflows/delete-files.yml`. `delete.txt` в ZIP больше не работает.
+- Вес фото на странице −40…−70 %.
+
 ## 2026-10-25
 - CSS на всіх сторінках вшивається inline у `<head>` при збірці: новий
   `page.styles` у `BaseLayout.astro` (імена файлів з `public/css/`),
