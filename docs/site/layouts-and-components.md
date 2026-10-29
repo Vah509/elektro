@@ -126,7 +126,6 @@ const hero = {…}; const gallery = {…}; /* objects, specs, brands, steps, why
 | `AlsoMake.astro` | `currentSlug`, `lang` | Все продукты кроме текущего; список и таблица RU-slug-ов `ruSlugs` — внутри файла. Пустой `currentSlug=""` на каталоге и карточках — показать все 9 |
 | `Lightbox.astro` | — | разметка оверлея (`.em-lightbox`); логика в `em-site.js` / `em-work-lightbox.js` |
 | `Photo.astro` | `src`, `alt`, `sizes` (обяз.), `widths?` (`[480,800,1200]`), `loading?` (`lazy`), `fetchpriority?`, `class?`, `full?` | единственный способ вывести фото; `src` — строка `/images/<папка>/<файл>.jpg` |
-| `Breadcrumbs.astro` | — | **не используется** нигде (остаток; крошки рисует BaseLayout). Можно удалить отдельным решением |
 
 ### Компоненты карточек портфолио
 | Компонент | Пропсы | Фон |

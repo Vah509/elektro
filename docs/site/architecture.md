@@ -34,7 +34,7 @@
 - В git лежат `node_modules/` (~9 900 файлов) и `dist/` (~380 файлов), `.gitignore` нет. При сверке и `git status` их игнорировать.
 - `sharp` в `package.json` не объявлен: приходит транзитивно с Astro; скрипты деплоя импортируют его напрямую.
 - В `dependencies` есть `playwright-core` — в коде сайта и скриптов деплоя не используется (вероятно, остаток от локальных замеров).
-- Два файла `404.html` (в корне и в `public/`) отличаются содержимым; на сайт попадает `public/404.html`.
+- Страница 404 — только `public/404.html` (Cloudflare берёт её из сборки). Корневой `404.html` и компонент `Breadcrumbs.astro` удалены при чистке репозитория 2026-10-28.
 
 ## 3. Дерево репозитория («где что лежит»)
 
@@ -43,7 +43,7 @@
   unzip-and-update.yml     — обработка ZIP из ai-updates/ (push на ai-updates/**.zip)
   delete-files.yml         — обработка списков из ai-deletes/ (push на ai-deletes/*.txt)
   audit-contacts.yml       — ручной (workflow_dispatch) поиск старых контактов в src/ (legacy)
-ai-updates/                — сюда загружается ZIP (скрипт удаляет его после обработки). Служебное: backups/backup-rollback.zip (195 байт, остаток)
+ai-updates/                — сюда загружается ZIP (скрипт удаляет его после обработки). (служебный `backups/backup-rollback.zip` удалён при чистке)
 ai-deletes/                — сюда загружается .txt со списком файлов на удаление
 docs/                      — документация (этот каталог)
 scripts/
@@ -57,7 +57,7 @@ public/                    — отдаётся как есть
   images/og-default.jpg    — ЕДИНСТВЕННОЕ фото в public/ (og:image)
 src/
   assets/images/<папка>/   — ВСЕ фото сайта (оригиналы .jpg), см. photos-pipeline.md
-  components/              — Header, Footer, Breadcrumbs(не используется), FaqAccordion, AlsoMake, ContactBlock, Lightbox,
+  components/              — Header, Footer, FaqAccordion, AlsoMake, ContactBlock, Lightbox,
                              Photo, WorkPhotos, WorkDescription, WorkSpecs, WorkBrands, WorkSimilar
   config.ts                — контакты, домены, GTM/Clarity
   content/config.ts        — схема коллекции «Виконані роботи»
@@ -68,7 +68,7 @@ src/
   pages/                   — страницы (см. п. 5)
   utils/photo.ts           — поиск фото по строке-пути
   utils/similarWorksGraph.ts — граф «Схожих работ»
-404.html, package.json, astro.config.mjs
+README.md (указатель на docs/), package.json, package-lock.json, astro.config.mjs
 ```
 
 Папки с фото в `src/assets/images/` (323 файла): `home`(12), `hrshch`(12), `dymovydalennia`(14), `dvyhuny`(12), `shuz`(12), `krm`(12), `zenitni-lihtari`(12), `ahro`(12), `plk`(12), `vykonani-roboty/<slug>/`(213 в 39 папках).
@@ -143,7 +143,7 @@ Trailing slash во всех canonical обязателен. Astro генери�
 - `description` 150–160 символов (на практике в текущем коде у большинства страниц 120–145; ориентир, а не блокер).
 - H1: для продуктов начинается с «Виготовлення» (для ПЛК — «Програмування»); один H1 на страницу.
 - `canonical` — всегда через `SITE_CANONICAL`, с завершающим `/`.
-- JSON-LD (BaseLayout): LocalBusiness + BreadcrumbList (из `page.crumbs`); FaqAccordion добавляет FAQPage. Microdata из `Breadcrumbs.astro` не используется.
+- JSON-LD (BaseLayout): LocalBusiness + BreadcrumbList (из `page.crumbs`); FaqAccordion добавляет FAQPage. Крошки на странице рисует BaseLayout.
 - hreflang генерируется автоматически, если передан `page.altUrl` (`ru-section.md`).
 - `og:image` везде `public/images/og-default.jpg` (1200×630).
 

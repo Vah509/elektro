@@ -79,10 +79,7 @@
 ## 7. Известные нюансы фото (2026-10-28)
 
 - Заглушки: 12 файлов в `src/assets/images/zenitni-lihtari/` — одинаковые изображения «Фото з'явиться найближчим часом». Так задумано; заменить на реальные фото при их появлении.
-- Неиспользуемые файлы (на них нет ссылок; сборку не ломают, место занимают):
-  - `src/assets/images/vykonani-roboty/shuz-keruvannia-zasuvkoiu/` — 5 файлов и `shuz-zasuvka/` — 2 файла (в `.md` карточек не упомянуты);
-  - `src/assets/images/dymovydalennia/` — 4 файла: `dymovydalennia-shkpp-vnutrishniy-montazh-kyiv-2026-06-06.jpg` и три `dymovydalennia-shmu-*-1-5kvt-kyiv-2026-10-0{1,2,3}.jpg` (это дубли имён фото карточки `shafa-dymovydalennia-1-5kvt`, лежащие не в той папке).
-  Удаление — на усмотрение владельца (через `ai-deletes/`).
+- Неиспользуемые файлы (11 штук в `vykonani-roboty/shuz-keruvannia-zasuvkoiu`, `vykonani-roboty/shuz-zasuvka` и `dymovydalennia/`) удалены при чистке 2026-10-28. Правило: фото, на которое нет ссылки, из репозитория убираем через `ai-deletes/`.
 - Карточка `shafa-dymovydalennia-1-5kvt` называет фото без префикса slug (`dymovydalennia-shmu-…`) — отклонение от правила именования; не ошибка сборки.
 
 ---

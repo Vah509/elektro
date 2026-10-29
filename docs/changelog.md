@@ -10,11 +10,13 @@
 
 ## 2026-10-28
 - Полная ревизия документации по коду репозитория: единый набор в `docs/site/`, `docs/portfolio/`, `docs/marketing/`; удалены дубли (`context-project*.md`, `layouts*.md`, `sitemap-and-deploy-process.md`, `gtm-ga4-events-setup.md`, старые `site/context.md`, `site/layouts.md`). Добавлены `page-creation-guide.md`, `photos-pipeline.md`, `ru-section.md`, `tools.md`, `portfolio/card-creation-rules.md`, `portfolio/tags-registry.md`.
+- Чистка репозитория: удалены неиспользуемые фото (11), компонент `Breadcrumbs.astro`, корневой `404.html`, `ai-updates/backups/backup-rollback.zip`; в корень добавлен README.md-указатель.
 - Зафиксированы расхождения старой документации с кодом (Pillow/q82 → Node+sharp, BaseLayout используется всеми страницами, `delete.txt` не работает, `WorkSimilar` принимает готовые списки и т. д.) — см. `docs/README.md`.
 
 ## 2026-10-27 — 2026-10-28 (оптимизация фото, этап 2б)
 - Фото портфолио (213 файлов, 39 папок) перенесены в `src/assets/images/vykonani-roboty/<slug>/`; пути в `.md` карточек не менялись. `WorkPhotos`, `WorkSimilar` и каталог переведены на `Photo` (WebP, srcset). Оригиналы из `public/images/vykonani-roboty/` удалены через `ai-deletes/`.
 - Каталог: карточки с 16-й скрыты уже в HTML, пагинация по 15; новые `seoTitle`/description у 4 карточек димовидалення; title на `/pro-nas/` и `/ru/pro-nas/`.
+- PSI-замеры 2026-10-28 (два прогона): результаты и выводы в `docs/site/tools.md`.
 - Аудит боевого сайта: 67 страниц, 825 картинок, 0 реальных ошибок.
 
 ## 2026-10-26 — 2026-10-27 (оптимизация фото, этап 2а)

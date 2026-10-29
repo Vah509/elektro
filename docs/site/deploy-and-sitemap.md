@@ -92,7 +92,6 @@ GitHub → репозиторий → папка `ai-updates/` → Add file → 
 ## 4. Прочие workflow и заметки
 
 - `audit-contacts.yml` — ручной запуск (`workflow_dispatch`); ищет в `src/` старые контакты и canonical (`elektromontazh.kiev.ua`, старый телефон/email) и сохраняет `audit-contacts.txt`. Legacy; используется при необходимости.
-- `ai-updates/backups/backup-rollback.zip` — служебный остаток (195 байт), не трогать.
 - После загрузки Cloudflare-деплой занимает несколько минут: PSI/проверку делать позже (сначала показывается старая версия).
 
 ---
