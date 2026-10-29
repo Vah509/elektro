@@ -393,6 +393,13 @@ declare module 'astro:content' {
   collection: "vykonani-roboty";
   data: InferEntrySchema<"vykonani-roboty">
 } & { render(): Render[".md"] };
+"shuz-elektrozasuvka-220v-indykatsiia-polozhennia.md": {
+	id: "shuz-elektrozasuvka-220v-indykatsiia-polozhennia.md";
+  slug: "shuz-elektrozasuvka-220v-indykatsiia-polozhennia";
+  body: string;
+  collection: "vykonani-roboty";
+  data: InferEntrySchema<"vykonani-roboty">
+} & { render(): Render[".md"] };
 "shuz-keruvannia-zasuvkoiu.md": {
 	id: "shuz-keruvannia-zasuvkoiu.md";
   slug: "shuz-keruvannia-zasuvkoiu";
